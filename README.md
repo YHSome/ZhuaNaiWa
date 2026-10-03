@@ -23,7 +23,7 @@
 | ⚖️ **发牌公平性校验** | 每关发牌后重建"谁压着谁"的依赖图并跑多种贪心求解，走不通就自动重发（最多 6~8 次），保证每手牌都有解 |
 | 🏆 **无尽模式排行榜** | 结束后一键上榜（塔数/清除张数/用时/昵称），榜单展示最近 20 条；TinyWebDB 有 CORS 头，`file://` 双击打开也能读 |
 | 📱 **手机适配** | 轻点兜底、触感反馈、全面屏安全区、窄屏 320px、横屏压缩；大牌堆会按可用空间自动缩放，162 张的塔也不挡 HUD |
-| 🎵 **自制音效与 BGM** | 5 个音效 + 宣传片 BGM 全部由代码合成（正弦/三角/方波 + 噪声 + 包络），不含任何第三方采样 |
+| 🎵 **自制音效与 BGM** | 5 个音效 + 一首 18.5 秒循环背景音乐全部由代码合成（五声音阶拨弦 + 暖垫 + 沙锤，见 sheep-candidates/make-bgm.mjs），不含任何第三方采样；右上角 🔊 一键静音 |
 | 🔌 **离线可玩** | `index.html` 里 JS/CSS 全内联，图片音频走相对路径，双击即玩；只有排行榜要联网 |
 
 ## 目录
@@ -31,7 +31,7 @@
 ```
 index.html          游戏本体（JS/CSS 已内联，约 190KB）
 assets/             9 张牌面图
-audio/              5 个自制音效（wav）
+audio/              5 个自制音效 + 1 首循环 BGM（wav）
 promo/index.html    30 秒宣传片（HTML 动画 + WebAudio 现场合成的 BGM）
 promo/tiles/        宣传片用的牌面图
 使用说明.txt         写给玩家的说明（玩法 / 关卡 / 排行榜 / 怎么改）
@@ -56,7 +56,11 @@ node sheep-candidates/endless-check.mjs
 # 5. 排行榜端到端（真实写入 + 独立查询校验 + 清理）
 node sheep-candidates/leaderboard-check.mjs
 
-# 6. 难度标定 / 提示器一致性诊断 / 宣传片自检
+# 6. 背景音乐（生成 + 逐小节结构自检 + 循环点检查）
+node sheep-candidates/make-bgm.mjs
+node sheep-candidates/bgm-check.mjs
+
+# 7. 难度标定 / 提示器一致性诊断 / 宣传片自检
 node sheep-candidates/endless-scale.mjs
 node sheep-candidates/hint-diag.mjs
 node sheep-candidates/promo-shots.mjs

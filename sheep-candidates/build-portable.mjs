@@ -80,6 +80,7 @@ for (const dir of ['assets', 'audio']) {
   fs.mkdirSync(to, { recursive: true });
   for (const f of fs.readdirSync(from)) {
     if (dir === 'assets' && !/\.png$/i.test(f)) continue;      // 只要牌面图，不再需要打包后的 js/css
+    if (dir === 'audio' && !/\.(wav|mp3|ogg|m4a)$/i.test(f)) continue;   // 只拷音频，波形图之类的调试产物不进游戏
     if (dir === 'assets' && keepImage && !keepImage.has(f)) { skipped.push(f); continue; }
     fs.copyFileSync(path.join(from, f), path.join(to, f));
   }
@@ -98,5 +99,8 @@ for (const [name, code] of styles) console.log('    内联 CSS · ' + name.padEn
 for (const [name, code] of scripts) console.log('    内联 JS  · ' + name.split('（')[0].padEnd(18) + (code.length / 1024).toFixed(1) + ' KB');
 console.log('  assets/     ' + fs.readdirSync(path.join(OUT, 'assets')).length + ' 张牌面图'
   + (skipped.length ? '（按运行时用量跳过 ' + skipped.length + ' 张：' + skipped.join(', ') + '）' : '（源目录已无冗余图）'));
-console.log('  audio/      ' + fs.readdirSync(path.join(OUT, 'audio')).length + ' 个音效');
+const audioFiles = fs.readdirSync(path.join(OUT, 'audio'));
+const bgmSize = audioFiles.filter((f) => f === 'bgm.wav').map((f) => fs.statSync(path.join(OUT, 'audio', f)).size)[0] || 0;
+console.log('  audio/      ' + audioFiles.length + ' 个音频（' + audioFiles.filter((f) => f !== 'bgm.wav').length
+  + ' 个音效 + 1 首循环 BGM ' + (bgmSize / 1024).toFixed(0) + 'KB）');
 console.log('离线包体积: ' + (deliverable / 1024).toFixed(0) + ' KB（index.html + assets + audio + favicon）');

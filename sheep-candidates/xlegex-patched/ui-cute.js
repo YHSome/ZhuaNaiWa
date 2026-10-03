@@ -282,6 +282,7 @@
       '<li><b>移出前三个</b>：把木槽最前面三张退回牌堆，救急用</li>',
       '<li><b>回退</b>：撤销上一步（把刚抓的那张还回去）</li>',
       '<li>牌堆布局每一局都是随机的，同一种图案可能被压在下面</li>',
+      '<li><b>音乐</b>：背景音乐是循环播放的，右上角 🔊 一键静音（音效 + 音乐）</li>',
       '</ul>',
       '<div class="nw-actions">',
       '<button class="nw-btn nw-btn--lg" data-run="back-levels">回到选关</button>',
@@ -732,6 +733,7 @@
   }
 
   function onWin() {
+    bgmDuck(1500);                                         // 让音效站到前面
     if (endless.on) { onTowerClear(); return; }     // 无尽模式：清空一座塔 → 换下一座
     var sec = Math.round((performance.now() - startAt) / 1000);
     setBar(1);                                             // 收尾把进度条拉满
@@ -767,6 +769,7 @@
 
   function onLose() {
     playing = false;
+    bgmDuck(1600);
     if (endless.on) {
       // 无尽模式：托盘满 = 挑战结束（记最高塔数）
       endless.on = false;
@@ -800,17 +803,75 @@
     });
   }
 
+  /* ------------------------------------------------------------------ *
+   * 背景音乐
+   *   · 18.5 秒无缝循环（audio/bgm.wav，8 小节 104BPM，A 小调五声，见 make-bgm.mjs）
+   *   · 首次用户手势才起播（浏览器自动播放策略），之后一直循环
+   *   · 音量 0.34 压在音效之下；过关/失败时短暂"让路"（duck），不盖住音效
+   *   · 与音效共用一个 🔊 开关；切到后台自动暂停，回来接着放
+   * ------------------------------------------------------------------ */
+  var BGM_SRC = './audio/bgm.wav';
+  var BGM_VOL = 0.34, BGM_DUCK = 0.1;
+  var bgm = null, bgmTarget = 0, bgmArmed = false, duckTimer = 0;
+
+  function bgmEl() {
+    if (bgm) return bgm;
+    try {
+      bgm = new Audio(BGM_SRC);
+      bgm.loop = true;
+      bgm.preload = 'auto';
+      bgm.volume = 0;                 // 从 0 淡入，别突然炸响
+      bgm.setAttribute('data-el', 'bgm');
+      document.body.appendChild(bgm);
+    } catch (e) { bgm = null; }
+    return bgm;
+  }
+  function bgmPlay() {
+    var a = bgmEl();
+    if (!a || muted) return;
+    if (duckTimer) { clearTimeout(duckTimer); duckTimer = 0; }
+    bgmTarget = BGM_VOL;
+    if (a.paused) {
+      var p = a.play();
+      if (p && p.catch) p.catch(function () { /* 还没拿到手势，等下一次 */ });
+    }
+  }
+  function bgmStop() {
+    // 只把目标音量降到 0，真正的 pause 交给 bgmFadeTick——淡到 0 再停，不会"啪"地截断
+    if (!bgmEl()) return;
+    bgmTarget = 0;
+  }
+  /** 过关/失败时把音乐压低一点，让音效站到前面 */
+  function bgmDuck(ms) {
+    if (!bgm || muted) return;
+    bgmTarget = BGM_DUCK;
+    if (duckTimer) clearTimeout(duckTimer);
+    duckTimer = setTimeout(function () { duckTimer = 0; if (!muted) bgmTarget = BGM_VOL; }, ms || 1400);
+  }
+  /** 由 tick 驱动的音量渐变（每 200ms 一步）：淡入 ~1.5s、淡出 ~1.2s，到 0 就暂停 */
+  function bgmFadeTick() {
+    if (!bgm) return;
+    var d = bgmTarget - bgm.volume;
+    if (Math.abs(d) < 0.006) {
+      bgm.volume = bgmTarget;
+      if (bgmTarget === 0 && !bgm.paused) { try { bgm.pause(); } catch (e) { /* 忽略 */ } }
+      return;
+    }
+    bgm.volume = Math.max(0, Math.min(1, bgm.volume + (d > 0 ? 0.045 : -0.07)));
+  }
+
   /* ---------------- 音效开关 ---------------- */
   function applyMute() {
     [].slice.call(document.querySelectorAll('audio')).forEach(function (a) { a.muted = muted; });
     muteBtn.textContent = muted ? '🔇' : '🔊';
-    muteBtn.setAttribute('aria-label', muted ? '音效已关闭，点击开启' : '音效已开启，点击关闭');
+    muteBtn.setAttribute('aria-label', muted ? '音效与音乐已关闭，点击开启' : '音效与音乐已开启，点击关闭');
     muteBtn.setAttribute('aria-pressed', muted ? 'true' : 'false');
   }
   function toggleMute() {
     muted = !muted;
     localStorage.setItem(KEY_MUTED, muted ? '1' : '0');
     applyMute();
+    if (muted) bgmStop(); else bgmPlay();
   }
 
   /* ---------------- 事件 ---------------- */
@@ -1090,6 +1151,7 @@
     }
     runValidator(api);                                       // 发牌后验证可解性，不可解则重发
     lastBoardCount = boardCards().length;
+    bgmFadeTick();                                           // 背景音乐音量渐变
   }
   var muteApplied = false;
   function applyMuteOnce() { if (!muteApplied) { muteApplied = true; applyMute(); } }
@@ -1099,7 +1161,20 @@
     updateHud();
     showLevels();
     armValidation(cur);            // 游戏自己会先发第 1 关，这里也要验
+    bgmEl();                       // 先把 BGM 元素建出来（后台预加载），等第一次交互再放
     setInterval(tick, 200);
+    // 第一次真实交互后再起播 BGM（自动播放策略）；切后台暂停、回来续播
+    var armBgm = function () {
+      if (bgmArmed) return;
+      bgmArmed = true;
+      bgmPlay();
+    };
+    document.addEventListener('pointerdown', armBgm, true);
+    document.addEventListener('keydown', armBgm, true);
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) bgmStop();
+      else if (bgmArmed) bgmPlay();
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

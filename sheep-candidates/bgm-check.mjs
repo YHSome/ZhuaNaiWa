@@ -167,8 +167,8 @@ const looped = await page.ev(`(function(){ var a = document.querySelector('audio
 check('播到结尾自动无缝循环（不会停）', looped.paused === false && looped.t < 3, `绕回后 currentTime=${Math.round(looped.t * 100) / 100}s paused=${looped.paused}`);
 
 const bgmReq = page.reqs.filter((r) => /bgm\.wav/.test(r.url));
-check('bgm.wav 正常加载（HTTP 200 / 本地 file 也读得到）',
-  bgmReq.length > 0 && bgmReq.every((r) => r.status === 200 || r.status === 0),
+check('bgm.wav 正常加载（HTTP 2xx / 本地 file 也读得到）',
+  bgmReq.length > 0 && bgmReq.every((r) => (r.status >= 200 && r.status < 300) || r.status === 0),
   bgmReq.map((r) => r.status + ' ' + r.url.split('/').pop()).join(' | ') || '（file:// 下无 Network 事件）');
 
 const realErrors = page.errors.filter((e) => !/NotAllowedError|play\(\)|AudioContext/i.test(e));

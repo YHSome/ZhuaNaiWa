@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>抓奶蛙 · 30 秒宣传片（按 F11 全屏，空格暂停，R 重播）</title>
+<style>
+  /* ==========================================================================
+     抓奶蛙 · 宣传片
+     1920×1080 的固定舞台，按窗口大小整体缩放；所有动画由下面 JS 的时间轴驱动。
+     BGM 也是这份文件用 WebAudio 现场合成的（没有外部音频文件、无版权问题）。
+     ========================================================================== */
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%; overflow: hidden; background: #0b0f0a;
+    font-family: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #frame { position: fixed; inset: 0; display: grid; place-items: center; background: #080b07; }
+  #stage {
+    position: relative; width: 1920px; height: 1080px; overflow: hidden;
+    transform-origin: center center;
+    background:
+      radial-gradient(rgba(255,255,255,.10) 1.2px, transparent 1.4px),
+      repeating-linear-gradient(45deg, rgba(255,255,255,.03) 0 2px, transparent 2px 30px),
+      radial-gradient(120% 100% at 50% -10%, rgba(255,255,255,.30) 0%, rgba(255,255,255,0) 60%),
+      radial-gradient(130% 120% at 50% 45%, #7ed957 0%, #4c9b3f 52%, #245c26 100%);
+    background-size: 26px 26px, auto, auto, auto;
+    box-shadow: inset 0 0 160px rgba(4, 20, 6, .55);
+  }
+  #stage::after {                      /* 绒面内沿缝线 */
+    content: ''; position: absolute; inset: 26px; border: 3px dashed rgba(255,255,255,.16);
+    border-radius: 40px; pointer-events: none; z-index: 1;
+  }
+
+  /* ---------- 麻将牌 ---------- */
+  .tile {
+    position: absolute; width: 96px; height: 96px; border-radius: 14px;
+    border: 4px solid #3a2914;
+    background: linear-gradient(180deg, #fffdf6 0%, #f7eed6 58%, #e2cfa4 100%);
+    box-shadow: 0 7px 0 #c69a5c, 0 12px 0 #3a2914, 0 18px 22px rgba(12, 30, 10, .45),
+                inset 0 4px 0 rgba(255,255,255,.95);
+    display: grid; place-items: center;
+    transition: filter .25s ease, opacity .25s ease;
+  }
+  .tile img { width: 76px; height: 76px; border-radius: 10px; display: block; }
+  .tile.is-dim { filter: brightness(.62) saturate(.6) blur(.4px); }
+  .tile.is-gone { opacity: 0; }
+
+  /* ---------- 舞台字幕 ---------- */
+  .capt {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    font-weight: 900; letter-spacing: .06em; color: #fff7da; white-space: nowrap;
+    text-shadow: 0 4px 0 #3a2914, 0 8px 18px rgba(0,0,0,.45);
+    opacity: 0; z-index: 20;
+  }
+  .capt.show { animation: capt-in .6s cubic-bezier(.2,1.4,.4,1) forwards; }
+  @keyframes capt-in {
+    from { opacity: 0; transform: translate(-50%, 26px) scale(.9); }
+    to   { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  }
+
+  /* ---------- 场景 ---------- */
+  .scene { position: absolute; inset: 0; opacity: 0; transition: opacity .45s ease; pointer-events: none; }
+  .scene.on { opacity: 1; }
+
+  /* S1 开场 */
+  #s1 .logo {
+    position: absolute; left: 50%; top: 44%; transform: translate(-50%, -50%) scale(.4);
+    margin: 0; font-size: 190px; font-weight: 900; letter-spacing: .14em; color: #fff7da;
+    text-shadow: 6px 0 0 #3a2914, -6px 0 0 #3a2914, 0 6px 0 #3a2914, 0 -6px 0 #3a2914,
+                 5px 5px 0 #3a2914, -5px -5px 0 #3a2914, 5px -5px 0 #3a2914, -5px 5px 0 #3a2914,
+                 0 16px 0 #8a5c22, 0 26px 34px rgba(0,0,0,.45);
+    opacity: 0;
+  }
+  #s1 .logo.in { animation: logo-in .9s cubic-bezier(.2,1.5,.4,1) forwards; }
+  @keyframes logo-in {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(.45) rotate(-6deg); }
+    70%  { opacity: 1; transform: translate(-50%, -50%) scale(1.06) rotate(1deg); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+  }
+  #s1 .sub {
+    position: absolute; left: 50%; top: 62%; transform: translateX(-50%);
+    margin: 0; font-size: 42px; font-weight: 800; color: #fff; letter-spacing: .12em;
+    text-shadow: 0 4px 0 rgba(0,0,0,.35); opacity: 0;
+  }
+  #s1 .sub.in { animation: capt-in .7s .1s cubic-bezier(.2,1.4,.4,1) forwards; top: 62%; left: 50%; }
+  #s1 .drop { opacity: 0; }
+
+  /* S2 玩法 */
+  #s2 .hud {
+    position: absolute; left: 60px; right: 60px; top: 54px; display: flex; align-items: center; gap: 20px;
+    opacity: 0; transition: opacity .5s ease;
+  }
+  #s2.on .hud { opacity: 1; }
+  .chip {
+    display: inline-flex; align-items: baseline; gap: 10px; padding: 12px 24px; border-radius: 999px;
+    border: 4px solid #3a2914; background: linear-gradient(180deg, #fffdf6, #f2e7cb); color: #4a2f0c;
+    font-size: 30px; font-weight: 900; box-shadow: 0 5px 0 #c69a5c, 0 10px 16px rgba(0,0,0,.32);
+  }
+  .chip b { font-size: 38px; }
+  #s2 .bar { position: absolute; left: 60px; right: 60px; top: 150px; height: 16px; border-radius: 999px;
+    border: 4px solid #3a2914; background: rgba(0,0,0,.32); overflow: hidden; }
+  #s2 .bar i { display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, #8fd06f, #ffd05e 62%, #f2b23f); transition: width .5s ease; }
+
+  #s2 .board { position: absolute; left: 0; right: 0; top: 220px; height: 560px; }
+  #s2 .traywrap { position: absolute; left: 50%; top: 828px; transform: translateX(-50%); }
+  #s2 .tray {
+    position: relative; display: flex; align-items: center; gap: 6px; padding: 0;
+    width: 806px; height: 110px; border: 10px solid #5d3a12; border-radius: 26px;
+    background: linear-gradient(180deg, #a9762f 0%, #7d5220 55%, #4a2e10 100%);
+    box-shadow: inset 0 14px 26px rgba(0,0,0,.55), 0 8px 0 rgba(0,0,0,.3), 0 16px 26px rgba(0,0,0,.36);
+  }
+  #s2 .slot {
+    width: 82px; height: 82px; margin-left: 6px; border-radius: 12px;
+    background: rgba(0,0,0,.24); box-shadow: inset 0 8px 12px rgba(0,0,0,.5);
+    display: grid; place-items: center;
+  }
+  #s2 .slot:first-child { margin-left: 8px; }
+  #s2 .slot img { width: 62px; height: 62px; border-radius: 8px; opacity: 0; transform: scale(.6); }
+  #s2 .slot img.in { animation: slot-in .28s cubic-bezier(.3,1.5,.5,1) forwards; }
+  @keyframes slot-in { to { opacity: 1; transform: scale(1); } }
+  #s2 .tray.flash { animation: tray-flash .6s ease; }
+  @keyframes tray-flash {
+    0% { filter: brightness(1); } 20% { filter: brightness(1.5) saturate(1.3); }
+    60% { filter: brightness(1.1); } 100% { filter: brightness(1); }
+  }
+  #s2 .buttons { position: absolute; left: 50%; top: 972px; transform: translateX(-50%); display: flex; gap: 22px; }
+  .wbtn {
+    padding: 14px 40px; font-size: 32px; font-weight: 900; color: #4a2f0c; border: 4px solid #5d3a12;
+    border-radius: 20px; background: linear-gradient(180deg, #ffe08f, #f0b545 55%, #d9932c);
+    box-shadow: 0 6px 0 #8a5c22, 0 12px 20px rgba(0,0,0,.32), inset 0 4px 0 rgba(255,255,255,.6);
+  }
+  .spark { position: absolute; width: 18px; height: 18px; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle at 35% 30%, #fffdf2, #ffe07a 45%, #f5a623); box-shadow: 0 0 16px rgba(255,208,100,.9); }
+  .plus {
+    position: absolute; font-size: 56px; font-weight: 900; color: #fff7da; pointer-events: none;
+    text-shadow: 0 4px 0 #3a2914, 0 8px 18px rgba(0,0,0,.5);
+  }
+
+  /* S3 无尽模式 */
+  #s3 .tower { position: absolute; left: 50%; top: 200px; transform: translateX(-50%); width: 900px; height: 700px; }
+  #s3 .stat {
+    position: absolute; padding: 18px 30px; border-radius: 24px;
+    border: 5px solid #3a2914; background: linear-gradient(180deg, #fff6de, #ffe3ac 58%, #f6c069);
+    font-size: 38px; font-weight: 900; color: #8a3a12; box-shadow: 0 8px 0 #8a5c22, 0 16px 24px rgba(0,0,0,.35);
+    opacity: 0; white-space: nowrap;
+  }
+  #st1 { left: 96px; top: 190px; transform: rotate(-3deg); }
+  #st2 { left: 96px; top: 300px; transform: rotate(-3deg); }
+  #s3 .stat.in { animation: stat-in .5s cubic-bezier(.2,1.4,.4,1) forwards; }
+  #s3 .stat.is-old { opacity: .62 !important; }
+  @keyframes stat-in {
+    from { opacity: 0; transform: translate(-40px, 20px) rotate(-8deg); }
+    to   { opacity: 1; transform: translate(0, 0) rotate(-3deg); }
+  }
+  .pill-fire {
+    display: inline-flex; align-items: center; gap: 12px; padding: 12px 34px; border-radius: 999px;
+    border: 4px solid #3a2914; background: linear-gradient(180deg, #ffa963, #f0742c);
+    color: #fff; font-size: 40px; font-weight: 900; letter-spacing: .1em;
+    text-shadow: 0 3px 0 rgba(0,0,0,.3); box-shadow: 0 6px 0 #a83c14, 0 12px 22px rgba(0,0,0,.4);
+  }
+
+  /* S4 排行榜 */
+  #s4 .panel {
+    position: absolute; left: 50%; top: 96px; transform: translateX(-50%);
+    width: 1180px; padding: 34px 40px 26px; border-radius: 44px;
+    border: 6px solid #3a2914; background: linear-gradient(180deg, #fffdf6 0%, #f7eed6 62%, #efe2c0 100%);
+    box-shadow: 0 16px 0 -4px #c69a5c, 0 24px 0 -8px #3a2914, 0 40px 60px rgba(0,0,0,.5);
+    opacity: 0; transform: translateX(-50%) scale(.94);
+    transition: opacity .5s ease, transform .5s cubic-bezier(.2,1.4,.4,1);
+  }
+  #s4.on .panel { opacity: 1; transform: translateX(-50%) scale(1); }
+  #s4 .ptitle {
+    margin: 0 0 6px; text-align: center; font-size: 60px; font-weight: 900; letter-spacing: .1em;
+    color: #fff7da; text-shadow: 5px 0 0 #3a2914, -5px 0 0 #3a2914, 0 5px 0 #3a2914, 0 -5px 0 #3a2914, 0 10px 0 #8a5c22;
+  }
+  #s4 .psub { margin: 0 0 22px; text-align: center; font-size: 26px; font-weight: 700; color: #6b5a3a; }
+  #s4 .row {
+    display: grid; grid-template-columns: 90px 170px 1fr 260px 190px; align-items: center;
+    padding: 14px 20px; font-size: 30px; font-weight: 800; color: #5f5137;
+    border-radius: 16px; opacity: 0; transform: translateY(18px);
+  }
+  #s4 .row:nth-child(odd) { background: rgba(58,41,20,.05); }
+  #s4 .row.in { animation: row-in .45s cubic-bezier(.2,1.3,.4,1) forwards; }
+  @keyframes row-in { to { opacity: 1; transform: none; } }
+  #s4 .row.me { background: linear-gradient(90deg, rgba(255,214,120,.55), rgba(255,214,120,.15)); }
+  #s4 .rk { font-size: 34px; font-weight: 900; color: #8a7550; }
+  #s4 .tw { font-size: 42px; font-weight: 900; color: #d9822b; }
+  #s4 .mt { color: #7a6440; }
+  #s4 .nk { font-weight: 900; color: #4a2f0c; text-align: right; }
+  #s4 .tm { font-size: 24px; color: #9c8a64; text-align: right; }
+
+  /* S5 结尾 */
+  #s5 .endlogo {
+    position: absolute; left: 50%; top: 30%; transform: translate(-50%,-50%);
+    font-size: 168px; font-weight: 900; letter-spacing: .14em; color: #fff7da; margin: 0;
+    text-shadow: 6px 0 0 #3a2914, -6px 0 0 #3a2914, 0 6px 0 #3a2914, 0 -6px 0 #3a2914,
+                 0 16px 0 #8a5c22, 0 26px 34px rgba(0,0,0,.45);
+  }
+  #s5 .play { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    font-size: 62px; font-weight: 900; color: #fff; text-shadow: 0 5px 0 rgba(0,0,0,.4); margin: 0; }
+  #s5 .how { position: absolute; left: 50%; top: 60%; transform: translate(-50%,-50%);
+    font-size: 34px; font-weight: 800; color: #eafff0; opacity: .95; margin: 0; letter-spacing: .04em; }
+  #s5 .url { position: absolute; left: 50%; top: 69%; transform: translate(-50%,-50%);
+    font-size: 34px; font-weight: 900; color: #fff7da; margin: 0; letter-spacing: .02em;
+    padding: 12px 34px; border-radius: 999px; background: rgba(0,0,0,.32); border: 4px solid rgba(255,255,255,.4); }
+  #s5 .fine { position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%);
+    font-size: 24px; color: rgba(255,255,255,.72); margin: 0; }
+
+  /* 转场黑幕 + 片头片尾 */
+  #fade { position: absolute; inset: 0; background: #05070a; opacity: 1; transition: opacity .45s ease; z-index: 90; pointer-events: none; }
+  #fade.clear { opacity: 0; }
+
+  /* ---------- 舞台外的控制条（不会被录进去） ---------- */
+  #bar {
+    position: fixed; left: 0; right: 0; bottom: 0; height: 46px; display: flex; align-items: center; gap: 14px;
+    padding: 0 16px; background: rgba(6, 10, 6, .92); color: #d8e8d4; font-size: 13px; z-index: 100;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+  #bar button {
+    height: 30px; padding: 0 14px; border-radius: 9px; border: 1px solid rgba(255,255,255,.28);
+    background: linear-gradient(180deg, #ffe08f, #f0b545); color: #4a2f0c; font-weight: 800; font-family: inherit;
+    cursor: pointer;
+  }
+  #bar .track { flex: 1; height: 8px; border-radius: 999px; background: rgba(255,255,255,.15); overflow: hidden; }
+  #bar .track i { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, #8fd06f, #ffd05e, #f2b23f); }
+  #bar .time { font-variant-numeric: tabular-nums; min-width: 92px; text-align: right; }
+
+  #cover {
+    position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; text-align: center;
+    background: radial-gradient(120% 100% at 50% 0%, rgba(10,30,12,.86), rgba(3,8,4,.96));
+    color: #fff7da; transition: opacity .4s ease;
+  }
+  #cover.hide { opacity: 0; pointer-events: none; }
+  #cover h2 { margin: 0 0 10px; font-size: 44px; letter-spacing: .16em; }
+  #cover p { margin: 6px 0; font-size: 17px; color: #cfe6c8; line-height: 1.7; }
+  #cover button {
+    margin-top: 22px; padding: 16px 52px; font-size: 22px; font-weight: 900; font-family: inherit;
+    color: #4a2f0c; border: 3px solid #5d3a12; border-radius: 16px; cursor: pointer;
+    background: linear-gradient(180deg, #ffe08f, #f0b545 55%, #d9932c);
+    box-shadow: 0 6px 0 #8a5c22, 0 14px 24px rgba(0,0,0,.4);
+  }
+  #cover kbd { padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,.14); font-family: inherit; }
+  #count {
+    position: fixed; inset: 0; z-index: 210; display: none; place-items: center;
+    font-size: 200px; font-weight: 900; color: #fff7da; text-shadow: 0 10px 0 rgba(0,0,0,.4);
+  }
+</style>
+</head>
+<body>
+<div id="frame">
+  <div id="stage">
+    <!-- 开场 -->
+    <section class="scene" id="s1">
+      <h1 class="logo" id="s1logo">抓奶蛙</h1>
+      <p class="sub" id="s1sub">堆叠三消 · 双击就能玩</p>
+    </section>
+
+    <!-- 玩法 -->
+    <section class="scene" id="s2">
+      <div class="hud">
+        <span class="chip">第 4 关</span>
+        <span class="chip">剩余 <b id="hudLeft">54</b></span>
+        <span class="chip" id="hudTime">00:00</span>
+      </div>
+      <div class="bar"><i id="hudBar"></i></div>
+      <div class="board" id="board"></div>
+      <div class="traywrap">
+        <div class="tray" id="tray"></div>
+      </div>
+      <div class="buttons"><span class="wbtn">移出前三个</span><span class="wbtn">回退</span></div>
+    </section>
+
+    <!-- 无尽模式 -->
+    <section class="scene" id="s3">
+      <div class="tower" id="tower"></div>
+      <div class="stat" id="st1">第 1 塔 · 3 层 · 81 张 · 9 格托盘</div>
+      <div class="stat" id="st2">第 2 塔 · 4 层 · 108 张 · 托盘收到 8 格</div>
+    </section>
+
+    <!-- 排行榜 -->
+    <section class="scene" id="s4">
+      <div class="panel">
+        <h2 class="ptitle">🏆 无尽模式排行榜</h2>
+        <p class="psub">TinyWebDB 实时同步 · 展示最近 20 条提交</p>
+        <div id="lbrows"></div>
+      </div>
+    </section>
+
+    <!-- 结尾 -->
+    <section class="scene" id="s5">
+      <h1 class="endlogo">抓奶蛙</h1>
+      <p class="play">双击 index.html，马上开抓</p>
+      <p class="how">4 关主线 + 无尽模式 · 手机/平板/桌面都适配 · 进度存在本机</p>
+      <p class="url" id="endUrl">github.com/YHSome/zhuanaiwa</p>
+      <p class="fine">玩法基于开源项目 chenxch/xlegex（MIT）二次创作 · 素材与音效均为自制</p>
+    </section>
+
+    <div id="fade"></div>
+  </div>
+</div>
+
+<div id="bar">
+  <button id="btnPlay">暂停</button>
+  <button id="btnReplay">重播</button>
+  <button id="btnSound">BGM 开</button>
+  <span>30 秒宣传片</span>
+  <div class="track"><i id="tk"></i></div>
+  <span class="time" id="tm">0.0 / 30.0</span>
+  <span id="hint">按 <b>F11</b> 全屏 · <b>空格</b> 暂停 · <b>R</b> 重播</span>
+</div>
+
+<div id="cover">
+  <div>
+    <h2>抓奶蛙 · 宣传片</h2>
+    <p>画面 1920×1080，整体按窗口等比缩放；建议 <kbd>F11</kbd> 全屏后录制整个窗口。</p>
+    <p>BGM 是这份 HTML 用 WebAudio 现场合成的（无外部音频、无版权问题）。</p>
+    <p>点击下面的按钮后会有 3-2-1 倒计时，然后自动播放 30 秒。</p>
+    <button id="btnStart">开始播放（并启动 BGM）</button>
+  </div>
+</div>
+<div id="count"></div>
+
+<script>
+(function () {
+  'use strict';
+  var DURATION = 30.0;
+  var TILES = ['1','2','3','4','5','6','7','8','9'];
+
+  /* ---------------- 舞台缩放 ---------------- */
+  var stage = document.getElementById('stage');
+  function fit() {
+    var k = Math.min(window.innerWidth / 1920, (window.innerHeight - 46) / 1080);
+    stage.style.transform = 'scale(' + k + ')';
+  }
+  window.addEventListener('resize', fit);
+  fit();
+
+  /* ---------------- 元素 ---------------- */
+  var el = function (id) { return document.getElementById(id); };
+  var board = el('board'), tray = el('tray'), tower = el('tower'), fade = el('fade');
+  var lbrows = el('lbrows');
+
+  /* ---------------- 工具 ---------------- */
+  function tileHTML(n) { return '<div class="tile"><img src="./tiles/' + n + '.png" alt=""></div>'; }
+  function spawn(parent, html, x, y, extra) {
+    var d = document.createElement('div');
+    d.innerHTML = html;
+    var node = d.firstChild;
+    node.style.left = x + 'px'; node.style.top = y + 'px';
+    if (extra) for (var k in extra) node.style[k] = extra[k];
+    parent.appendChild(node);
+    return node;
+  }
+  function burst(parent, x, y, n) {
+    for (var i = 0; i < n; i++) {
+      var s = document.createElement('span');
+      s.className = 'spark';
+      s.style.left = x + 'px'; s.style.top = y + 'px';
+      parent.appendChild(s);
+      var ang = Math.PI * 2 * i / n + (i % 2 ? .3 : 0), dist = 120 + (i % 3) * 70;
+      s.animate([
+        { transform: 'translate(-50%,-50%) scale(.4)', opacity: 1 },
+        { transform: 'translate(calc(-50% + ' + Math.cos(ang) * dist + 'px), calc(-50% + ' + Math.sin(ang) * dist + 'px)) scale(1.2)', opacity: 0 }
+      ], { duration: 700 + (i % 4) * 90, easing: 'cubic-bezier(.2,.7,.3,1)' }).onfinish = function () { this.effect.target.remove(); };
+    }
+  }
+  function floatText(parent, x, y, text) {
+    var t = document.createElement('div');
+    t.className = 'plus'; t.textContent = text;
+    t.style.left = x + 'px'; t.style.top = y + 'px';
+    parent.appendChild(t);
+    t.animate([{ transform: 'translate(-50%,0) scale(.7)', opacity: 0 },
+               { transform: 'translate(-50%,-30px) scale(1.1)', opacity: 1, offset: .25 },
+               { transform: 'translate(-50%,-120px) scale(1)', opacity: 0 }],
+      { duration: 1100, easing: 'cubic-bezier(.2,.8,.3,1)' }).onfinish = function () { this.effect.target.remove(); };
+  }
+
+  /* ---------------- 宣传片里那块演示牌桌 ---------------- */
+  var TILE = 112, GAP = 12, BOARD_LEFT = 470, BOARD_TOP = 0;
+  var cells = [];       // {el, type, layer, x, y}
+  function buildDemoBoard() {
+    board.innerHTML = '';
+    cells = [];
+    // 三层错位堆叠（和游戏里一样：每层往左上错半个牌位，被压住的会变暗）
+    var plan = [];
+    for (var r = 0; r < 2; r++) for (var c = 0; c < 7; c++) plan.push({ c: c, r: r, layer: 0 });
+    for (var c2 = 1; c2 < 6; c2++) plan.push({ c: c2, r: 0.5, layer: 1 });
+    for (var c3 = 2; c3 < 6; c3++) plan.push({ c: c3, r: 1.0, layer: 2 });
+    var typeSeq = [3, 7, 1, 5, 9, 2, 6, 4, 3, 8, 1, 5, 2, 7, 9, 6, 4, 8, 3, 1, 5, 7, 2];
+    plan.forEach(function (p, i) {
+      var x = BOARD_LEFT + p.c * (TILE + GAP) + p.layer * 22;
+      var y = BOARD_TOP + p.r * (TILE + GAP) + 40 - p.layer * 22;
+      var node = spawn(board, tileHTML(typeSeq[i % typeSeq.length]), x, y, { zIndex: 10 + p.layer });
+      node.style.transform = 'translateY(-40px) scale(.7)';
+      node.style.opacity = '0';
+      cells.push({ el: node, type: typeSeq[i % typeSeq.length], layer: p.layer, x: x, y: y, c: p.c, r: p.r });
+    });
+    // 有明显遮挡关系的置暗：高层的牌正下方的牌
+    cells.forEach(function (a) {
+      cells.forEach(function (b) {
+        if (b.layer > a.layer && Math.abs(b.x - a.x) < TILE && Math.abs(b.y - a.y) < TILE) a.blockedBy = b;
+      });
+      if (a.blockedBy) a.el.classList.add('is-dim');
+    });
+  }
+
+  function traySlots() {
+    tray.innerHTML = '';
+    var slots = [];
+    for (var i = 0; i < 9; i++) {
+      var s = document.createElement('div');
+      s.className = 'slot';
+      tray.appendChild(s);
+      slots.push(s);
+    }
+    return slots;
+  }
+
+  /* ---------------- 时间轴 ---------------- */
+  var TL = [];
+  function at(t, fn) { TL.push({ t: t, fn: fn, done: false }); }
+
+  function resetAll() {
+    // 场景
+    ['s1', 's2', 's3', 's4', 's5'].forEach(function (id) { el(id).classList.remove('on'); });
+    el('s1logo').classList.remove('in');
+    el('s1sub').classList.remove('in');
+    el('s1logo').style.transform = ''; 
+    el('s1sub').style.opacity = '';
+    ['st1', 'st2'].forEach(function (id) { el(id).classList.remove('in'); el(id).classList.remove('is-old'); el(id).style.opacity = ''; });
+    fade.classList.remove('clear');
+    tower.innerHTML = '';
+    el('hudLeft').textContent = '54';
+    el('hudTime').textContent = '00:00';
+    el('hudBar').style.width = '0%';
+    lbrows.innerHTML = '';
+    // 场景 1 的四张牌
+    document.querySelectorAll('#s1 .tile').forEach(function (n) { n.remove(); });
+    buildDemoBoard();
+    var slots = traySlots();
+    // 提示字幕
+    document.querySelectorAll('.capt').forEach(function (n) { n.remove(); });
+    return slots;
+  }
+
+  function clearCaptions() {
+    document.querySelectorAll('.capt').forEach(function (n) { n.remove(); });
+  }
+  function caption(text, top, ttl) {
+    clearCaptions();                 // 同一时刻只留一条字幕（否则新旧字幕会叠在一起）
+    var c = document.createElement('div');
+    c.className = 'capt';
+    c.textContent = text;
+    c.style.top = top + 'px';
+    c.style.fontSize = (ttl || 56) + 'px';
+    stage.appendChild(c);
+    requestAnimationFrame(function () { c.classList.add('show'); });
+    return c;
+  }
+
+  var slotsRef = [];
+  function buildTimeline() {
+    TL = [];
+    /* ---------- S1 开场 0 ~ 4.4 ---------- */
+    at(0.05, function () { el('s1').classList.add('on'); fade.classList.add('clear'); });
+    at(0.25, function () {
+      // 四张麻将牌从上方落下
+      [[560, 250, 3], [700, 180, 7], [1180, 200, 1], [1330, 280, 5]].forEach(function (p, i) {
+        var n = spawn(el('s1'), tileHTML(p[2]), p[0], -200, { width: '120px', height: '120px', zIndex: 5 });
+        n.querySelector('img').style.width = '78px';
+        n.querySelector('img').style.height = '78px';
+        n.animate([{ transform: 'translateY(0) rotate(-12deg)' }, { transform: 'translateY(' + (p[1] + 200) + 'px) rotate(6deg)', offset: .75 },
+                   { transform: 'translateY(' + (p[1] + 176) + 'px) rotate(-3deg)' }],
+          { duration: 900, delay: i * 130, easing: 'cubic-bezier(.3,1.4,.5,1)', fill: 'forwards' });
+      });
+    });
+    at(0.9, function () { el('s1logo').classList.add('in'); sfx('bell'); });
+    at(1.9, function () { el('s1sub').classList.add('in'); });
+    at(3.6, function () { caption('堆叠三消 · 凑齐 3 只就消除', 880, 46); });
+
+    /* ---------- S2 玩法 4.4 ~ 13.8 ---------- */
+    at(4.4, function () {
+      fade.classList.add('clear');
+      el('s1').classList.remove('on');          // 开场层必须收掉，否则标题会压在玩法画面上
+      el('s2').classList.add('on');      caption('玩法：点方块，抓进底部木槽', 196, 46);
+      cells.forEach(function (c, i) {
+        setTimeout(function () {
+          c.el.animate([{ transform: 'translateY(-40px) scale(.7)', opacity: 0 },
+                        { transform: 'translateY(0) scale(1)', opacity: 1 }],
+            { duration: 420, easing: 'cubic-bezier(.25,1.4,.5,1)', fill: 'forwards' });
+        }, i * 34);
+      });
+    });
+    at(6.2, function () { pickCell(0, 0); });
+    at(6.7, function () { pickCell(1, 1); });
+    at(7.2, function () { pickCell(2, 2, true); });
+    at(8.4, function () { caption('凑齐 3 只 → 自动消除 · 被压住的会变暗', 196, 46); });
+    at(9.6, function () { pickCell(3, 0); });
+    at(10.1, function () { pickCell(4, 1); });
+    at(10.6, function () { pickCell(5, 2, true); });
+    at(11.4, function () { caption('托盘 9 格 · 快满了会告警', 196, 46); });
+    at(12.0, function () { pickCell(6, 0); });
+    at(12.5, function () { pickCell(7, 1); });
+    at(13.0, function () { pickCell(8, 2, true); });
+    at(13.5, function () {});
+
+    /* ---------- S3 无尽模式 13.8 ~ 20.6 ---------- */
+    at(13.8, function () {
+      fade.style.transition = 'opacity .3s ease'; fade.classList.remove('clear');
+      setTimeout(function () {
+        clearCaptions();
+        el('s2').classList.remove('on');
+        el('s3').classList.add('on');
+        caption('无尽模式：清空一座塔，马上起下一座', 946, 52);
+        buildTower(1);
+        fade.classList.add('clear');
+      }, 320);
+    });
+    at(15.2, function () { el('st1').classList.add('in'); sfx('sparkle'); });
+    at(17.0, function () {
+      caption('每清一塔再高一层 · 托盘还会收窄', 946, 52);
+      buildTower(2);
+      el('st1').classList.add('is-old');
+      el('st2').classList.add('in');
+      sfx('sparkle');
+    });
+    at(19.0, function () { caption('一条命：托盘满一次挑战就结束', 946, 52); });
+
+    /* ---------- S4 排行榜 20.6 ~ 25.4 ---------- */
+    at(20.6, function () {
+      fade.classList.remove('clear');
+      setTimeout(function () {
+        clearCaptions();
+        el('s3').classList.remove('on');
+        el('s4').classList.add('on');
+        buildLeaderboard();
+        fade.classList.add('clear');
+        sfx('whoosh');
+      }, 320);
+    });
+    at(21.6, function () { caption('成绩实时上榜：TinyWebDB 同步', 960, 48); });
+
+    /* ---------- S5 结尾 25.4 ~ 30 ---------- */
+    at(25.4, function () {
+      fade.classList.remove('clear');
+      setTimeout(function () {
+        clearCaptions();
+        el('s4').classList.remove('on');
+        el('s5').classList.add('on');
+        fade.classList.add('clear');
+        sfx('end');
+      }, 320);
+    });
+    at(26.4, function () { caption('4 关主线 + 无尽模式 · 手机同样好点', 880, 46); });
+    at(28.6, function () { fade.classList.remove('clear'); });
+  }
+
+  /* 抓一张演示牌：飞向木槽 */
+  var slotCursor = 0;
+  function pickCell(index, slotIndex, isMatch) {
+    var c = cells[index];
+    if (!c) return;
+    c.el.classList.remove('is-dim');
+    c.el.animate([{ transform: 'translate(0,0) scale(1)' }, { transform: 'translate(0,-26px) scale(1.12)' }, { transform: 'translate(0,0) scale(.9)' }],
+      { duration: 260, easing: 'cubic-bezier(.2,1.3,.4,1)' });
+    sfx('click');
+    // 目标槽位
+    var slot = slotsRef[slotIndex];
+    if (!slot) return;
+    var dx = slot.getBoundingClientRect().left - c.el.getBoundingClientRect().left;
+    var dy = slot.getBoundingClientRect().top - c.el.getBoundingClientRect().top;
+    c.el.animate([{ transform: 'translate(0,0) scale(1)' },
+                  { transform: 'translate(' + dx * .5 + 'px,' + (dy * .5 - 60) + 'px) scale(1.05)', offset: .55 },
+                  { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.86)' }],
+      { duration: 520, easing: 'cubic-bezier(.25,.7,.3,1)', fill: 'forwards' });
+    setTimeout(function () {
+      c.el.style.visibility = 'hidden';
+      slot.innerHTML = '<img src="./tiles/' + c.type + '.png" alt="">';
+      slot.firstChild.classList.add('in');
+    }, 500);
+    // 剩余数往下走
+    var left = 54 - (Math.round((slotCursor + 1) / 3) * 3);
+    slotCursor++;
+    var cur = parseInt(el('hudLeft').textContent, 10) - 1;
+    el('hudLeft').textContent = String(Math.max(0, cur));
+    el('hudBar').style.width = Math.min(100, (54 - Math.max(0, cur)) / 54 * 100) + '%';
+    el('hudTime').textContent = '00:0' + Math.min(9, Math.round(4 + slotCursor * 0.9));
+    if (isMatch) setTimeout(matchFX, 540);
+  }
+
+  function matchFX() {
+    tray.classList.remove('flash');
+    void tray.offsetWidth;
+    tray.classList.add('flash');
+    sfx('match');
+    var r = tray.getBoundingClientRect(), s = stage.getBoundingClientRect();
+    var k = s.width / 1920;
+    burst(tray, (r.left + r.width * .18 - s.left) / k, (r.top + r.height * .5 - s.top) / k, 12);
+    floatText(stage, (r.left + r.width * .18 - s.left) / k, (r.top - s.top) / k, '+3 消除');
+    // 清空这三个槽
+    slotsRef.slice(0, 3).forEach(function (sl, i) {
+      setTimeout(function () { sl.innerHTML = ''; }, 120 + i * 60);
+    });
+    slotsRef = slotsRef.slice(3);
+    slotsRef = slotsRef.concat([].slice.call(tray.querySelectorAll('.slot')));
+  }
+
+  /* 无尽模式：堆两座越来越高的塔 */
+  function buildTower(round) {
+    tower.innerHTML = '';
+    var layers = round === 1 ? 5 : 7;
+    var cols = round === 1 ? 7 : 9;
+    var typeSeq = [3, 7, 1, 5, 9, 2, 6, 4, 8];
+    var list = [];
+    for (var L = 0; L < layers; L++) {
+      var n = Math.max(2, cols - L);
+      for (var i = 0; i < n; i++) list.push({ L: L, i: i, n: n });
+    }
+    list.forEach(function (p, idx) {
+      var x = 450 - (p.n * (TILE + GAP)) / 2 + p.i * (TILE + GAP) + p.L * 14;
+      var y = 520 - p.L * 56 + (idx % 2 ? 6 : 0);
+      var node = spawn(tower, tileHTML(typeSeq[(idx + p.L) % 9]), x, y, { zIndex: 10 + p.L, width: '78px', height: '78px' });
+      node.querySelector('img').style.width = '52px';
+      node.querySelector('img').style.height = '52px';
+      node.style.transform = 'translateY(-60px) scale(.7)'; node.style.opacity = '0';
+      node.animate([{ transform: 'translateY(-60px) scale(.7)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }],
+        { duration: 520, delay: idx * 26, easing: 'cubic-bezier(.25,1.35,.5,1)', fill: 'forwards' });
+    });
+  }
+
+  /* 排行榜：写死一组演示数据（真榜在游戏里） */
+  var DEMO_LB = [
+    { rk: '🥇', tw: 6, tiles: 700, sec: 512, nick: '奶蛙之王', ago: '2 分钟前', me: false },
+    { rk: '🥈', tw: 5, tiles: 620, sec: 468, nick: '抓鹅老手', ago: '18 分钟前', me: false },
+    { rk: '🥉', tw: 5, tiles: 620, sec: 531, nick: '一只小黄鸭', ago: '1 小时前', me: false },
+    { rk: '#4', tw: 4, tiles: 540, sec: 402, nick: '摸鱼玩家', ago: '2 小时前', me: false },
+    { rk: '#5', tw: 4, tiles: 540, sec: 455, nick: '夜班奶蛙', ago: '3 小时前', me: true },
+    { rk: '#6', tw: 3, tiles: 460, sec: 388, nick: '手速还行', ago: '5 小时前', me: false },
+    { rk: '#7', tw: 3, tiles: 460, sec: 421, nick: '第一次玩', ago: '昨天', me: false },
+    { rk: '#8', tw: 2, tiles: 350, sec: 296, nick: '路过看看', ago: '昨天', me: false },
+  ];
+  function buildLeaderboard() {
+    lbrows.innerHTML = '';
+    DEMO_LB.forEach(function (d, i) {
+      var row = document.createElement('div');
+      row.className = 'row' + (d.me ? ' me' : '');
+      row.innerHTML = '<span class="rk">' + d.rk + '</span><span class="tw">' + d.tw + ' 塔</span>'
+        + '<span class="mt">' + d.tiles + ' 张 · ' + fmt(d.sec) + '</span>'
+        + '<span class="nk">' + d.nick + '</span><span class="tm">' + d.ago + '</span>';
+      lbrows.appendChild(row);
+      setTimeout(function () { row.classList.add('in'); }, 120 + i * 110);
+    });
+  }
+  function fmt(s) {
+    var m = Math.floor(s / 60), ss = s % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (ss < 10 ? '0' : '') + ss;
+  }
+
+  /* ==========================================================================
+     BGM：全部用 WebAudio 现场合成（正弦/三角/方波 + 噪声），无外部音频
+     · 112 BPM，Am-F-C-G 循环，四段递进：pad → +鼓+bass → +琶音 → +亮音
+     ========================================================================== */
+  var AC = window.AudioContext || window.webkitAudioContext;
+  var ac = null, master = null, musicGain = null, sfxGain = null, noiseBuf = null;
+  var soundOn = true;
+  var BPM = 112, SPB = 60 / BPM, BAR = SPB * 4;
+  var PROG = [[220.0, 261.63, 329.63], [174.61, 220.0, 261.63], [261.63, 329.63, 392.0], [196.0, 246.94, 293.66]];  // Am F C G
+  var NOTES = [], scheduler = null, nextNote = 0, audioStartAt = 0, playedNotes = 0;
+
+  function initAudio() {
+    if (ac) return;
+    ac = new AC();
+    master = ac.createGain(); master.gain.value = 0.85; master.connect(ac.destination);
+    musicGain = ac.createGain(); musicGain.gain.value = 0.55; musicGain.connect(master);
+    sfxGain = ac.createGain(); sfxGain.gain.value = 0.7; sfxGain.connect(master);
+    // 一段白噪声，做踩镲/沙锤
+    var len = Math.floor(ac.sampleRate * 0.4);
+    noiseBuf = ac.createBuffer(1, len, ac.sampleRate);
+    var d = noiseBuf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    buildNotes();
+  }
+
+  function tone(t, freq, dur, type, vol, opt) {
+    var o = ac.createOscillator(), g = ac.createGain();
+    o.type = type || 'triangle';
+    o.frequency.setValueAtTime(freq, t);
+    if (opt && opt.slide) o.frequency.exponentialRampToValueAtTime(opt.slide, t + dur);
+    var atk = (opt && opt.atk) || 0.012, rel = (opt && opt.rel) || Math.min(0.5, dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + atk);
+    g.gain.exponentialRampToValueAtTime(0.0008, t + dur + rel);
+    o.connect(g); g.connect((opt && opt.bus) || musicGain);
+    o.start(t); o.stop(t + dur + rel + 0.03);
+  }
+  function noise(t, dur, vol, hp) {
+    var s = ac.createBufferSource(); s.buffer = noiseBuf;
+    var f = ac.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = hp || 6000;
+    var g = ac.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0005, t + dur);
+    s.connect(f); f.connect(g); g.connect(musicGain);
+    s.start(t); s.stop(t + dur + 0.02);
+  }
+  function kick(t, vol) {
+    var o = ac.createOscillator(), g = ac.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(140, t);
+    o.frequency.exponentialRampToValueAtTime(44, t + 0.16);
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0005, t + 0.2);
+    o.connect(g); g.connect(musicGain);
+    o.start(t); o.stop(t + 0.24);
+  }
+
+  function buildNotes() {
+    NOTES = [];
+    var bars = Math.ceil(DURATION / BAR);
+    for (var b = 0; b < bars; b++) {
+      var t0 = b * BAR;
+      var chord = PROG[b % 4];
+      if (t0 > DURATION) break;
+      var section = t0 < 4.4 ? 0 : t0 < 13.8 ? 1 : t0 < 20.6 ? 2 : t0 < 25.4 ? 3 : 4;
+      // pad：整小节垫底
+      if (section <= 4) {
+        chord.forEach(function (f, i) { NOTES.push({ t: t0, f: f / 2, d: BAR * 0.95, ty: 'triangle', v: section === 0 ? 0.07 : 0.045 }); });
+      }
+      // 鼓 + bass
+      if (section >= 1) {
+        NOTES.push({ t: t0, k: 'kick', v: 0.5 });
+        NOTES.push({ t: t0 + SPB * 2, k: 'kick', v: 0.42 });
+        [0, 1, 1.5, 2, 2.5, 3, 3.5].forEach(function (beat) { NOTES.push({ t: t0 + SPB * beat, k: 'hat', v: beat % 1 === 0 ? 0.1 : 0.06 }); });
+        [0, 1.5, 2.5].forEach(function (beat) { NOTES.push({ t: t0 + SPB * beat, f: chord[0] / 2, d: SPB * 0.5, ty: 'sawtooth', v: 0.13 }); });
+      }
+      // 琶音
+      if (section >= 2) {
+        var seq = [chord[0] * 2, chord[1] * 2, chord[2] * 2, chord[1] * 2, chord[2] * 2, chord[0] * 4, chord[2] * 2, chord[1] * 2];
+        seq.forEach(function (f, i) {
+          NOTES.push({ t: t0 + SPB * 0.5 * i, f: f, d: SPB * 0.42, ty: 'square', v: 0.05 });
+        });
+      }
+      // 亮音（高八度铃）
+      if (section >= 3) {
+        [0, 2].forEach(function (beat) { NOTES.push({ t: t0 + SPB * beat, f: chord[2] * 4, d: SPB * 1.2, ty: 'sine', v: 0.05 }); });
+      }
+    }
+    // 结尾一个上行琶音 + 长和弦
+    [0, 0.12, 0.24, 0.36, 0.48].forEach(function (dt, i) {
+      NOTES.push({ t: 28.2 + dt, f: 440 * Math.pow(2, i / 12 * 4 - 1), d: 0.5, ty: 'triangle', v: 0.1 });
+    });
+    NOTES.push({ t: 28.9, f: 261.63, d: 1.6, ty: 'triangle', v: 0.1 });
+    NOTES.push({ t: 28.9, f: 329.63, d: 1.6, ty: 'triangle', v: 0.08 });
+    NOTES.push({ t: 28.9, f: 392.0, d: 1.6, ty: 'triangle', v: 0.08 });
+    NOTES.sort(function (a, b) { return a.t - b.t; });
+  }
+
+  function startScheduler(fromT) {
+    audioStartAt = ac.currentTime - fromT;
+    nextNote = 0;
+    while (nextNote < NOTES.length && NOTES[nextNote].t < fromT - 0.05) nextNote++;
+    if (scheduler) clearInterval(scheduler);
+    scheduler = setInterval(function () {
+      if (!ac) return;
+      var now = ac.currentTime - audioStartAt;
+      while (nextNote < NOTES.length && NOTES[nextNote].t < now + 0.6) {
+        var n = NOTES[nextNote++]; playedNotes++;
+        if (n.k === 'kick') kick(audioStartAt + n.t, n.v);
+        else if (n.k === 'hat') noise(audioStartAt + n.t, 0.05, n.v, 7000);
+        else tone(audioStartAt + n.t, n.f, n.d, n.ty, n.v);
+      }
+    }, 120);
+  }
+
+  function sfx(kind) {
+    if (!ac || !soundOn) return;
+    var t = ac.currentTime + 0.01;
+    if (kind === 'click') { tone(t, 880, 0.06, 'triangle', 0.22, { bus: sfxGain, rel: 0.05 }); noise(t, 0.03, 0.1, 3000); }
+    else if (kind === 'match') { [0, 0.06, 0.12].forEach(function (d, i) { tone(t + d, [880, 1174, 1568][i], 0.16, 'triangle', 0.2, { bus: sfxGain }); }); }
+    else if (kind === 'bell') { [1046, 1318, 1568].forEach(function (f, i) { tone(t + i * 0.02, f, 1.1, 'sine', 0.14, { bus: sfxGain, rel: 1.2 }); }); }
+    else if (kind === 'whoosh') { noise(t, 0.4, 0.16, 900); }
+    else if (kind === 'sparkle') { [1568, 2093, 2637].forEach(function (f, i) { tone(t + i * 0.05, f, 0.5, 'sine', 0.1, { bus: sfxGain }); }); }
+    else if (kind === 'end') { [523, 659, 784, 1046].forEach(function (f, i) { tone(t + i * 0.1, f, 0.7, 'triangle', 0.14, { bus: sfxGain }); }); }
+  }
+
+  /* ---------------- 播放控制 ---------------- */
+  var playing = false, startAt = 0, elapsed = 0, raf = 0;
+  var tk = el('tk'), tm = el('tm'), btnPlay = el('btnPlay'), btnSound = el('btnSound');
+
+  function reset() {
+    elapsed = 0; startAt = performance.now(); slotCursor = 0;
+    slotsRef = resetAll();
+    buildTimeline();
+    tk.style.width = '0%'; tm.textContent = '0.0 / 30.0';
+  }
+
+  function tick(now) {
+    raf = requestAnimationFrame(tick);
+    if (!playing) return;
+    elapsed = Math.min(DURATION, (now - startAt) / 1000);
+    for (var i = 0; i < TL.length; i++) {
+      if (!TL[i].done && elapsed >= TL[i].t) { TL[i].done = true; try { TL[i].fn(); } catch (e) { console.warn(e); } }
+    }
+    tk.style.width = (elapsed / DURATION * 100) + '%';
+    tm.textContent = elapsed.toFixed(1) + ' / 30.0';
+    if (elapsed >= DURATION) { playing = false; btnPlay.textContent = '重播'; }
+  }
+
+  function play() {
+    reset();
+    playing = true;
+    btnPlay.textContent = '暂停';
+    if (ac && soundOn) startScheduler(0);
+  }
+  function pauseToggle() {
+    if (elapsed >= DURATION) { play(); return; }
+    playing = !playing;
+    btnPlay.textContent = playing ? '暂停' : '继续';
+    if (playing) { startAt = performance.now() - elapsed * 1000; if (ac && soundOn) startScheduler(elapsed); }
+    else if (ac) { if (scheduler) clearInterval(scheduler); scheduler = null; }
+  }
+
+  el('btnStart').addEventListener('click', function () {
+    initAudio();
+    if (ac.state === 'suspended') ac.resume();
+    el('cover').classList.add('hide');
+    var n = 3, box = el('count');
+    box.style.display = 'grid';
+    box.textContent = String(n);
+    sfx('click');
+    // 有些浏览器要点过真实用户手势才放声音；1.2 秒后还没 running 就提示一下
+    setTimeout(function () {
+      if (ac.state !== 'running') {
+        var hint = document.createElement('div');
+        hint.id = 'audiohint';
+        hint.textContent = '🔊 浏览器拦住了声音：点一下页面任意位置即可开启 BGM';
+        hint.style.cssText = 'position:fixed;left:50%;bottom:70px;transform:translateX(-50%);z-index:220;'
+          + 'padding:12px 24px;border-radius:999px;background:rgba(0,0,0,.78);color:#ffe08f;'
+          + 'font-size:16px;font-weight:800;border:2px solid rgba(255,224,143,.5)';
+        document.body.appendChild(hint);
+      }
+    }, 1200);
+    var iv = setInterval(function () {
+      n--;
+      if (n > 0) { box.textContent = String(n); sfx('click'); return; }
+      clearInterval(iv);
+      box.style.display = 'none';
+      play();
+    }, 700);
+  });
+  // 任何一次真实点击/触摸都顺手把音频上下文唤醒（并把提示收掉）
+  ['pointerdown', 'touchstart', 'keydown'].forEach(function (ev) {
+    window.addEventListener(ev, function () {
+      if (ac && ac.state === 'suspended') ac.resume();
+      var h = document.getElementById('audiohint');
+      if (h && ac && ac.state === 'running') h.remove();
+    }, { passive: true });
+  });
+  btnPlay.addEventListener('click', function () { if (!ac) { initAudio(); ac.resume(); } pauseToggle(); });
+  el('btnReplay').addEventListener('click', function () { if (!ac) { initAudio(); ac.resume(); } play(); });
+  btnSound.addEventListener('click', function () {
+    soundOn = !soundOn;
+    btnSound.textContent = soundOn ? 'BGM 开' : 'BGM 关';
+    if (master) master.gain.value = soundOn ? 0.85 : 0;
+  });
+  window.addEventListener('keydown', function (e) {
+    if (e.code === 'Space') { e.preventDefault(); if (!ac) { initAudio(); ac.resume(); } pauseToggle(); }
+    if (e.key === 'r' || e.key === 'R') { if (!ac) { initAudio(); ac.resume(); } play(); }
+  });
+  reset();
+  raf = requestAnimationFrame(tick);
+
+  /* 自检用的钩子：可以看出 BGM 有没有真的排上音符 */
+  window.__promo = {
+    state: function () {
+      return {
+        audio: ac ? ac.state : 'none',
+        notes: NOTES.length,
+        played: playedNotes,
+        muted: !soundOn,
+        t: Number(elapsed.toFixed(2)),
+        playing: playing,
+      };
+    },
+  };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# 只把"要上线的游戏 + 可复现的开发脚本"放进仓库，体积大的中间产物留在本地
+# 截图/录屏素材（约 39MB，可重新生成）
+sheep-candidates/shots/
+sheep-candidates/shots-v2/
+sheep-candidates/promo-shots/
+
+# 候选玩法研究的中间产物
+sheep-candidates/yulegeyu/
+sheep-candidates/solvable-sheep/
+
+# 上游源码副本（LICENSE 里已保留版权声明；上游本身在 GitHub 上）
+sheep-candidates/xlegex/
+
+# 用户提供的素材原图（已挑出 9 张做进 assets/，原图不必进仓库）
+src/
+
+# 早先的独立项目（3D 抓大鹅），不跟着这个仓库走
+zhuadane-3d/
+
+# 系统/编辑器噪声
+Thumbs.db
+.DS_Store
+desktop.ini
+*.log

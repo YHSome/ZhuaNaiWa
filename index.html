@@ -1,0 +1,2551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>抓奶蛙</title>
+<link rel="icon" type="image/svg+xml" href="./vite.svg" />
+<!-- 游戏样式（构建产物） -->
+<style>
+*,::before,::after{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 rgba(0,0,0,0);--un-ring-shadow:0 0 rgba(0,0,0,0);--un-shadow-inset: ;--un-shadow:0 0 rgba(0,0,0,0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,0.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: ;}::backdrop{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 rgba(0,0,0,0);--un-ring-shadow:0 0 rgba(0,0,0,0);--un-shadow-inset: ;--un-shadow:0 0 rgba(0,0,0,0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,0.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: ;}@font-face {  font-family: 'DM Mono';  font-style: normal;  font-weight: 400;  font-display: swap;  src: url(https://fonts.gstatic.com/s/dmmono/v10/aFTU7PB1QTsUX8KYhh0.ttf) format('truetype');}@font-face {  font-family: 'DM Sans';  font-style: normal;  font-weight: 400;  font-display: swap;  src: url(https://fonts.gstatic.com/s/dmsans/v11/rP2Hp2ywxg089UriOZQ.ttf) format('truetype');}@font-face {  font-family: 'DM Serif Display';  font-style: normal;  font-weight: 400;  font-display: swap;  src: url(https://fonts.gstatic.com/s/dmserifdisplay/v10/-nFnOHM81r4j6k0gjAW3mujVU2B2K_c.ttf) format('truetype');}.i-carbon-logo-github,[i-carbon-logo-github=""]{--un-icon:url("data:image/svg+xml;utf8,%3Csvg preserveAspectRatio='xMidYMid meet' viewBox='0 0 32 32' width='1.2em' height='1.2em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' fill-rule='evenodd' d='M16 2a14 14 0 0 0-4.43 27.28c.7.13 1-.3 1-.67v-2.38c-3.89.84-4.71-1.88-4.71-1.88a3.71 3.71 0 0 0-1.62-2.05c-1.27-.86.1-.85.1-.85a2.94 2.94 0 0 1 2.14 1.45a3 3 0 0 0 4.08 1.16a2.93 2.93 0 0 1 .88-1.87c-3.1-.36-6.37-1.56-6.37-6.92a5.4 5.4 0 0 1 1.44-3.76a5 5 0 0 1 .14-3.7s1.17-.38 3.85 1.43a13.3 13.3 0 0 1 7 0c2.67-1.81 3.84-1.43 3.84-1.43a5 5 0 0 1 .14 3.7a5.4 5.4 0 0 1 1.44 3.76c0 5.38-3.27 6.56-6.39 6.91a3.33 3.33 0 0 1 .95 2.59v3.84c0 .46.25.81 1 .67A14 14 0 0 0 16 2Z'/%3E%3C/svg%3E");mask:var(--un-icon) no-repeat;mask-size:100% 100%;-webkit-mask:var(--un-icon) no-repeat;-webkit-mask-size:100% 100%;background-color:currentColor;width:1.2em;height:1.2em;}.i-carbon\:arrow-up-left,[i-carbon\:arrow-up-left=""]{--un-icon:url("data:image/svg+xml;utf8,%3Csvg preserveAspectRatio='xMidYMid meet' viewBox='0 0 32 32' width='1.2em' height='1.2em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M22 6v2H9.41L26 24.59L24.59 26L8 9.41V22H6V6h16z'/%3E%3C/svg%3E");mask:var(--un-icon) no-repeat;mask-size:100% 100%;-webkit-mask:var(--un-icon) no-repeat;-webkit-mask-size:100% 100%;background-color:currentColor;width:1.2em;height:1.2em;}.icon-btn{display:inline-block;cursor:pointer;user-select:none;font-size:0.9em;opacity:0.75;outline:2px solid transparent !important;outline-offset:2px !important;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;transition-duration:200ms;}.icon-btn:hover{--un-text-opacity:1;color:rgba(13,148,136,var(--un-text-opacity));opacity:1;}.absolute{position:absolute;}.relative,[relative=""]{position:relative;}.mr-10px,[mr-10px=""]{margin-right:10px;}.mr-20px,[mr-20px=""]{margin-right:20px;}.mt-10px,[mt-10px=""]{margin-top:10px;}.h-44px,[h-44px=""]{height:44px;}.h-50px,[h-50px=""]{height:50px;}.h-60px,[h-60px=""]{height:60px;}.h-full,[h-full=""]{height:100%;}.w-295px,[w-295px=""]{width:295px;}.w-full,[w-full=""]{width:100%;}.flex,[flex=""]{display:flex;}.flex-1,[flex-1=""]{flex:1 1 0%;}.flex-col,[flex-col=""]{flex-direction:column;}.items-center,[items-center=""]{align-items:center;}.justify-center,[justify-center=""]{justify-content:center;}.border,[border~="\~"]{border-width:1px;border-style:solid;}[border~="\34 px"]{border-width:4px;border-style:solid;}[border~="\#000"]{--un-border-opacity:1;border-color:rgba(0,0,0,var(--un-border-opacity));}[border~="dashed"]{border-style:dashed;}.px{padding-left:1rem;padding-right:1rem;}.pb-10px,[pb-10px=""]{padding-bottom:10px;}.text-center,[text-center=""]{text-align:center;}.text-12px,[text-12px=""]{font-size:12px;}.text-2,[text-2=""]{font-size:0.5rem;}.text-28px,[text-28px=""]{font-size:28px;}.text-44px,[text-44px=""]{font-size:44px;}.fw-600,[fw-600=""]{font-weight:600;}.fw-bold,[fw-bold=""]{font-weight:700;}[color~="\#000"]{--un-text-opacity:1;color:rgba(0,0,0,var(--un-text-opacity));}[color~="\#00000018"]{--un-text-opacity:0.09;color:rgba(0,0,0,var(--un-text-opacity));}.ease{transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);}.ease-out{transition-timing-function:cubic-bezier(0, 0, 0.2, 1);}:root{font-family:Inter,Avenir,Helvetica,Arial,sans-serif;font-size:16px;line-height:24px;font-weight:400;color-scheme:light dark;color:#ffffffde;background-color:#242424;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:100%}a{font-weight:500;color:#646cff;text-decoration:inherit}a:hover{color:#535bf2}body{margin:0;display:flex;width:100%;height:100%}h1{font-size:3.2em;line-height:1.1}button{border-radius:8px;border:1px solid transparent;padding:.6em 1.2em;font-size:1em;font-weight:500;font-family:inherit;background-color:#1a1a1a;cursor:pointer;transition:border-color .25s}button:hover{border-color:#646cff}button:focus,button:focus-visible{outline:4px auto -webkit-focus-ring-color}html{height:100%;width:100%}#app{width:100%;height:100%}@media (prefers-color-scheme: light){:root{color:#213547;background-color:#fff}a:hover{color:#747bff}button{background-color:#f9f9f9}}.card[data-v-a0e0f0b7]{width:40px;height:40px;background:#f9f7e1;color:#000;display:flex;align-items:center;justify-content:center;position:relative;border-radius:4px;border:1px solid #000;box-shadow:1px 5px 5px -1px #000;cursor:pointer}img[data-v-a0e0f0b7]{border-radius:4px}.mask[data-v-a0e0f0b7]{position:absolute;z-index:1;top:0;left:0;background-color:#0000008c;width:40px;height:40px;pointer-events:none}body{background-color:#c3fe8b}.bounce-enter-active{animation:bounce-in .5s}.bounce-leave-active{animation:bounce-in .5s reverse}@keyframes bounce-in{0%{transform:scale(0)}50%{transform:scale(1.25)}to{transform:scale(1)}}.slide-fade-enter-active{transition:all .2s ease-out}.slide-fade-leave-active{transition:all .2s cubic-bezier(1,.5,.8,1)}.slide-fade-enter-from,.slide-fade-leave-to{transform:translateY(25vh);opacity:0}.v-enter-active,.v-leave-active{transition:opacity .5s ease}.v-enter-from,.v-leave-to{opacity:0}
+
+</style>
+<!-- 奶蛙麻将风主题 -->
+<style>
+/* ==========================================================================
+   奶蛙 · 麻将风主题（覆盖层，v3）
+   不改动 xlegex 构建产物，只在 bundle CSS 之后追加覆盖样式。
+
+   实测关键数据（390x844 视口）：
+     · 托盘 div[w-295px] 原样式 box-sizing:border-box + 4px 边框 → 内容区只有 287px，
+       而 7 个 40px 槽位需要 295px → 与背景分隔线必然错位
+     · 落牌是 flex 子元素，无缩放时每张占 40px 布局宽、gap 3px → 节距 43px
+     · 牌上 transform:scale() 不改变布局，只缩小视觉盒（40 → 37.6，左右各内缩 1.2px）
+
+   对齐方案：托盘改 content-box（内容 295px = 原版尺寸，总宽仍 295+8=303 不跳动），
+             7 槽 = 7×40 + 6×2.5 = 295 → gap:2.5px + flex-start，
+             分隔线用同一节距 42.5px 画在 padding-box 上。
+
+   结构对应：
+     #app > div[flex flex-col]
+       ├ div[text-44px …]        ← 标题（两侧加小麻将牌装饰）
+       ├ div[flex-1] > div[relative flex-1]（牌堆整体缩放）
+       │     ├ div.card[data-v-a0e0f0b7] > img + div.mask   ← 麻将牌
+       │     └ div[w-295px][h-44px][border]                 ← 底部木槽
+       ├ div[h-50px] > button ×2                            ← 道具按钮
+       └ div[pb-10px]                                       ← 署名行
+   ========================================================================== */
+
+:root {
+  --tile-hi: #fffdf6;
+  --tile-face: #f7eed6;
+  --tile-lo: #e8dab6;
+  --tile-edge: #c69a5c;
+  --tile-line: #3a2914;
+  --felt-hi: #93dc77;
+  --felt-mid: #4f9f46;
+  --felt-lo: #2a6631;
+  --wood-hi: #b3833a;
+  --wood-mid: #8a5c22;
+  --wood-lo: #5d3a12;
+  --slot-w: 34px;      /* 一个槽位的布局宽（托盘已从 7 格扩到 9 格） */
+  --slot-gap: 2px;     /* 9×34 + 8×2 = 322 = 托盘内容宽 */
+  --slot-pitch: 36px;
+  --tray-w: 322px;     /* 总宽 322 + 4×2 边框 = 330，360 宽的手机仍留 15px 边距 */
+  --table-w: 500px;    /* 桌面端牌桌宽度：HUD / 进度条 / 面板都按它对齐 */
+}
+
+/* ---------- 1. 场景：木纹台面 + 绒面牌桌 ---------- */
+html, body { overflow: hidden; }
+
+body {
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, .04) 0 2px,
+      rgba(0, 0, 0, .07) 2px 3px,
+      rgba(0, 0, 0, .02) 3px 44px,
+      rgba(255, 255, 255, .035) 44px 46px,
+      rgba(0, 0, 0, .08) 46px 47px,
+      rgba(0, 0, 0, .02) 47px 96px),
+    radial-gradient(90% 70% at 50% 12%, #7c5226 0%, #563418 45%, #221302 100%);
+}
+
+#app {
+  position: relative;
+  overflow: hidden;
+  /* 层级：绒面点阵 → 斜格纹 → 顶部环境光 → 牌堆聚焦光 → 暗角 → 绒面底色 */
+  background-image:
+    radial-gradient(rgba(255, 255, 255, .10) 1.1px, transparent 1.3px),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, .035) 0 2px, transparent 2px 26px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, .035) 0 2px, transparent 2px 26px),
+    radial-gradient(150% 58% at 50% 3%, rgba(255, 255, 255, .34) 0%, rgba(255, 255, 255, 0) 62%),
+    radial-gradient(60% 44% at 50% 40%, rgba(255, 255, 255, .22) 0%, rgba(255, 255, 255, 0) 74%),
+    radial-gradient(128% 118% at 50% 46%, rgba(0, 0, 0, 0) 48%, rgba(7, 22, 9, .46) 100%),
+    radial-gradient(125% 115% at 50% 46%, var(--felt-hi) 0%, var(--felt-mid) 46%, var(--felt-lo) 100%);
+  background-size: 22px 22px, auto, auto, auto, auto, auto, auto;
+  box-shadow: inset 0 0 90px rgba(6, 24, 8, .45);
+}
+
+/* 绒面内沿的缝线（画在牌堆之下，只在边缘可见） */
+#app::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 2px dashed rgba(255, 255, 255, .16);
+  border-radius: 22px;
+  pointer-events: none;
+}
+
+@media (min-width: 620px) {
+  body { padding: 26px; box-sizing: border-box; align-items: center; justify-content: center; }
+  #app {
+    width: var(--table-w);          /* 固定宽度，别让 flex 把牌桌拉成一条 */
+    max-width: 500px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, .10),
+      0 0 0 10px var(--wood-mid),
+      0 0 0 12px var(--wood-lo),
+      0 0 0 13px rgba(0, 0, 0, .5),
+      inset 0 0 90px rgba(6, 24, 8, .45),
+      0 30px 70px rgba(0, 0, 0, .62);
+  }
+}
+
+/* ---------- 2. 标题：贴纸描边 + 两侧小麻将牌 ---------- */
+#app > div > div[text-44px] {
+  font-size: 40px !important;
+  font-weight: 900 !important;
+  letter-spacing: .12em;
+  color: #fff7da !important;
+  padding-top: 8px;
+  text-shadow:
+    3px 0 0 var(--tile-line), -3px 0 0 var(--tile-line),
+    0 3px 0 var(--tile-line), 0 -3px 0 var(--tile-line),
+    2px 2px 0 var(--tile-line), -2px -2px 0 var(--tile-line),
+    2px -2px 0 var(--tile-line), -2px 2px 0 var(--tile-line),
+    0 7px 0 var(--wood-mid), 0 11px 16px rgba(0, 0, 0, .45);
+}
+
+#app > div > div[text-44px]::before,
+#app > div > div[text-44px]::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  margin: 0 12px;
+  border: 2px solid var(--tile-line);
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--tile-hi) 0%, var(--tile-face) 58%, var(--tile-lo) 100%);
+  box-shadow:
+    0 3px 0 var(--tile-edge),
+    0 5px 0 var(--tile-line),
+    0 6px 8px rgba(0, 0, 0, .38);
+}
+
+#app > div > div[text-44px]::before { transform: rotate(-13deg); }
+#app > div > div[text-44px]::after { transform: rotate(13deg); }
+
+/* ---------- 3. 麻将牌 ---------- */
+.card[data-v-a0e0f0b7] {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--tile-line);
+  border-radius: 7px;
+  background: linear-gradient(180deg, var(--tile-hi) 0%, var(--tile-face) 58%, var(--tile-lo) 100%);
+  box-shadow:
+    0 3px 0 var(--tile-edge),
+    0 5px 0 var(--tile-line),
+    0 7px 9px rgba(14, 34, 10, .45),
+    inset 0 2px 0 rgba(255, 255, 255, .95),
+    inset 0 -3px 5px rgba(150, 116, 66, .3);
+  /* 只过渡滤镜；transform 交给 WAAPI 动画，避免落牌时叠加一段 100ms 的过渡 */
+  transition: filter .1s ease;
+  /* 手机端关键三件套：立刻响应轻点、不弹图片长按菜单、不选中文字 */
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 牌堆里的牌保留 hover 上浮（按下反馈要脆，transition 给短一点） */
+#app div[relative][flex-1] > .card[data-v-a0e0f0b7] {
+  transition: transform .06s ease, filter .1s ease;
+}
+
+.card[data-v-a0e0f0b7] img {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  /* 沿 alpha 轮廓的一层极淡投影：浅色/发光素材在奶白牌面上也能"站住" */
+  filter: drop-shadow(0 1px 1.5px rgba(72, 46, 14, .45));
+}
+
+/* ★ 触屏设备上绝不产生 hover 状态 ★
+   否则 iOS Safari 认为"这个元素有 hover"，轻点第一次只触发 hover、第二次才 click
+   （用户反馈的"单击按不了、要长按才能选中"就是这个原因） */
+@media (hover: hover) and (pointer: fine) {
+  .card[data-v-a0e0f0b7]:hover { transform: translateY(-2px); }
+}
+
+/* 被压住的牌：暖色压暗 + 降饱和，比纯黑蒙层干净 */
+.mask[data-v-a0e0f0b7] {
+  width: 100% !important;
+  height: 100% !important;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  background: linear-gradient(180deg, rgba(38, 28, 12, .30) 0%, rgba(28, 20, 8, .40) 100%);
+  backdrop-filter: saturate(.55) brightness(.86);
+  -webkit-backdrop-filter: saturate(.55) brightness(.86);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, .3);
+}
+
+/* 牌堆整体放大，牌桌才不空（JS 用 clientWidth 布点，transform 不影响命中） */
+@media (max-width: 619px) {
+  #app div[relative][flex-1] { transform: scale(1.18); transform-origin: 50% 44%; }
+}
+@media (min-width: 620px) {
+  #app div[relative][flex-1] { transform: scale(1.32); transform-origin: 50% 46%; }
+  /* 桌面端牌桌更宽裕：牌堆整体往中间压一点，让"标题—牌堆—木槽"三段留白均衡 */
+  #app div[relative][flex-1] > .card[data-v-a0e0f0b7] { translate: 0 22px; }
+}
+
+/* ---------- 4. 底部木槽（槽位与落牌严格对齐） ---------- */
+#app div[w-295px][h-44px] {
+  /* content-box：内容宽由 --tray-w 决定（原版 7 格是 295px，现在 9 格 322px） */
+  box-sizing: content-box;
+  width: var(--tray-w) !important;
+  border: 4px solid var(--wood-lo) !important;
+  border-radius: 15px;
+  /* 分隔线画在 padding-box 上，节距与落牌一致：40px 槽 + 2.5px 缝 */
+  background-origin: padding-box;
+  background-clip: padding-box;
+  background-image:
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, .20) 0 1.6px,
+      rgba(255, 255, 255, .08) 1.6px 2.5px,
+      rgba(0, 0, 0, 0) 2.5px var(--slot-pitch)),
+    linear-gradient(180deg, var(--wood-hi) 0%, var(--wood-mid) 55%, var(--wood-lo) 100%);
+  box-shadow:
+    inset 0 6px 12px rgba(0, 0, 0, .52),
+    inset 0 -2px 0 rgba(255, 255, 255, .14),
+    0 4px 0 rgba(0, 0, 0, .3),
+    0 8px 14px rgba(0, 0, 0, .28);
+  padding: 0;
+  gap: var(--slot-gap);
+  justify-content: flex-start;   /* 落牌从左往右填，位置固定，不再居中漂移 */
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* 落牌：槽位变小了（40 → 34），牌跟着缩，正好落在自己的槽里 */
+#app div[w-295px][h-44px] > .card[data-v-a0e0f0b7] {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: var(--slot-w);
+  height: var(--slot-w);
+  border-radius: 6px;
+  transform: none;
+  position: relative;      /* 抬到槽位底板之上 */
+  z-index: 1;
+  box-shadow:
+    0 2px 0 var(--tile-edge),
+    0 4px 0 var(--tile-line),
+    0 5px 7px rgba(14, 34, 10, .4),
+    inset 0 2px 0 rgba(255, 255, 255, .95);
+}
+
+/* ---------- 4b. 槽位底板：9 个凹槽 + 占用指示 + 满槽告警 ---------- */
+#app div[w-295px][h-44px] > .nw-slots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--slot-gap);
+  pointer-events: none;
+}
+
+#app div[w-295px][h-44px] > .nw-slots > i {
+  flex: 0 0 var(--slot-w);
+  height: var(--slot-w);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, .17);
+  box-shadow:
+    inset 0 3px 5px rgba(0, 0, 0, .45),
+    inset 0 -1px 0 rgba(255, 255, 255, .10);
+  transition: background .18s ease, box-shadow .18s ease;
+}
+
+#app div[w-295px][h-44px] > .nw-slots > i.is-full {
+  background: rgba(255, 233, 158, .22);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, .35),
+    0 0 6px rgba(255, 216, 120, .35);
+}
+
+/* 本局用不到的槽位（无尽模式收窄托盘）：画成钉死的木条，一眼看出"这里放不进去" */
+#app div[w-295px][h-44px] > .nw-slots > i.is-blocked {
+  background: repeating-linear-gradient(45deg, rgba(0, 0, 0, .55) 0 4px, rgba(0, 0, 0, .34) 4px 8px);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, .6), inset 0 -1px 0 rgba(255, 255, 255, .06);
+}
+
+/* 7 格开始：凹槽转橙、木槽描边发光；8 格转红并呼吸 */
+#app div[w-295px][h-44px].is-danger > .nw-slots > i.is-full {
+  background: rgba(255, 196, 92, .40);
+  box-shadow: 0 0 8px rgba(255, 176, 60, .55);
+}
+/* 空槽也点亮：这是在提醒"你只剩这几个位置了" */
+#app div[w-295px][h-44px].is-danger > .nw-slots > i:not(.is-full) {
+  background: rgba(255, 150, 70, .34);
+  box-shadow: 0 0 9px rgba(255, 132, 50, .55), inset 0 2px 4px rgba(0, 0, 0, .3);
+}
+#app div[w-295px][h-44px].is-danger {
+  border-color: #b06a12 !important;
+  animation: nw-slot-warn 1.15s ease-in-out infinite;
+}
+#app div[w-295px][h-44px].is-critical > .nw-slots > i.is-full {
+  background: rgba(255, 120, 96, .52);
+  box-shadow: 0 0 10px rgba(255, 86, 70, .7);
+}
+#app div[w-295px][h-44px].is-critical > .nw-slots > i:not(.is-full) {
+  background: rgba(255, 86, 60, .5);
+  box-shadow: 0 0 11px rgba(255, 70, 50, .75), inset 0 2px 4px rgba(0, 0, 0, .3);
+}
+#app div[w-295px][h-44px].is-critical {
+  border-color: #a32c1c !important;
+  animation: nw-slot-warn .55s ease-in-out infinite;
+}
+/* 木槽上方的文字告警 */
+.nw-slotwarn {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 2px solid #5d3a12;
+  background: linear-gradient(180deg, #ffd36b, #f08a2c);
+  color: #4a2f0c;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 2px 0 #8a5c22, 0 5px 10px rgba(0, 0, 0, .35);
+  animation: nw-warn-pop .3s cubic-bezier(.3, 1.5, .5, 1);
+}
+#app div[w-295px][h-44px].is-critical > .nw-slotwarn {
+  background: linear-gradient(180deg, #ff9b7a, #e8422a);
+  color: #fff8f2;
+  border-color: #7d2113;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .35);
+}
+@keyframes nw-warn-pop {
+  from { transform: translate(-50%, 6px) scale(.7); opacity: 0; }
+  to { transform: translate(-50%, 0) scale(1); opacity: 1; }
+}
+@keyframes nw-slot-warn {
+  0%, 100% { box-shadow: inset 0 6px 12px rgba(0, 0, 0, .52), inset 0 -2px 0 rgba(255, 255, 255, .14), 0 4px 0 rgba(0, 0, 0, .3), 0 8px 14px rgba(0, 0, 0, .28); }
+  50%      { box-shadow: inset 0 6px 12px rgba(0, 0, 0, .42), inset 0 -2px 0 rgba(255, 255, 255, .14), 0 4px 0 rgba(0, 0, 0, .3), 0 0 22px 4px rgba(255, 92, 60, .75); }
+}
+
+/* 消除粒子 */
+.zw-spark {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle at 35% 30%, #fffdf2 0%, #ffe07a 45%, #f5a623 100%);
+  box-shadow: 0 0 8px rgba(255, 208, 100, .85);
+}
+
+#app div[w-295px][h-44px] > .card[data-v-a0e0f0b7] img {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+}
+
+/* ---------- 5. 道具按钮：木质圆牌 ---------- */
+#app button {
+  height: 44px;
+  padding: 0 20px !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  letter-spacing: .06em;
+  background: linear-gradient(180deg, #ffe08f 0%, #f0b545 55%, #d9932c 100%) !important;
+  border: 2px solid var(--wood-lo) !important;
+  border-radius: 13px !important;
+  color: #4a2f0c !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .55);
+  box-shadow:
+    0 3px 0 var(--wood-mid),
+    0 5px 10px rgba(0, 0, 0, .32),
+    inset 0 2px 0 rgba(255, 255, 255, .6),
+    inset 0 -3px 6px rgba(150, 96, 20, .35);
+  transition: transform .1s ease, filter .1s ease;
+}
+
+#app button:hover {
+  border-color: var(--wood-lo) !important;
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+#app button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--wood-mid), inset 0 2px 0 rgba(255, 255, 255, .5);
+}
+
+/* 触屏上按钮不要 hover 效果（避免 iOS 第一次轻点被吃掉） */
+@media (hover: none), (pointer: coarse) {
+  #app button:hover { transform: none; filter: none; }
+  #app div[relative][flex-1] > .card[data-v-a0e0f0b7]:hover { transform: none; }
+}
+
+#app button:focus-visible { outline: 3px solid #fff3c4; outline-offset: 2px; }
+
+/* ---------- 6. 去掉原版的署名行与自带的文字提示 ---------- */
+/* 底部署名（designer / by Xc / star buff）整行隐藏；原版署名保留在"使用说明.txt"的版权说明里 */
+#app > div > div[pb-10px] { display: none !important; }
+
+/* 原版自带的「成功加入兔圈~」「第 N 关」提示：与本作 UI 重复，且"兔圈"是不相干的旧主题 */
+#app > div > div[flex-1] > div[text-28px] { display: none !important; }
+
+/* ---------- 7. 动效（配合 theme-cute.js） ---------- */
+
+/* 托盘需要作为飘字的定位参照 */
+#app div[w-295px][h-44px] { position: relative; }
+
+/* 牌堆里的牌按下去有反馈（托盘里的牌不参与） */
+#app div[relative][flex-1] > .card[data-v-a0e0f0b7]:active {
+  transform: translateY(1px) scale(.96);
+}
+
+/* 消除：托盘闪一下 */
+#app div[w-295px].is-match {
+  animation: zw-tray-flash .55s ease;
+}
+
+@keyframes zw-tray-flash {
+  0% { filter: brightness(1); }
+  22% { filter: brightness(1.35) saturate(1.2); }
+  60% { filter: brightness(1.06); }
+  100% { filter: brightness(1); }
+}
+
+/* 消除飘字 */
+.zw-float {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%);
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffe9a8, #f2b23f);
+  border: 2px solid var(--tile-line);
+  color: #4a2f0c;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .6);
+  box-shadow: 0 3px 0 var(--wood-mid), 0 6px 12px rgba(0, 0, 0, .35);
+  animation: zw-float-up .9s cubic-bezier(.2,.8,.3,1) forwards;
+}
+
+@keyframes zw-float-up {
+  0% { opacity: 0; transform: translate(-50%, 6px) scale(.7); }
+  25% { opacity: 1; transform: translate(-50%, -6px) scale(1.08); }
+  70% { opacity: 1; transform: translate(-50%, -20px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -40px) scale(.96); }
+}
+
+/* 标题两侧小麻将牌轻轻摇 */
+#app > div > div[text-44px]::before { animation: zw-wobble 5s ease-in-out infinite; }
+#app > div > div[text-44px]::after { animation: zw-wobble 5s ease-in-out infinite reverse; }
+
+@keyframes zw-wobble {
+  0%, 100% { transform: rotate(-13deg) translateY(0); }
+  50% { transform: rotate(-9deg) translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app div[w-295px].is-match,
+  #app div[w-295px].is-danger,
+  #app div[w-295px].is-critical,
+  .zw-float,
+  .zw-spark,
+  .nw-slotwarn,
+  #app > div > div[text-44px]::before,
+  #app > div > div[text-44px]::after { animation: none !important; }
+  .zw-spark { display: none; }
+}
+
+/* ---------- 8. 小屏微调 ---------- */
+@media (max-width: 420px) {
+  #app > div > div[text-44px] { font-size: 34px !important; }
+  #app > div > div[text-44px]::before,
+  #app > div > div[text-44px]::after { width: 20px; height: 20px; margin: 0 8px; }
+  /* 触控目标不小于 40px（Apple HIG 建议 44px） */
+  #app button { height: 44px; padding: 0 18px !important; font-size: 15px !important; }
+}
+
+/* 窄屏（iPhone SE / 小安卓 320~380px）：9 格托盘按 322px 会溢出，整体收窄到 286px */
+@media (max-width: 380px) {
+  :root {
+    --tray-w: 286px;      /* 9 × 30 + 8 × 2 */
+    --slot-w: 30px;
+    --slot-pitch: 32px;
+  }
+  #app div[w-295px][h-44px] > .card[data-v-a0e0f0b7] img { width: 22px; height: 22px; border-radius: 3px; }
+  #app div[w-295px][h-44px] > .card[data-v-a0e0f0b7] { border-radius: 5px; }
+}
+
+</style>
+<!-- 选关与结算界面 -->
+<style>
+/* ==========================================================================
+   抓奶蛙 · UI 层样式（选关界面 / HUD / 结算面板）
+   依赖 theme-cute.css 里的 CSS 变量（牌面象牙色、木质、描边色）
+   ========================================================================== */
+
+#nw-ui {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;            /* 容器不吃点击，只有具体控件才吃 */
+  font-family: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  /* HUD 的顶边位置：让开游戏自己的标题（竖屏实测标题占 10~78） */
+  --hud-top: calc(84px + env(safe-area-inset-top, 0px));
+}
+
+/* ---------- 无尽模式排行榜 ---------- */
+.nw-seg {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin: 4px 0 10px;
+}
+.nw-seg__btn {
+  pointer-events: auto;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  color: #6b5a3a;
+  border: 2px solid rgba(58, 41, 20, .35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .55);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.nw-seg__btn.is-on {
+  color: #4a2f0c;
+  border-color: var(--tile-line, #3a2914);
+  background: linear-gradient(180deg, #ffe08f, #f0b545 60%, #d9932c);
+  box-shadow: 0 2px 0 var(--wood-mid, #8a5c22);
+}
+
+.nw-lb {
+  max-height: 46vh;
+  overflow: auto;
+  margin: 0 0 4px;
+  border: 2px solid rgba(58, 41, 20, .22);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .6);
+}
+.nw-lb__row {
+  display: grid;
+  grid-template-columns: 40px 64px 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 0 8px;
+  padding: 7px 10px;
+  font-size: 12.5px;
+  color: #5f5137;
+}
+.nw-lb__row + .nw-lb__row { border-top: 1px dashed rgba(58, 41, 20, .16); }
+.nw-lb__row.is-mine { background: rgba(255, 214, 120, .34); }
+.nw-lb__rank { grid-row: 1 / span 2; font-size: 12px; font-weight: 900; color: #8a7550; text-align: center; }
+.nw-lb__tower { grid-row: 1 / span 2; font-size: 14px; font-weight: 900; color: #d9822b; }
+.nw-lb__meta { grid-row: 1 / span 2; color: #7a6440; }
+.nw-lb__nick { grid-column: 3; grid-row: 1; text-align: right; font-weight: 800; color: #4a2f0c; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nw-lb__time { grid-column: 3; grid-row: 2; text-align: right; font-size: 11px; color: #9c8a64; }
+
+/* 上榜表单 */
+.nw-form { margin: 6px 0 2px; }
+.nw-form__row { display: flex; align-items: center; gap: 10px; }
+.nw-form__row span { font-size: 13px; font-weight: 800; color: #4a2f0c; }
+.nw-input {
+  pointer-events: auto;
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4a2f0c;
+  border: 2px solid var(--tile-line, #3a2914);
+  border-radius: 11px;
+  background: #fffdf6;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, .12);
+}
+
+/* ---------- 顶部进度条（清掉的牌 / 本关总牌数） ---------- */
+.nw-progress {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: calc(var(--hud-top) + 44px);      /* 紧贴顶栏下方，不会压到标题或牌面 */
+  height: 8px;
+  border-radius: 999px;
+  border: 2px solid var(--tile-line, #3a2914);
+  background: linear-gradient(180deg, rgba(0, 0, 0, .34), rgba(0, 0, 0, .22));
+  box-shadow: 0 2px 0 rgba(0, 0, 0, .18), inset 0 1px 3px rgba(0, 0, 0, .45);
+  overflow: hidden;
+}
+.nw-progress > i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8fd06f 0%, #ffd05e 62%, #f2b23f 100%);
+  box-shadow: 0 0 8px rgba(255, 208, 100, .55);
+  transition: transform .28s cubic-bezier(.3, .9, .3, 1);
+}
+
+/* ---------- 顶部 HUD ---------- */
+.nw-hud {
+  position: absolute;
+  top: var(--hud-top);
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  row-gap: 6px;
+  padding: 0 10px;
+}
+
+/* ---------- 桌面端：HUD / 进度条 / 面板与牌桌同宽（否则会摊到整个窗口，看着像脱层的浮条） ---------- */
+@media (min-width: 620px) {
+  .nw-hud,
+  .nw-progress {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(var(--table-w, 500px), calc(100vw - 20px));
+    box-sizing: border-box;
+  }
+}
+
+/* 桌面端 body 有 26px 内边距，标题落在 36~104，顶栏再往下让一点 */
+@media (min-width: 620px) {
+  #nw-ui { --hud-top: calc(112px + env(safe-area-inset-top, 0px)); }
+}
+
+.nw-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  border: 2px solid var(--tile-line, #3a2914);
+  background: linear-gradient(180deg, #fffdf6, #f2e7cb);
+  color: #4a2f0c;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 2px 0 var(--tile-edge, #c69a5c), 0 4px 8px rgba(10, 30, 12, .35);
+}
+.nw-chip small { font-size: 11px; font-weight: 700; opacity: .68; }
+.nw-chip b { font-size: 15px; }
+
+.nw-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 13px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  color: #4a2f0c;
+  border: 2px solid var(--wood-lo, #5d3a12);
+  border-radius: 11px;
+  background: linear-gradient(180deg, #ffe08f, #f0b545 55%, #d9932c);
+  box-shadow: 0 3px 0 var(--wood-mid, #8a5c22), 0 5px 10px rgba(0, 0, 0, .3), inset 0 2px 0 rgba(255, 255, 255, .6);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .1s ease, filter .1s ease;
+}
+/* hover 只在真鼠标设备上生效：触屏若带 hover，iOS 会要求点两次才触发 click */
+@media (hover: hover) and (pointer: fine) {
+  .nw-btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+  .nw-lv:hover { transform: translateY(-2px); filter: brightness(1.03); }
+}
+.nw-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--wood-mid, #8a5c22); }
+.nw-btn--ghost {
+  background: linear-gradient(180deg, #fffdf6, #efe3c6);
+  color: #4a2f0c;
+}
+.nw-btn--lg { height: 44px; padding: 0 22px; font-size: 15px; border-radius: 14px; }
+.nw-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+.nw-hud__spacer { flex: 1; }
+
+/* ---------- 遮罩 + 面板 ---------- */
+.nw-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));    /* 全面屏底部安全区 */
+  background: radial-gradient(120% 100% at 50% 0%, rgba(6, 26, 12, .5), rgba(4, 14, 8, .72));
+  backdrop-filter: blur(5px) saturate(.9);
+  -webkit-backdrop-filter: blur(5px) saturate(.9);
+  pointer-events: auto;
+  animation: nw-fade .22s ease;
+}
+.nw-overlay[hidden] { display: none; }
+@keyframes nw-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.nw-panel {
+  width: min(440px, 94vw);
+  max-height: 92vh;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 20px 18px 16px;
+  border-radius: 26px;
+  border: 3px solid var(--tile-line, #3a2914);
+  background: linear-gradient(180deg, #fffdf6 0%, #f7eed6 62%, #efe2c0 100%);
+  box-shadow:
+    0 9px 0 -3px var(--tile-edge, #c69a5c),
+    0 13px 0 -5px var(--tile-line, #3a2914),
+    0 26px 50px rgba(0, 0, 0, .5);
+  animation: nw-pop .3s cubic-bezier(.34, 1.4, .5, 1);
+}
+@keyframes nw-pop {
+  from { transform: translateY(16px) scale(.94); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.nw-title {
+  margin: 0 0 2px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  color: #fff7da;
+  text-shadow:
+    3px 0 0 var(--tile-line, #3a2914), -3px 0 0 var(--tile-line, #3a2914),
+    0 3px 0 var(--tile-line, #3a2914), 0 -3px 0 var(--tile-line, #3a2914),
+    2px 2px 0 var(--tile-line, #3a2914), -2px -2px 0 var(--tile-line, #3a2914),
+    2px -2px 0 var(--tile-line, #3a2914), -2px 2px 0 var(--tile-line, #3a2914),
+    0 6px 0 var(--wood-mid, #8a5c22);
+}
+.nw-sub { margin: 0 0 14px; text-align: center; font-size: 12px; color: #6b5a3a; letter-spacing: .04em; }
+
+/* ---------- 选关格子（麻将牌造型） ---------- */
+.nw-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.nw-lv {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 8px;
+  min-height: 96px;                 /* 触控目标够大 */
+  font-family: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  color: #4a2f0c;
+  border: 2px solid var(--tile-line, #3a2914);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fffdf6 0%, #f7eed6 58%, #e8dab6 100%);
+  box-shadow:
+    0 3px 0 var(--tile-edge, #c69a5c),
+    0 5px 0 var(--tile-line, #3a2914),
+    0 8px 12px rgba(14, 34, 10, .35),
+    inset 0 2px 0 rgba(255, 255, 255, .95);
+  cursor: pointer;
+  transition: transform .1s ease, filter .1s ease;
+}
+.nw-lv.is-locked { filter: grayscale(.65) brightness(.9); cursor: not-allowed; }
+.nw-lv b { font-size: 15px; font-weight: 900; letter-spacing: .06em; }
+.nw-lv:active { transform: translateY(1px); }
+.nw-lv em { font-size: 11px; font-style: normal; color: #7a6440; }
+.nw-lv i {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 2px;
+  font-size: 18px;
+  font-weight: 900;
+  font-style: normal;
+  color: #fff7da;
+  border-radius: 10px;
+  border: 2px solid var(--tile-line, #3a2914);
+  background: linear-gradient(180deg, #8fd06f, #4f9f46);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+}
+.nw-lv.is-locked i { background: linear-gradient(180deg, #b9c0b4, #7c867a); }
+.nw-lv.is-cleared::after {
+  content: '✔';
+  position: absolute;
+  top: 5px;
+  right: 9px;
+  font-size: 14px;
+  font-weight: 900;
+  color: #3f9c47;
+  text-shadow: 0 1px 0 #fff;
+  animation: nw-star .5s cubic-bezier(.34, 1.6, .5, 1);
+}
+@keyframes nw-star { from { transform: scale(0) rotate(-40deg); } to { transform: none; } }
+.nw-lv__time { font-size: 10px; color: #8a7550; margin-top: 1px; }
+/* 关卡格子里的评星行 */
+.nw-lv__stars { font-size: 13px; letter-spacing: 2px; line-height: 1; color: #c9b489; }
+.nw-lv__stars.has { color: #f2b23f; text-shadow: 0 1px 0 #7a4d16; }
+
+/* 无尽模式格子：整行横幅 + 火系配色 */
+.nw-lv--endless {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 10px 12px;
+  border-color: #8a3a12;
+  background: linear-gradient(180deg, #fff6de 0%, #ffe3ac 58%, #f6c069 100%);
+}
+.nw-lv--endless i { margin-bottom: 0; background: linear-gradient(180deg, #ff9d4d, #e8422a); }
+.nw-lv--endless em { color: #8a4a12; }
+.nw-lv--endless .nw-lv__stars { font-size: 15px; }
+.nw-lv--endless.is-locked { filter: grayscale(.6) brightness(.94); }
+
+/* ---------- 结算评星 ---------- */
+.nw-stars {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0 0;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 6px;
+  line-height: 1.1;
+  color: #f2b23f;
+  text-shadow: 0 2px 0 #7a4d16, 0 0 12px rgba(255, 190, 90, .55);
+  animation: nw-stars-pop .55s cubic-bezier(.34, 1.5, .5, 1);
+}
+.nw-stars small {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #8a7550;
+  text-shadow: none;
+}
+@keyframes nw-stars-pop {
+  from { transform: scale(.5); opacity: 0; }
+  60% { transform: scale(1.12); opacity: 1; }
+  to { transform: none; opacity: 1; }
+}
+
+/* ---------- 键盘可达性 ---------- */
+.nw-btn:focus-visible,
+.nw-lv:focus-visible {
+  outline: 3px solid #2f7de1;
+  outline-offset: 3px;
+}
+
+/* ---------- 结算统计 ---------- */
+.nw-stats { display: flex; justify-content: center; gap: 22px; margin: 14px 0 2px; }
+.nw-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.nw-stat b { font-size: 21px; font-weight: 900; color: #d9822b; }
+.nw-stat span { font-size: 11px; color: #7a6440; }
+
+.nw-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
+.nw-tip { margin: 10px 0 0; font-size: 12px; line-height: 1.7; color: #6b5a3a; }
+.nw-tip b { color: #4a2f0c; }
+.nw-help { margin: 6px 0 0; padding-left: 20px; font-size: 12.5px; line-height: 1.9; color: #5f5137; }
+.nw-help b { color: #4a2f0c; }
+
+/* ---------- 顶部过关提醒（游戏自带的"第 N 关"之外，再加一个轻提示条） ---------- */
+.nw-flash {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  transform: translateX(-50%);
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--tile-line, #3a2914);
+  background: linear-gradient(180deg, #ffe9a8, #f2b23f);
+  color: #4a2f0c;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  box-shadow: 0 3px 0 var(--wood-mid, #8a5c22), 0 8px 16px rgba(0, 0, 0, .35);
+  animation: nw-flash 1.1s ease forwards;
+}
+@keyframes nw-flash {
+  0% { opacity: 0; transform: translate(-50%, 8px) scale(.85); }
+  18% { opacity: 1; transform: translate(-50%, 0) scale(1.04); }
+  75% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -14px) scale(.98); }
+}
+
+/* ---------- "难度飙升"过渡页 ---------- */
+.nw-center { text-align: center; }
+
+.nw-spike {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 auto 10px;
+  padding: 5px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--tile-line, #3a2914);
+  background: linear-gradient(180deg, #ffa963, #f0742c);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, .28);
+  box-shadow: 0 3px 0 #a83c14, 0 7px 14px rgba(0, 0, 0, .35);
+  animation: nw-spike 1.2s ease-in-out infinite;
+}
+@keyframes nw-spike {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-3px) scale(1.045); }
+}
+
+.nw-title--sm { font-size: 24px; letter-spacing: .08em; }
+
+.nw-compare {
+  margin: 14px 0 10px;
+  border: 2px solid rgba(58, 41, 20, .22);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .55);
+}
+.nw-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  font-size: 13px;
+  color: #5f5137;
+}
+.nw-row + .nw-row { border-top: 1px dashed rgba(58, 41, 20, .18); }
+.nw-row b { color: #4a2f0c; font-size: 14px; }
+.nw-row i { font-style: normal; color: #9c8a64; margin: 0 8px; }
+.nw-row b.up { color: #d9822b; }
+
+.nw-diff {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 4px 0 2px;
+  font-size: 12px;
+  color: #7a6440;
+}
+.nw-dots { display: inline-flex; gap: 4px; }
+.nw-dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(58, 41, 20, .16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6);
+}
+.nw-dots span.on { background: linear-gradient(180deg, #ffd05e, #ef8f2b); }
+
+.nw-auto { margin: 10px 0 0; text-align: center; font-size: 12px; color: #8a7550; }
+
+@media (max-width: 430px) {
+  /* 顶栏收窄：去掉关卡名，保证一行放得下（否则按钮会被挤到第二行压住标题） */
+  .nw-chip small { display: none; }
+}
+@media (max-width: 360px) {
+  [data-el="time"] { display: none; }
+}
+@media (max-width: 430px) {
+  .nw-title { font-size: 26px; }
+  .nw-grid { gap: 10px; }
+  .nw-lv { padding: 10px 6px; min-height: 92px; }
+  .nw-lv i { width: 34px; height: 34px; font-size: 17px; }
+  .nw-chip { font-size: 12px; padding: 7px 11px; }
+  /* 顶栏按钮也给到 38px，方便单指点击 */
+  .nw-btn { height: 38px; padding: 0 12px; font-size: 13px; }
+  .nw-btn--lg { height: 46px; padding: 0 20px; font-size: 15px; }
+}
+/* ---------- 横屏 / 矮屏（手机横放、小窗口） ---------- */
+@media (max-height: 520px) {
+  /* 竖向空间紧张：隐藏游戏自带的大标题，HUD 回到最上面，面板整体压缩、关卡排成一行 */
+  #app > div > div[text-44px] { display: none; }
+  #nw-ui { --hud-top: calc(6px + env(safe-area-inset-top, 0px)); }
+
+  .nw-panel { padding: 12px 14px 10px; border-radius: 18px; }
+  .nw-title { font-size: 20px; letter-spacing: .08em; }
+  .nw-title--sm { font-size: 18px; }
+  .nw-sub { margin-bottom: 8px; font-size: 11px; }
+  .nw-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .nw-lv { min-height: 0; padding: 8px 4px; gap: 1px; border-radius: 12px; }
+  .nw-lv i { width: 26px; height: 26px; font-size: 14px; margin-bottom: 1px; border-radius: 8px; }
+  .nw-lv b { font-size: 13px; }
+  .nw-lv em { font-size: 10px; }
+  .nw-lv__time { font-size: 9px; }
+  .nw-compare { margin: 8px 0 6px; }
+  .nw-row { padding: 5px 12px; font-size: 12px; }
+  .nw-stats { margin: 8px 0 0; }
+  .nw-stat b { font-size: 18px; }
+  .nw-actions { margin-top: 10px; gap: 8px; }
+  .nw-btn { height: 34px; }
+  .nw-btn--lg { height: 40px; font-size: 14px; }
+  .nw-tip { margin-top: 6px; font-size: 11px; }
+  .nw-spike { padding: 3px 14px; font-size: 12px; margin-bottom: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nw-overlay, .nw-panel, .nw-flash, .nw-spike, .nw-stars, .nw-lv.is-cleared::after { animation: none !important; }
+}
+
+/* ---------- 全面屏底部安全区：木槽与道具按钮别被小黑条压住 ---------- */
+@supports (padding: env(safe-area-inset-bottom)) {
+  #app > div { padding-bottom: env(safe-area-inset-bottom, 0px); }
+}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<!-- 游戏逻辑（原本是外链 module，这里内联：file:// 下外链模块会被 CORS 拦掉） -->
+<script type="module">
+var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)=>{(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))r(s);new MutationObserver(s=>{for(const o of s)if(o.type==="childList")for(const i of o.addedNodes)i.tagName==="LINK"&&i.rel==="modulepreload"&&r(i)}).observe(document,{childList:!0,subtree:!0});function n(s){const o={};return s.integrity&&(o.integrity=s.integrity),s.referrerpolicy&&(o.referrerPolicy=s.referrerpolicy),s.crossorigin==="use-credentials"?o.credentials="include":s.crossorigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function r(s){if(s.ep)return;s.ep=!0;const o=n(s);fetch(s.href,o)}})();function Qn(e,t){const n=Object.create(null),r=e.split(",");for(let s=0;s<r.length;s++)n[r[s]]=!0;return t?s=>!!n[s.toLowerCase()]:s=>!!n[s]}const So="itemscope,allowfullscreen,formnovalidate,ismap,nomodule,novalidate,readonly",Lo=Qn(So);function bs(e){return!!e||e===""}function un(e){if(k(e)){const t={};for(let n=0;n<e.length;n++){const r=e[n],s=pe(r)?Bo(r):un(r);if(s)for(const o in s)t[o]=s[o]}return t}else{if(pe(e))return e;if(ce(e))return e}}const $o=/;(?![^(]*\))/g,ko=/:(.+)/;function Bo(e){const t={};return e.split($o).forEach(n=>{if(n){const r=n.split(ko);r.length>1&&(t[r[0].trim()]=r[1].trim())}}),t}function Gn(e){let t="";if(pe(e))t=e;else if(k(e))for(let n=0;n<e.length;n++){const r=Gn(e[n]);r&&(t+=r+" ")}else if(ce(e))for(const n in e)e[n]&&(t+=n+" ");return t.trim()}const Do=e=>pe(e)?e:e==null?"":k(e)||ce(e)&&(e.toString===xs||!z(e.toString))?JSON.stringify(e,_s,2):String(e),_s=(e,t)=>t&&t.__v_isRef?_s(e,t.value):Ct(t)?{[`Map(${t.size})`]:[...t.entries()].reduce((n,[r,s])=>(n[`${r} =>`]=s,n),{})}:ys(t)?{[`Set(${t.size})`]:[...t.values()]}:ce(t)&&!k(t)&&!Ts(t)?String(t):t,oe={},Tt=[],$e=()=>{},Ho=()=>!1,Uo=/^on[^a-z]/,an=e=>Uo.test(e),er=e=>e.startsWith("onUpdate:"),me=Object.assign,tr=(e,t)=>{const n=e.indexOf(t);n>-1&&e.splice(n,1)},Ko=Object.prototype.hasOwnProperty,J=(e,t)=>Ko.call(e,t),k=Array.isArray,Ct=e=>dn(e)==="[object Map]",ys=e=>dn(e)==="[object Set]",z=e=>typeof e=="function",pe=e=>typeof e=="string",nr=e=>typeof e=="symbol",ce=e=>e!==null&&typeof e=="object",vs=e=>ce(e)&&z(e.then)&&z(e.catch),xs=Object.prototype.toString,dn=e=>xs.call(e),Wo=e=>dn(e).slice(8,-1),Ts=e=>dn(e)==="[object Object]",rr=e=>pe(e)&&e!=="NaN"&&e[0]!=="-"&&""+parseInt(e,10)===e,en=Qn(",key,ref,ref_for,ref_key,onVnodeBeforeMount,onVnodeMounted,onVnodeBeforeUpdate,onVnodeUpdated,onVnodeBeforeUnmount,onVnodeUnmounted"),hn=e=>{const t=Object.create(null);return n=>t[n]||(t[n]=e(n))},zo=/-(\w)/g,At=hn(e=>e.replace(zo,(t,n)=>n?n.toUpperCase():"")),qo=/\B([A-Z])/g,Ot=hn(e=>e.replace(qo,"-$1").toLowerCase()),Cs=hn(e=>e.charAt(0).toUpperCase()+e.slice(1)),Tn=hn(e=>e?`on${Cs(e)}`:""),Ht=(e,t)=>!Object.is(e,t),Cn=(e,t)=>{for(let n=0;n<e.length;n++)e[n](t)},rn=(e,t,n)=>{Object.defineProperty(e,t,{configurable:!0,enumerable:!1,value:n})},ws=e=>{const t=parseFloat(e);return isNaN(t)?e:t};let Ar;const Vo=()=>Ar||(Ar=typeof globalThis<"u"?globalThis:typeof self<"u"?self:typeof window<"u"?window:typeof global<"u"?global:{});let Ue;class Yo{constructor(t=!1){this.active=!0,this.effects=[],this.cleanups=[],!t&&Ue&&(this.parent=Ue,this.index=(Ue.scopes||(Ue.scopes=[])).push(this)-1)}run(t){if(this.active){const n=Ue;try{return Ue=this,t()}finally{Ue=n}}}on(){Ue=this}off(){Ue=this.parent}stop(t){if(this.active){let n,r;for(n=0,r=this.effects.length;n<r;n++)this.effects[n].stop();for(n=0,r=this.cleanups.length;n<r;n++)this.cleanups[n]();if(this.scopes)for(n=0,r=this.scopes.length;n<r;n++)this.scopes[n].stop(!0);if(this.parent&&!t){const s=this.parent.scopes.pop();s&&s!==this&&(this.parent.scopes[this.index]=s,s.index=this.index)}this.active=!1}}}function Xo(e,t=Ue){t&&t.active&&t.effects.push(e)}const sr=e=>{const t=new Set(e);return t.w=0,t.n=0,t},Es=e=>(e.w&it)>0,As=e=>(e.n&it)>0,Jo=({deps:e})=>{if(e.length)for(let t=0;t<e.length;t++)e[t].w|=it},Zo=e=>{const{deps:t}=e;if(t.length){let n=0;for(let r=0;r<t.length;r++){const s=t[r];Es(s)&&!As(s)?s.delete(e):t[n++]=s,s.w&=~it,s.n&=~it}t.length=n}},Rn=new WeakMap;let Lt=0,it=1;const Sn=30;let Se;const mt=Symbol(""),Ln=Symbol("");class or{constructor(t,n=null,r){this.fn=t,this.scheduler=n,this.active=!0,this.deps=[],this.parent=void 0,Xo(this,r)}run(){if(!this.active)return this.fn();let t=Se,n=st;for(;t;){if(t===this)return;t=t.parent}try{return this.parent=Se,Se=this,st=!0,it=1<<++Lt,Lt<=Sn?Jo(this):Mr(this),this.fn()}finally{Lt<=Sn&&Zo(this),it=1<<--Lt,Se=this.parent,st=n,this.parent=void 0,this.deferStop&&this.stop()}}stop(){Se===this?this.deferStop=!0:this.active&&(Mr(this),this.onStop&&this.onStop(),this.active=!1)}}function Mr(e){const{deps:t}=e;if(t.length){for(let n=0;n<t.length;n++)t[n].delete(e);t.length=0}}let st=!0;const Ms=[];function Nt(){Ms.push(st),st=!1}function Pt(){const e=Ms.pop();st=e===void 0?!0:e}function Fe(e,t,n){if(st&&Se){let r=Rn.get(e);r||Rn.set(e,r=new Map);let s=r.get(n);s||r.set(n,s=sr()),Is(s)}}function Is(e,t){let n=!1;Lt<=Sn?As(e)||(e.n|=it,n=!Es(e)):n=!e.has(Se),n&&(e.add(Se),Se.deps.push(e))}function Xe(e,t,n,r,s,o){const i=Rn.get(e);if(!i)return;let l=[];if(t==="clear")l=[...i.values()];else if(n==="length"&&k(e))i.forEach((f,a)=>{(a==="length"||a>=r)&&l.push(f)});else switch(n!==void 0&&l.push(i.get(n)),t){case"add":k(e)?rr(n)&&l.push(i.get("length")):(l.push(i.get(mt)),Ct(e)&&l.push(i.get(Ln)));break;case"delete":k(e)||(l.push(i.get(mt)),Ct(e)&&l.push(i.get(Ln)));break;case"set":Ct(e)&&l.push(i.get(mt));break}if(l.length===1)l[0]&&$n(l[0]);else{const f=[];for(const a of l)a&&f.push(...a);$n(sr(f))}}function $n(e,t){const n=k(e)?e:[...e];for(const r of n)r.computed&&Ir(r);for(const r of n)r.computed||Ir(r)}function Ir(e,t){(e!==Se||e.allowRecurse)&&(e.scheduler?e.scheduler():e.run())}const Qo=Qn("__proto__,__v_isRef,__isVue"),Fs=new Set(Object.getOwnPropertyNames(Symbol).filter(e=>e!=="arguments"&&e!=="caller").map(e=>Symbol[e]).filter(nr)),Go=ir(),ei=ir(!1,!0),ti=ir(!0),Fr=ni();function ni(){const e={};return["includes","indexOf","lastIndexOf"].forEach(t=>{e[t]=function(...n){const r=G(this);for(let o=0,i=this.length;o<i;o++)Fe(r,"get",o+"");const s=r[t](...n);return s===-1||s===!1?r[t](...n.map(G)):s}}),["push","pop","shift","unshift","splice"].forEach(t=>{e[t]=function(...n){Nt();const r=G(this)[t].apply(this,n);return Pt(),r}}),e}function ir(e=!1,t=!1){return function(r,s,o){if(s==="__v_isReactive")return!e;if(s==="__v_isReadonly")return e;if(s==="__v_isShallow")return t;if(s==="__v_raw"&&o===(e?t?_i:Rs:t?js:Ps).get(r))return r;const i=k(r);if(!e&&i&&J(Fr,s))return Reflect.get(Fr,s,o);const l=Reflect.get(r,s,o);return(nr(s)?Fs.has(s):Qo(s))||(e||Fe(r,"get",s),t)?l:ye(l)?i&&rr(s)?l:l.value:ce(l)?e?Ss(l):fr(l):l}}const ri=Os(),si=Os(!0);function Os(e=!1){return function(n,r,s,o){let i=n[r];if(Mt(i)&&ye(i)&&!ye(s))return!1;if(!e&&(!sn(s)&&!Mt(s)&&(i=G(i),s=G(s)),!k(n)&&ye(i)&&!ye(s)))return i.value=s,!0;const l=k(n)&&rr(r)?Number(r)<n.length:J(n,r),f=Reflect.set(n,r,s,o);return n===G(o)&&(l?Ht(s,i)&&Xe(n,"set",r,s):Xe(n,"add",r,s)),f}}function oi(e,t){const n=J(e,t);e[t];const r=Reflect.deleteProperty(e,t);return r&&n&&Xe(e,"delete",t,void 0),r}function ii(e,t){const n=Reflect.has(e,t);return(!nr(t)||!Fs.has(t))&&Fe(e,"has",t),n}function li(e){return Fe(e,"iterate",k(e)?"length":mt),Reflect.ownKeys(e)}const Ns={get:Go,set:ri,deleteProperty:oi,has:ii,ownKeys:li},ci={get:ti,set(e,t){return!0},deleteProperty(e,t){return!0}},fi=me({},Ns,{get:ei,set:si}),lr=e=>e,pn=e=>Reflect.getPrototypeOf(e);function Vt(e,t,n=!1,r=!1){e=e.__v_raw;const s=G(e),o=G(t);n||(t!==o&&Fe(s,"get",t),Fe(s,"get",o));const{has:i}=pn(s),l=r?lr:n?ar:Ut;if(i.call(s,t))return l(e.get(t));if(i.call(s,o))return l(e.get(o));e!==s&&e.get(t)}function Yt(e,t=!1){const n=this.__v_raw,r=G(n),s=G(e);return t||(e!==s&&Fe(r,"has",e),Fe(r,"has",s)),e===s?n.has(e):n.has(e)||n.has(s)}function Xt(e,t=!1){return e=e.__v_raw,!t&&Fe(G(e),"iterate",mt),Reflect.get(e,"size",e)}function Or(e){e=G(e);const t=G(this);return pn(t).has.call(t,e)||(t.add(e),Xe(t,"add",e,e)),this}function Nr(e,t){t=G(t);const n=G(this),{has:r,get:s}=pn(n);let o=r.call(n,e);o||(e=G(e),o=r.call(n,e));const i=s.call(n,e);return n.set(e,t),o?Ht(t,i)&&Xe(n,"set",e,t):Xe(n,"add",e,t),this}function Pr(e){const t=G(this),{has:n,get:r}=pn(t);let s=n.call(t,e);s||(e=G(e),s=n.call(t,e)),r&&r.call(t,e);const o=t.delete(e);return s&&Xe(t,"delete",e,void 0),o}function jr(){const e=G(this),t=e.size!==0,n=e.clear();return t&&Xe(e,"clear",void 0,void 0),n}function Jt(e,t){return function(r,s){const o=this,i=o.__v_raw,l=G(i),f=t?lr:e?ar:Ut;return!e&&Fe(l,"iterate",mt),i.forEach((a,g)=>r.call(s,f(a),f(g),o))}}function Zt(e,t,n){return function(...r){const s=this.__v_raw,o=G(s),i=Ct(o),l=e==="entries"||e===Symbol.iterator&&i,f=e==="keys"&&i,a=s[e](...r),g=n?lr:t?ar:Ut;return!t&&Fe(o,"iterate",f?Ln:mt),{next(){const{value:y,done:x}=a.next();return x?{value:y,done:x}:{value:l?[g(y[0]),g(y[1])]:g(y),done:x}},[Symbol.iterator](){return this}}}}function Ge(e){return function(...t){return e==="delete"?!1:this}}function ui(){const e={get(o){return Vt(this,o)},get size(){return Xt(this)},has:Yt,add:Or,set:Nr,delete:Pr,clear:jr,forEach:Jt(!1,!1)},t={get(o){return Vt(this,o,!1,!0)},get size(){return Xt(this)},has:Yt,add:Or,set:Nr,delete:Pr,clear:jr,forEach:Jt(!1,!0)},n={get(o){return Vt(this,o,!0)},get size(){return Xt(this,!0)},has(o){return Yt.call(this,o,!0)},add:Ge("add"),set:Ge("set"),delete:Ge("delete"),clear:Ge("clear"),forEach:Jt(!0,!1)},r={get(o){return Vt(this,o,!0,!0)},get size(){return Xt(this,!0)},has(o){return Yt.call(this,o,!0)},add:Ge("add"),set:Ge("set"),delete:Ge("delete"),clear:Ge("clear"),forEach:Jt(!0,!0)};return["keys","values","entries",Symbol.iterator].forEach(o=>{e[o]=Zt(o,!1,!1),n[o]=Zt(o,!0,!1),t[o]=Zt(o,!1,!0),r[o]=Zt(o,!0,!0)}),[e,n,t,r]}const[ai,di,hi,pi]=ui();function cr(e,t){const n=t?e?pi:hi:e?di:ai;return(r,s,o)=>s==="__v_isReactive"?!e:s==="__v_isReadonly"?e:s==="__v_raw"?r:Reflect.get(J(n,s)&&s in r?n:r,s,o)}const gi={get:cr(!1,!1)},mi={get:cr(!1,!0)},bi={get:cr(!0,!1)},Ps=new WeakMap,js=new WeakMap,Rs=new WeakMap,_i=new WeakMap;function yi(e){switch(e){case"Object":case"Array":return 1;case"Map":case"Set":case"WeakMap":case"WeakSet":return 2;default:return 0}}function vi(e){return e.__v_skip||!Object.isExtensible(e)?0:yi(Wo(e))}function fr(e){return Mt(e)?e:ur(e,!1,Ns,gi,Ps)}function xi(e){return ur(e,!1,fi,mi,js)}function Ss(e){return ur(e,!0,ci,bi,Rs)}function ur(e,t,n,r,s){if(!ce(e)||e.__v_raw&&!(t&&e.__v_isReactive))return e;const o=s.get(e);if(o)return o;const i=vi(e);if(i===0)return e;const l=new Proxy(e,i===2?r:n);return s.set(e,l),l}function wt(e){return Mt(e)?wt(e.__v_raw):!!(e&&e.__v_isReactive)}function Mt(e){return!!(e&&e.__v_isReadonly)}function sn(e){return!!(e&&e.__v_isShallow)}function Ls(e){return wt(e)||Mt(e)}function G(e){const t=e&&e.__v_raw;return t?G(t):e}function $s(e){return rn(e,"__v_skip",!0),e}const Ut=e=>ce(e)?fr(e):e,ar=e=>ce(e)?Ss(e):e;function ks(e){st&&Se&&(e=G(e),Is(e.dep||(e.dep=sr())))}function Bs(e,t){e=G(e),e.dep&&$n(e.dep)}function ye(e){return!!(e&&e.__v_isRef===!0)}function be(e){return Ti(e,!1)}function Ti(e,t){return ye(e)?e:new Ci(e,t)}class Ci{constructor(t,n){this.__v_isShallow=n,this.dep=void 0,this.__v_isRef=!0,this._rawValue=n?t:G(t),this._value=n?t:Ut(t)}get value(){return ks(this),this._value}set value(t){const n=this.__v_isShallow||sn(t)||Mt(t);t=n?t:G(t),Ht(t,this._rawValue)&&(this._rawValue=t,this._value=n?t:Ut(t),Bs(this))}}function Ce(e){return ye(e)?e.value:e}const wi={get:(e,t,n)=>Ce(Reflect.get(e,t,n)),set:(e,t,n,r)=>{const s=e[t];return ye(s)&&!ye(n)?(s.value=n,!0):Reflect.set(e,t,n,r)}};function Ds(e){return wt(e)?e:new Proxy(e,wi)}var Hs;class Ei{constructor(t,n,r,s){this._setter=n,this.dep=void 0,this.__v_isRef=!0,this[Hs]=!1,this._dirty=!0,this.effect=new or(t,()=>{this._dirty||(this._dirty=!0,Bs(this))}),this.effect.computed=this,this.effect.active=this._cacheable=!s,this.__v_isReadonly=r}get value(){const t=G(this);return ks(t),(t._dirty||!t._cacheable)&&(t._dirty=!1,t._value=t.effect.run()),t._value}set value(t){this._setter(t)}}Hs="__v_isReadonly";function Ai(e,t,n=!1){let r,s;const o=z(e);return o?(r=e,s=$e):(r=e.get,s=e.set),new Ei(r,s,o||!s,n)}function ot(e,t,n,r){let s;try{s=r?e(...r):e()}catch(o){gn(o,t,n)}return s}function Ne(e,t,n,r){if(z(e)){const o=ot(e,t,n,r);return o&&vs(o)&&o.catch(i=>{gn(i,t,n)}),o}const s=[];for(let o=0;o<e.length;o++)s.push(Ne(e[o],t,n,r));return s}function gn(e,t,n,r=!0){const s=t?t.vnode:null;if(t){let o=t.parent;const i=t.proxy,l=n;for(;o;){const a=o.ec;if(a){for(let g=0;g<a.length;g++)if(a[g](e,i,l)===!1)return}o=o.parent}const f=t.appContext.config.errorHandler;if(f){ot(f,null,10,[e,i,l]);return}}Mi(e,n,s,r)}function Mi(e,t,n,r=!0){console.error(e)}let Kt=!1,kn=!1;const _e=[];let We=0;const Et=[];let qe=null,ht=0;const Us=Promise.resolve();let dr=null;function Ii(e){const t=dr||Us;return e?t.then(this?e.bind(this):e):t}function Fi(e){let t=We+1,n=_e.length;for(;t<n;){const r=t+n>>>1;Wt(_e[r])<e?t=r+1:n=r}return t}function hr(e){(!_e.length||!_e.includes(e,Kt&&e.allowRecurse?We+1:We))&&(e.id==null?_e.push(e):_e.splice(Fi(e.id),0,e),Ks())}function Ks(){!Kt&&!kn&&(kn=!0,dr=Us.then(zs))}function Oi(e){const t=_e.indexOf(e);t>We&&_e.splice(t,1)}function Ni(e){k(e)?Et.push(...e):(!qe||!qe.includes(e,e.allowRecurse?ht+1:ht))&&Et.push(e),Ks()}function Rr(e,t=Kt?We+1:0){for(;t<_e.length;t++){const n=_e[t];n&&n.pre&&(_e.splice(t,1),t--,n())}}function Ws(e){if(Et.length){const t=[...new Set(Et)];if(Et.length=0,qe){qe.push(...t);return}for(qe=t,qe.sort((n,r)=>Wt(n)-Wt(r)),ht=0;ht<qe.length;ht++)qe[ht]();qe=null,ht=0}}const Wt=e=>e.id==null?1/0:e.id,Pi=(e,t)=>{const n=Wt(e)-Wt(t);if(n===0){if(e.pre&&!t.pre)return-1;if(t.pre&&!e.pre)return 1}return n};function zs(e){kn=!1,Kt=!0,_e.sort(Pi);const t=$e;try{for(We=0;We<_e.length;We++){const n=_e[We];n&&n.active!==!1&&ot(n,null,14)}}finally{We=0,_e.length=0,Ws(),Kt=!1,dr=null,(_e.length||Et.length)&&zs()}}function ji(e,t,...n){if(e.isUnmounted)return;const r=e.vnode.props||oe;let s=n;const o=t.startsWith("update:"),i=o&&t.slice(7);if(i&&i in r){const g=`${i==="modelValue"?"model":i}Modifiers`,{number:y,trim:x}=r[g]||oe;x&&(s=n.map(v=>v.trim())),y&&(s=n.map(ws))}let l,f=r[l=Tn(t)]||r[l=Tn(At(t))];!f&&o&&(f=r[l=Tn(Ot(t))]),f&&Ne(f,e,6,s);const a=r[l+"Once"];if(a){if(!e.emitted)e.emitted={};else if(e.emitted[l])return;e.emitted[l]=!0,Ne(a,e,6,s)}}function qs(e,t,n=!1){const r=t.emitsCache,s=r.get(e);if(s!==void 0)return s;const o=e.emits;let i={},l=!1;if(!z(e)){const f=a=>{const g=qs(a,t,!0);g&&(l=!0,me(i,g))};!n&&t.mixins.length&&t.mixins.forEach(f),e.extends&&f(e.extends),e.mixins&&e.mixins.forEach(f)}return!o&&!l?(ce(e)&&r.set(e,null),null):(k(o)?o.forEach(f=>i[f]=null):me(i,o),ce(e)&&r.set(e,i),i)}function mn(e,t){return!e||!an(t)?!1:(t=t.slice(2).replace(/Once$/,""),J(e,t[0].toLowerCase()+t.slice(1))||J(e,Ot(t))||J(e,t))}let ze=null,Vs=null;function on(e){const t=ze;return ze=e,Vs=e&&e.type.__scopeId||null,t}function $t(e,t=ze,n){if(!t||e._n)return e;const r=(...s)=>{r._d&&Wr(-1);const o=on(t),i=e(...s);return on(o),r._d&&Wr(1),i};return r._n=!0,r._c=!0,r._d=!0,r}function wn(e){const{type:t,vnode:n,proxy:r,withProxy:s,props:o,propsOptions:[i],slots:l,attrs:f,emit:a,render:g,renderCache:y,data:x,setupState:v,ctx:j,inheritAttrs:K}=e;let S,U;const ue=on(e);try{if(n.shapeFlag&4){const Q=s||r;S=Ke(g.call(Q,Q,y,o,v,x,j)),U=f}else{const Q=t;S=Ke(Q.length>1?Q(o,{attrs:f,slots:l,emit:a}):Q(o,null)),U=t.props?f:Ri(f)}}catch(Q){Bt.length=0,gn(Q,e,1),S=xe(ke)}let ne=S;if(U&&K!==!1){const Q=Object.keys(U),{shapeFlag:ae}=ne;Q.length&&ae&7&&(i&&Q.some(er)&&(U=Si(U,i)),ne=lt(ne,U))}return n.dirs&&(ne=lt(ne),ne.dirs=ne.dirs?ne.dirs.concat(n.dirs):n.dirs),n.transition&&(ne.transition=n.transition),S=ne,on(ue),S}const Ri=e=>{let t;for(const n in e)(n==="class"||n==="style"||an(n))&&((t||(t={}))[n]=e[n]);return t},Si=(e,t)=>{const n={};for(const r in e)(!er(r)||!(r.slice(9)in t))&&(n[r]=e[r]);return n};function Li(e,t,n){const{props:r,children:s,component:o}=e,{props:i,children:l,patchFlag:f}=t,a=o.emitsOptions;if(t.dirs||t.transition)return!0;if(n&&f>=0){if(f&1024)return!0;if(f&16)return r?Sr(r,i,a):!!i;if(f&8){const g=t.dynamicProps;for(let y=0;y<g.length;y++){const x=g[y];if(i[x]!==r[x]&&!mn(a,x))return!0}}}else return(s||l)&&(!l||!l.$stable)?!0:r===i?!1:r?i?Sr(r,i,a):!0:!!i;return!1}function Sr(e,t,n){const r=Object.keys(t);if(r.length!==Object.keys(e).length)return!0;for(let s=0;s<r.length;s++){const o=r[s];if(t[o]!==e[o]&&!mn(n,o))return!0}return!1}function $i({vnode:e,parent:t},n){for(;t&&t.subTree===e;)(e=t.vnode).el=n,t=t.parent}const ki=e=>e.__isSuspense;function Bi(e,t){t&&t.pendingBranch?k(e)?t.effects.push(...e):t.effects.push(e):Ni(e)}function Di(e,t){if(ge){let n=ge.provides;const r=ge.parent&&ge.parent.provides;r===n&&(n=ge.provides=Object.create(r)),n[e]=t}}function En(e,t,n=!1){const r=ge||ze;if(r){const s=r.parent==null?r.vnode.appContext&&r.vnode.appContext.provides:r.parent.provides;if(s&&e in s)return s[e];if(arguments.length>1)return n&&z(t)?t.call(r.proxy):t}}const Lr={};function An(e,t,n){return Ys(e,t,n)}function Ys(e,t,{immediate:n,deep:r,flush:s,onTrack:o,onTrigger:i}=oe){const l=ge;let f,a=!1,g=!1;if(ye(e)?(f=()=>e.value,a=sn(e)):wt(e)?(f=()=>e,r=!0):k(e)?(g=!0,a=e.some(U=>wt(U)||sn(U)),f=()=>e.map(U=>{if(ye(U))return U.value;if(wt(U))return vt(U);if(z(U))return ot(U,l,2)})):z(e)?t?f=()=>ot(e,l,2):f=()=>{if(!(l&&l.isUnmounted))return y&&y(),Ne(e,l,3,[x])}:f=$e,t&&r){const U=f;f=()=>vt(U())}let y,x=U=>{y=S.onStop=()=>{ot(U,l,4)}};if(qt)return x=$e,t?n&&Ne(t,l,3,[f(),g?[]:void 0,x]):f(),$e;let v=g?[]:Lr;const j=()=>{if(!!S.active)if(t){const U=S.run();(r||a||(g?U.some((ue,ne)=>Ht(ue,v[ne])):Ht(U,v)))&&(y&&y(),Ne(t,l,3,[U,v===Lr?void 0:v,x]),v=U)}else S.run()};j.allowRecurse=!!t;let K;s==="sync"?K=j:s==="post"?K=()=>we(j,l&&l.suspense):(j.pre=!0,l&&(j.id=l.uid),K=()=>hr(j));const S=new or(f,K);return t?n?j():v=S.run():s==="post"?we(S.run.bind(S),l&&l.suspense):S.run(),()=>{S.stop(),l&&l.scope&&tr(l.scope.effects,S)}}function Hi(e,t,n){const r=this.proxy,s=pe(e)?e.includes(".")?Xs(r,e):()=>r[e]:e.bind(r,r);let o;z(t)?o=t:(o=t.handler,n=t);const i=ge;It(this);const l=Ys(s,o.bind(r),n);return i?It(i):bt(),l}function Xs(e,t){const n=t.split(".");return()=>{let r=e;for(let s=0;s<n.length&&r;s++)r=r[n[s]];return r}}function vt(e,t){if(!ce(e)||e.__v_skip||(t=t||new Set,t.has(e)))return e;if(t.add(e),ye(e))vt(e.value,t);else if(k(e))for(let n=0;n<e.length;n++)vt(e[n],t);else if(ys(e)||Ct(e))e.forEach(n=>{vt(n,t)});else if(Ts(e))for(const n in e)vt(e[n],t);return e}function Ui(){const e={isMounted:!1,isLeaving:!1,isUnmounting:!1,leavingVNodes:new Map};return pr(()=>{e.isMounted=!0}),to(()=>{e.isUnmounting=!0}),e}const Oe=[Function,Array],Ki={name:"BaseTransition",props:{mode:String,appear:Boolean,persisted:Boolean,onBeforeEnter:Oe,onEnter:Oe,onAfterEnter:Oe,onEnterCancelled:Oe,onBeforeLeave:Oe,onLeave:Oe,onAfterLeave:Oe,onLeaveCancelled:Oe,onBeforeAppear:Oe,onAppear:Oe,onAfterAppear:Oe,onAppearCancelled:Oe},setup(e,{slots:t}){const n=El(),r=Ui();let s;return()=>{const o=t.default&&Qs(t.default(),!0);if(!o||!o.length)return;let i=o[0];if(o.length>1){for(const K of o)if(K.type!==ke){i=K;break}}const l=G(e),{mode:f}=l;if(r.isLeaving)return Mn(i);const a=$r(i);if(!a)return Mn(i);const g=Bn(a,l,r,n);Dn(a,g);const y=n.subTree,x=y&&$r(y);let v=!1;const{getTransitionKey:j}=a.type;if(j){const K=j();s===void 0?s=K:K!==s&&(s=K,v=!0)}if(x&&x.type!==ke&&(!pt(a,x)||v)){const K=Bn(x,l,r,n);if(Dn(x,K),f==="out-in")return r.isLeaving=!0,K.afterLeave=()=>{r.isLeaving=!1,n.update()},Mn(i);f==="in-out"&&a.type!==ke&&(K.delayLeave=(S,U,ue)=>{const ne=Zs(r,x);ne[String(x.key)]=x,S._leaveCb=()=>{U(),S._leaveCb=void 0,delete g.delayedLeave},g.delayedLeave=ue})}return i}}},Js=Ki;function Zs(e,t){const{leavingVNodes:n}=e;let r=n.get(t.type);return r||(r=Object.create(null),n.set(t.type,r)),r}function Bn(e,t,n,r){const{appear:s,mode:o,persisted:i=!1,onBeforeEnter:l,onEnter:f,onAfterEnter:a,onEnterCancelled:g,onBeforeLeave:y,onLeave:x,onAfterLeave:v,onLeaveCancelled:j,onBeforeAppear:K,onAppear:S,onAfterAppear:U,onAppearCancelled:ue}=t,ne=String(e.key),Q=Zs(n,e),ae=(L,N)=>{L&&Ne(L,r,9,N)},q=(L,N)=>{const B=N[1];ae(L,N),k(L)?L.every(V=>V.length<=1)&&B():L.length<=1&&B()},ee={mode:o,persisted:i,beforeEnter(L){let N=l;if(!n.isMounted)if(s)N=K||l;else return;L._leaveCb&&L._leaveCb(!0);const B=Q[ne];B&&pt(e,B)&&B.el._leaveCb&&B.el._leaveCb(),ae(N,[L])},enter(L){let N=f,B=a,V=g;if(!n.isMounted)if(s)N=S||f,B=U||a,V=ue||g;else return;let A=!1;const te=L._enterCb=p=>{A||(A=!0,p?ae(V,[L]):ae(B,[L]),ee.delayedLeave&&ee.delayedLeave(),L._enterCb=void 0)};N?q(N,[L,te]):te()},leave(L,N){const B=String(e.key);if(L._enterCb&&L._enterCb(!0),n.isUnmounting)return N();ae(y,[L]);let V=!1;const A=L._leaveCb=te=>{V||(V=!0,N(),te?ae(j,[L]):ae(v,[L]),L._leaveCb=void 0,Q[B]===e&&delete Q[B])};Q[B]=e,x?q(x,[L,A]):A()},clone(L){return Bn(L,t,n,r)}};return ee}function Mn(e){if(bn(e))return e=lt(e),e.children=null,e}function $r(e){return bn(e)?e.children?e.children[0]:void 0:e}function Dn(e,t){e.shapeFlag&6&&e.component?Dn(e.component.subTree,t):e.shapeFlag&128?(e.ssContent.transition=t.clone(e.ssContent),e.ssFallback.transition=t.clone(e.ssFallback)):e.transition=t}function Qs(e,t=!1,n){let r=[],s=0;for(let o=0;o<e.length;o++){let i=e[o];const l=n==null?i.key:String(n)+String(i.key!=null?i.key:o);i.type===Ie?(i.patchFlag&128&&s++,r=r.concat(Qs(i.children,t,l))):(t||i.type!==ke)&&r.push(l!=null?lt(i,{key:l}):i)}if(s>1)for(let o=0;o<r.length;o++)r[o].patchFlag=-2;return r}function Gs(e){return z(e)?{setup:e,name:e.name}:e}const tn=e=>!!e.type.__asyncLoader,bn=e=>e.type.__isKeepAlive;function Wi(e,t){eo(e,"a",t)}function zi(e,t){eo(e,"da",t)}function eo(e,t,n=ge){const r=e.__wdc||(e.__wdc=()=>{let s=n;for(;s;){if(s.isDeactivated)return;s=s.parent}return e()});if(_n(t,r,n),n){let s=n.parent;for(;s&&s.parent;)bn(s.parent.vnode)&&qi(r,t,n,s),s=s.parent}}function qi(e,t,n,r){const s=_n(t,e,r,!0);no(()=>{tr(r[t],s)},n)}function _n(e,t,n=ge,r=!1){if(n){const s=n[e]||(n[e]=[]),o=t.__weh||(t.__weh=(...i)=>{if(n.isUnmounted)return;Nt(),It(n);const l=Ne(t,n,e,i);return bt(),Pt(),l});return r?s.unshift(o):s.push(o),o}}const Je=e=>(t,n=ge)=>(!qt||e==="sp")&&_n(e,t,n),Vi=Je("bm"),pr=Je("m"),Yi=Je("bu"),Xi=Je("u"),to=Je("bum"),no=Je("um"),Ji=Je("sp"),Zi=Je("rtg"),Qi=Je("rtc");function Gi(e,t=ge){_n("ec",e,t)}function ct(e,t,n,r){const s=e.dirs,o=t&&t.dirs;for(let i=0;i<s.length;i++){const l=s[i];o&&(l.oldValue=o[i].value);let f=l.dir[r];f&&(Nt(),Ne(f,n,8,[e.el,l,e,t]),Pt())}}const el=Symbol();function In(e,t,n,r){let s;const o=n&&n[r];if(k(e)||pe(e)){s=new Array(e.length);for(let i=0,l=e.length;i<l;i++)s[i]=t(e[i],i,void 0,o&&o[i])}else if(typeof e=="number"){s=new Array(e);for(let i=0;i<e;i++)s[i]=t(i+1,i,void 0,o&&o[i])}else if(ce(e))if(e[Symbol.iterator])s=Array.from(e,(i,l)=>t(i,l,void 0,o&&o[l]));else{const i=Object.keys(e);s=new Array(i.length);for(let l=0,f=i.length;l<f;l++){const a=i[l];s[l]=t(e[a],a,l,o&&o[l])}}else s=[];return n&&(n[r]=s),s}const Hn=e=>e?po(e)?yr(e)||e.proxy:Hn(e.parent):null,ln=me(Object.create(null),{$:e=>e,$el:e=>e.vnode.el,$data:e=>e.data,$props:e=>e.props,$attrs:e=>e.attrs,$slots:e=>e.slots,$refs:e=>e.refs,$parent:e=>Hn(e.parent),$root:e=>Hn(e.root),$emit:e=>e.emit,$options:e=>gr(e),$forceUpdate:e=>e.f||(e.f=()=>hr(e.update)),$nextTick:e=>e.n||(e.n=Ii.bind(e.proxy)),$watch:e=>Hi.bind(e)}),tl={get({_:e},t){const{ctx:n,setupState:r,data:s,props:o,accessCache:i,type:l,appContext:f}=e;let a;if(t[0]!=="$"){const v=i[t];if(v!==void 0)switch(v){case 1:return r[t];case 2:return s[t];case 4:return n[t];case 3:return o[t]}else{if(r!==oe&&J(r,t))return i[t]=1,r[t];if(s!==oe&&J(s,t))return i[t]=2,s[t];if((a=e.propsOptions[0])&&J(a,t))return i[t]=3,o[t];if(n!==oe&&J(n,t))return i[t]=4,n[t];Un&&(i[t]=0)}}const g=ln[t];let y,x;if(g)return t==="$attrs"&&Fe(e,"get",t),g(e);if((y=l.__cssModules)&&(y=y[t]))return y;if(n!==oe&&J(n,t))return i[t]=4,n[t];if(x=f.config.globalProperties,J(x,t))return x[t]},set({_:e},t,n){const{data:r,setupState:s,ctx:o}=e;return s!==oe&&J(s,t)?(s[t]=n,!0):r!==oe&&J(r,t)?(r[t]=n,!0):J(e.props,t)||t[0]==="$"&&t.slice(1)in e?!1:(o[t]=n,!0)},has({_:{data:e,setupState:t,accessCache:n,ctx:r,appContext:s,propsOptions:o}},i){let l;return!!n[i]||e!==oe&&J(e,i)||t!==oe&&J(t,i)||(l=o[0])&&J(l,i)||J(r,i)||J(ln,i)||J(s.config.globalProperties,i)},defineProperty(e,t,n){return n.get!=null?e._.accessCache[t]=0:J(n,"value")&&this.set(e,t,n.value,null),Reflect.defineProperty(e,t,n)}};let Un=!0;function nl(e){const t=gr(e),n=e.proxy,r=e.ctx;Un=!1,t.beforeCreate&&kr(t.beforeCreate,e,"bc");const{data:s,computed:o,methods:i,watch:l,provide:f,inject:a,created:g,beforeMount:y,mounted:x,beforeUpdate:v,updated:j,activated:K,deactivated:S,beforeDestroy:U,beforeUnmount:ue,destroyed:ne,unmounted:Q,render:ae,renderTracked:q,renderTriggered:ee,errorCaptured:L,serverPrefetch:N,expose:B,inheritAttrs:V,components:A,directives:te,filters:p}=t;if(a&&rl(a,r,null,e.appContext.config.unwrapInjectedRef),i)for(const F in i){const P=i[F];z(P)&&(r[F]=P.bind(n))}if(s){const F=s.call(n,n);ce(F)&&(e.data=fr(F))}if(Un=!0,o)for(const F in o){const P=o[F],W=z(P)?P.bind(n,n):z(P.get)?P.get.bind(n,n):$e,$=!z(P)&&z(P.set)?P.set.bind(n):$e,D=mo({get:W,set:$});Object.defineProperty(r,F,{enumerable:!0,configurable:!0,get:()=>D.value,set:X=>D.value=X})}if(l)for(const F in l)ro(l[F],r,n,F);if(f){const F=z(f)?f.call(n):f;Reflect.ownKeys(F).forEach(P=>{Di(P,F[P])})}g&&kr(g,e,"c");function R(F,P){k(P)?P.forEach(W=>F(W.bind(n))):P&&F(P.bind(n))}if(R(Vi,y),R(pr,x),R(Yi,v),R(Xi,j),R(Wi,K),R(zi,S),R(Gi,L),R(Qi,q),R(Zi,ee),R(to,ue),R(no,Q),R(Ji,N),k(B))if(B.length){const F=e.exposed||(e.exposed={});B.forEach(P=>{Object.defineProperty(F,P,{get:()=>n[P],set:W=>n[P]=W})})}else e.exposed||(e.exposed={});ae&&e.render===$e&&(e.render=ae),V!=null&&(e.inheritAttrs=V),A&&(e.components=A),te&&(e.directives=te)}function rl(e,t,n=$e,r=!1){k(e)&&(e=Kn(e));for(const s in e){const o=e[s];let i;ce(o)?"default"in o?i=En(o.from||s,o.default,!0):i=En(o.from||s):i=En(o),ye(i)&&r?Object.defineProperty(t,s,{enumerable:!0,configurable:!0,get:()=>i.value,set:l=>i.value=l}):t[s]=i}}function kr(e,t,n){Ne(k(e)?e.map(r=>r.bind(t.proxy)):e.bind(t.proxy),t,n)}function ro(e,t,n,r){const s=r.includes(".")?Xs(n,r):()=>n[r];if(pe(e)){const o=t[e];z(o)&&An(s,o)}else if(z(e))An(s,e.bind(n));else if(ce(e))if(k(e))e.forEach(o=>ro(o,t,n,r));else{const o=z(e.handler)?e.handler.bind(n):t[e.handler];z(o)&&An(s,o,e)}}function gr(e){const t=e.type,{mixins:n,extends:r}=t,{mixins:s,optionsCache:o,config:{optionMergeStrategies:i}}=e.appContext,l=o.get(t);let f;return l?f=l:!s.length&&!n&&!r?f=t:(f={},s.length&&s.forEach(a=>cn(f,a,i,!0)),cn(f,t,i)),ce(t)&&o.set(t,f),f}function cn(e,t,n,r=!1){const{mixins:s,extends:o}=t;o&&cn(e,o,n,!0),s&&s.forEach(i=>cn(e,i,n,!0));for(const i in t)if(!(r&&i==="expose")){const l=sl[i]||n&&n[i];e[i]=l?l(e[i],t[i]):t[i]}return e}const sl={data:Br,props:dt,emits:dt,methods:dt,computed:dt,beforeCreate:ve,created:ve,beforeMount:ve,mounted:ve,beforeUpdate:ve,updated:ve,beforeDestroy:ve,beforeUnmount:ve,destroyed:ve,unmounted:ve,activated:ve,deactivated:ve,errorCaptured:ve,serverPrefetch:ve,components:dt,directives:dt,watch:il,provide:Br,inject:ol};function Br(e,t){return t?e?function(){return me(z(e)?e.call(this,this):e,z(t)?t.call(this,this):t)}:t:e}function ol(e,t){return dt(Kn(e),Kn(t))}function Kn(e){if(k(e)){const t={};for(let n=0;n<e.length;n++)t[e[n]]=e[n];return t}return e}function ve(e,t){return e?[...new Set([].concat(e,t))]:t}function dt(e,t){return e?me(me(Object.create(null),e),t):t}function il(e,t){if(!e)return t;if(!t)return e;const n=me(Object.create(null),e);for(const r in t)n[r]=ve(e[r],t[r]);return n}function ll(e,t,n,r=!1){const s={},o={};rn(o,yn,1),e.propsDefaults=Object.create(null),so(e,t,s,o);for(const i in e.propsOptions[0])i in s||(s[i]=void 0);n?e.props=r?s:xi(s):e.type.props?e.props=s:e.props=o,e.attrs=o}function cl(e,t,n,r){const{props:s,attrs:o,vnode:{patchFlag:i}}=e,l=G(s),[f]=e.propsOptions;let a=!1;if((r||i>0)&&!(i&16)){if(i&8){const g=e.vnode.dynamicProps;for(let y=0;y<g.length;y++){let x=g[y];if(mn(e.emitsOptions,x))continue;const v=t[x];if(f)if(J(o,x))v!==o[x]&&(o[x]=v,a=!0);else{const j=At(x);s[j]=Wn(f,l,j,v,e,!1)}else v!==o[x]&&(o[x]=v,a=!0)}}}else{so(e,t,s,o)&&(a=!0);let g;for(const y in l)(!t||!J(t,y)&&((g=Ot(y))===y||!J(t,g)))&&(f?n&&(n[y]!==void 0||n[g]!==void 0)&&(s[y]=Wn(f,l,y,void 0,e,!0)):delete s[y]);if(o!==l)for(const y in o)(!t||!J(t,y)&&!0)&&(delete o[y],a=!0)}a&&Xe(e,"set","$attrs")}function so(e,t,n,r){const[s,o]=e.propsOptions;let i=!1,l;if(t)for(let f in t){if(en(f))continue;const a=t[f];let g;s&&J(s,g=At(f))?!o||!o.includes(g)?n[g]=a:(l||(l={}))[g]=a:mn(e.emitsOptions,f)||(!(f in r)||a!==r[f])&&(r[f]=a,i=!0)}if(o){const f=G(n),a=l||oe;for(let g=0;g<o.length;g++){const y=o[g];n[y]=Wn(s,f,y,a[y],e,!J(a,y))}}return i}function Wn(e,t,n,r,s,o){const i=e[n];if(i!=null){const l=J(i,"default");if(l&&r===void 0){const f=i.default;if(i.type!==Function&&z(f)){const{propsDefaults:a}=s;n in a?r=a[n]:(It(s),r=a[n]=f.call(null,t),bt())}else r=f}i[0]&&(o&&!l?r=!1:i[1]&&(r===""||r===Ot(n))&&(r=!0))}return r}function oo(e,t,n=!1){const r=t.propsCache,s=r.get(e);if(s)return s;const o=e.props,i={},l=[];let f=!1;if(!z(e)){const g=y=>{f=!0;const[x,v]=oo(y,t,!0);me(i,x),v&&l.push(...v)};!n&&t.mixins.length&&t.mixins.forEach(g),e.extends&&g(e.extends),e.mixins&&e.mixins.forEach(g)}if(!o&&!f)return ce(e)&&r.set(e,Tt),Tt;if(k(o))for(let g=0;g<o.length;g++){const y=At(o[g]);Dr(y)&&(i[y]=oe)}else if(o)for(const g in o){const y=At(g);if(Dr(y)){const x=o[g],v=i[y]=k(x)||z(x)?{type:x}:x;if(v){const j=Kr(Boolean,v.type),K=Kr(String,v.type);v[0]=j>-1,v[1]=K<0||j<K,(j>-1||J(v,"default"))&&l.push(y)}}}const a=[i,l];return ce(e)&&r.set(e,a),a}function Dr(e){return e[0]!=="$"}function Hr(e){const t=e&&e.toString().match(/^\s*function (\w+)/);return t?t[1]:e===null?"null":""}function Ur(e,t){return Hr(e)===Hr(t)}function Kr(e,t){return k(t)?t.findIndex(n=>Ur(n,e)):z(t)&&Ur(t,e)?0:-1}const io=e=>e[0]==="_"||e==="$stable",mr=e=>k(e)?e.map(Ke):[Ke(e)],fl=(e,t,n)=>{if(t._n)return t;const r=$t((...s)=>mr(t(...s)),n);return r._c=!1,r},lo=(e,t,n)=>{const r=e._ctx;for(const s in e){if(io(s))continue;const o=e[s];if(z(o))t[s]=fl(s,o,r);else if(o!=null){const i=mr(o);t[s]=()=>i}}},co=(e,t)=>{const n=mr(t);e.slots.default=()=>n},ul=(e,t)=>{if(e.vnode.shapeFlag&32){const n=t._;n?(e.slots=G(t),rn(t,"_",n)):lo(t,e.slots={})}else e.slots={},t&&co(e,t);rn(e.slots,yn,1)},al=(e,t,n)=>{const{vnode:r,slots:s}=e;let o=!0,i=oe;if(r.shapeFlag&32){const l=t._;l?n&&l===1?o=!1:(me(s,t),!n&&l===1&&delete s._):(o=!t.$stable,lo(t,s)),i=t}else t&&(co(e,t),i={default:1});if(o)for(const l in s)!io(l)&&!(l in i)&&delete s[l]};function fo(){return{app:null,config:{isNativeTag:Ho,performance:!1,globalProperties:{},optionMergeStrategies:{},errorHandler:void 0,warnHandler:void 0,compilerOptions:{}},mixins:[],components:{},directives:{},provides:Object.create(null),optionsCache:new WeakMap,propsCache:new WeakMap,emitsCache:new WeakMap}}let dl=0;function hl(e,t){return function(r,s=null){z(r)||(r=Object.assign({},r)),s!=null&&!ce(s)&&(s=null);const o=fo(),i=new Set;let l=!1;const f=o.app={_uid:dl++,_component:r,_props:s,_container:null,_context:o,_instance:null,version:Pl,get config(){return o.config},set config(a){},use(a,...g){return i.has(a)||(a&&z(a.install)?(i.add(a),a.install(f,...g)):z(a)&&(i.add(a),a(f,...g))),f},mixin(a){return o.mixins.includes(a)||o.mixins.push(a),f},component(a,g){return g?(o.components[a]=g,f):o.components[a]},directive(a,g){return g?(o.directives[a]=g,f):o.directives[a]},mount(a,g,y){if(!l){const x=xe(r,s);return x.appContext=o,g&&t?t(x,a):e(x,a,y),l=!0,f._container=a,a.__vue_app__=f,yr(x.component)||x.component.proxy}},unmount(){l&&(e(null,f._container),delete f._container.__vue_app__)},provide(a,g){return o.provides[a]=g,f}};return f}}function zn(e,t,n,r,s=!1){if(k(e)){e.forEach((x,v)=>zn(x,t&&(k(t)?t[v]:t),n,r,s));return}if(tn(r)&&!s)return;const o=r.shapeFlag&4?yr(r.component)||r.component.proxy:r.el,i=s?null:o,{i:l,r:f}=e,a=t&&t.r,g=l.refs===oe?l.refs={}:l.refs,y=l.setupState;if(a!=null&&a!==f&&(pe(a)?(g[a]=null,J(y,a)&&(y[a]=null)):ye(a)&&(a.value=null)),z(f))ot(f,l,12,[i,g]);else{const x=pe(f),v=ye(f);if(x||v){const j=()=>{if(e.f){const K=x?g[f]:f.value;s?k(K)&&tr(K,o):k(K)?K.includes(o)||K.push(o):x?(g[f]=[o],J(y,f)&&(y[f]=g[f])):(f.value=[o],e.k&&(g[e.k]=f.value))}else x?(g[f]=i,J(y,f)&&(y[f]=i)):v&&(f.value=i,e.k&&(g[e.k]=i))};i?(j.id=-1,we(j,n)):j()}}}const we=Bi;function pl(e){return gl(e)}function gl(e,t){const n=Vo();n.__VUE__=!0;const{insert:r,remove:s,patchProp:o,createElement:i,createText:l,createComment:f,setText:a,setElementText:g,parentNode:y,nextSibling:x,setScopeId:v=$e,cloneNode:j,insertStaticContent:K}=e,S=(c,u,h,b=null,m=null,C=null,E=!1,T=null,w=!!u.dynamicChildren)=>{if(c===u)return;c&&!pt(c,u)&&(b=je(c),he(c,m,C,!0),c=null),u.patchFlag===-2&&(w=!1,u.dynamicChildren=null);const{type:_,ref:I,shapeFlag:M}=u;switch(_){case br:U(c,u,h,b);break;case ke:ue(c,u,h,b);break;case Fn:c==null&&ne(u,h,b,E);break;case Ie:te(c,u,h,b,m,C,E,T,w);break;default:M&1?q(c,u,h,b,m,C,E,T,w):M&6?p(c,u,h,b,m,C,E,T,w):(M&64||M&128)&&_.process(c,u,h,b,m,C,E,T,w,Ae)}I!=null&&m&&zn(I,c&&c.ref,C,u||c,!u)},U=(c,u,h,b)=>{if(c==null)r(u.el=l(u.children),h,b);else{const m=u.el=c.el;u.children!==c.children&&a(m,u.children)}},ue=(c,u,h,b)=>{c==null?r(u.el=f(u.children||""),h,b):u.el=c.el},ne=(c,u,h,b)=>{[c.el,c.anchor]=K(c.children,u,h,b,c.el,c.anchor)},Q=({el:c,anchor:u},h,b)=>{let m;for(;c&&c!==u;)m=x(c),r(c,h,b),c=m;r(u,h,b)},ae=({el:c,anchor:u})=>{let h;for(;c&&c!==u;)h=x(c),s(c),c=h;s(u)},q=(c,u,h,b,m,C,E,T,w)=>{E=E||u.type==="svg",c==null?ee(u,h,b,m,C,E,T,w):B(c,u,m,C,E,T,w)},ee=(c,u,h,b,m,C,E,T)=>{let w,_;const{type:I,props:M,shapeFlag:O,transition:H,patchFlag:Z,dirs:re}=c;if(c.el&&j!==void 0&&Z===-1)w=c.el=j(c.el);else{if(w=c.el=i(c.type,C,M&&M.is,M),O&8?g(w,c.children):O&16&&N(c.children,w,null,b,m,C&&I!=="foreignObject",E,T),re&&ct(c,null,b,"created"),M){for(const ie in M)ie!=="value"&&!en(ie)&&o(w,ie,null,M[ie],C,c.children,b,m,Y);"value"in M&&o(w,"value",null,M.value),(_=M.onVnodeBeforeMount)&&He(_,b,c)}L(w,c,c.scopeId,E,b)}re&&ct(c,null,b,"beforeMount");const se=(!m||m&&!m.pendingBranch)&&H&&!H.persisted;se&&H.beforeEnter(w),r(w,u,h),((_=M&&M.onVnodeMounted)||se||re)&&we(()=>{_&&He(_,b,c),se&&H.enter(w),re&&ct(c,null,b,"mounted")},m)},L=(c,u,h,b,m)=>{if(h&&v(c,h),b)for(let C=0;C<b.length;C++)v(c,b[C]);if(m){let C=m.subTree;if(u===C){const E=m.vnode;L(c,E,E.scopeId,E.slotScopeIds,m.parent)}}},N=(c,u,h,b,m,C,E,T,w=0)=>{for(let _=w;_<c.length;_++){const I=c[_]=T?rt(c[_]):Ke(c[_]);S(null,I,u,h,b,m,C,E,T)}},B=(c,u,h,b,m,C,E)=>{const T=u.el=c.el;let{patchFlag:w,dynamicChildren:_,dirs:I}=u;w|=c.patchFlag&16;const M=c.props||oe,O=u.props||oe;let H;h&&ft(h,!1),(H=O.onVnodeBeforeUpdate)&&He(H,h,u,c),I&&ct(u,c,h,"beforeUpdate"),h&&ft(h,!0);const Z=m&&u.type!=="foreignObject";if(_?V(c.dynamicChildren,_,T,h,b,Z,C):E||W(c,u,T,null,h,b,Z,C,!1),w>0){if(w&16)A(T,u,M,O,h,b,m);else if(w&2&&M.class!==O.class&&o(T,"class",null,O.class,m),w&4&&o(T,"style",M.style,O.style,m),w&8){const re=u.dynamicProps;for(let se=0;se<re.length;se++){const ie=re[se],Re=M[ie],_t=O[ie];(_t!==Re||ie==="value")&&o(T,ie,Re,_t,m,c.children,h,b,Y)}}w&1&&c.children!==u.children&&g(T,u.children)}else!E&&_==null&&A(T,u,M,O,h,b,m);((H=O.onVnodeUpdated)||I)&&we(()=>{H&&He(H,h,u,c),I&&ct(u,c,h,"updated")},b)},V=(c,u,h,b,m,C,E)=>{for(let T=0;T<u.length;T++){const w=c[T],_=u[T],I=w.el&&(w.type===Ie||!pt(w,_)||w.shapeFlag&70)?y(w.el):h;S(w,_,I,null,b,m,C,E,!0)}},A=(c,u,h,b,m,C,E)=>{if(h!==b){for(const T in b){if(en(T))continue;const w=b[T],_=h[T];w!==_&&T!=="value"&&o(c,T,_,w,E,u.children,m,C,Y)}if(h!==oe)for(const T in h)!en(T)&&!(T in b)&&o(c,T,h[T],null,E,u.children,m,C,Y);"value"in b&&o(c,"value",h.value,b.value)}},te=(c,u,h,b,m,C,E,T,w)=>{const _=u.el=c?c.el:l(""),I=u.anchor=c?c.anchor:l("");let{patchFlag:M,dynamicChildren:O,slotScopeIds:H}=u;H&&(T=T?T.concat(H):H),c==null?(r(_,h,b),r(I,h,b),N(u.children,h,I,m,C,E,T,w)):M>0&&M&64&&O&&c.dynamicChildren?(V(c.dynamicChildren,O,h,m,C,E,T),(u.key!=null||m&&u===m.subTree)&&uo(c,u,!0)):W(c,u,h,I,m,C,E,T,w)},p=(c,u,h,b,m,C,E,T,w)=>{u.slotScopeIds=T,c==null?u.shapeFlag&512?m.ctx.activate(u,h,b,E,w):d(u,h,b,m,C,E,w):R(c,u,w)},d=(c,u,h,b,m,C,E)=>{const T=c.component=wl(c,b,m);if(bn(c)&&(T.ctx.renderer=Ae),Al(T),T.asyncDep){if(m&&m.registerDep(T,F),!c.el){const w=T.subTree=xe(ke);ue(null,w,u,h)}return}F(T,c,u,h,m,C,E)},R=(c,u,h)=>{const b=u.component=c.component;if(Li(c,u,h))if(b.asyncDep&&!b.asyncResolved){P(b,u,h);return}else b.next=u,Oi(b.update),b.update();else u.el=c.el,b.vnode=u},F=(c,u,h,b,m,C,E)=>{const T=()=>{if(c.isMounted){let{next:I,bu:M,u:O,parent:H,vnode:Z}=c,re=I,se;ft(c,!1),I?(I.el=Z.el,P(c,I,E)):I=Z,M&&Cn(M),(se=I.props&&I.props.onVnodeBeforeUpdate)&&He(se,H,I,Z),ft(c,!0);const ie=wn(c),Re=c.subTree;c.subTree=ie,S(Re,ie,y(Re.el),je(Re),c,m,C),I.el=ie.el,re===null&&$i(c,ie.el),O&&we(O,m),(se=I.props&&I.props.onVnodeUpdated)&&we(()=>He(se,H,I,Z),m)}else{let I;const{el:M,props:O}=u,{bm:H,m:Z,parent:re}=c,se=tn(u);if(ft(c,!1),H&&Cn(H),!se&&(I=O&&O.onVnodeBeforeMount)&&He(I,re,u),ft(c,!0),M&&Qe){const ie=()=>{c.subTree=wn(c),Qe(M,c.subTree,c,m,null)};se?u.type.__asyncLoader().then(()=>!c.isUnmounted&&ie()):ie()}else{const ie=c.subTree=wn(c);S(null,ie,h,b,c,m,C),u.el=ie.el}if(Z&&we(Z,m),!se&&(I=O&&O.onVnodeMounted)){const ie=u;we(()=>He(I,re,ie),m)}(u.shapeFlag&256||re&&tn(re.vnode)&&re.vnode.shapeFlag&256)&&c.a&&we(c.a,m),c.isMounted=!0,u=h=b=null}},w=c.effect=new or(T,()=>hr(_),c.scope),_=c.update=()=>w.run();_.id=c.uid,ft(c,!0),_()},P=(c,u,h)=>{u.component=c;const b=c.vnode.props;c.vnode=u,c.next=null,cl(c,u.props,b,h),al(c,u.children,h),Nt(),Rr(),Pt()},W=(c,u,h,b,m,C,E,T,w=!1)=>{const _=c&&c.children,I=c?c.shapeFlag:0,M=u.children,{patchFlag:O,shapeFlag:H}=u;if(O>0){if(O&128){D(_,M,h,b,m,C,E,T,w);return}else if(O&256){$(_,M,h,b,m,C,E,T,w);return}}H&8?(I&16&&Y(_,m,C),M!==_&&g(h,M)):I&16?H&16?D(_,M,h,b,m,C,E,T,w):Y(_,m,C,!0):(I&8&&g(h,""),H&16&&N(M,h,b,m,C,E,T,w))},$=(c,u,h,b,m,C,E,T,w)=>{c=c||Tt,u=u||Tt;const _=c.length,I=u.length,M=Math.min(_,I);let O;for(O=0;O<M;O++){const H=u[O]=w?rt(u[O]):Ke(u[O]);S(c[O],H,h,null,m,C,E,T,w)}_>I?Y(c,m,C,!0,!1,M):N(u,h,b,m,C,E,T,w,M)},D=(c,u,h,b,m,C,E,T,w)=>{let _=0;const I=u.length;let M=c.length-1,O=I-1;for(;_<=M&&_<=O;){const H=c[_],Z=u[_]=w?rt(u[_]):Ke(u[_]);if(pt(H,Z))S(H,Z,h,null,m,C,E,T,w);else break;_++}for(;_<=M&&_<=O;){const H=c[M],Z=u[O]=w?rt(u[O]):Ke(u[O]);if(pt(H,Z))S(H,Z,h,null,m,C,E,T,w);else break;M--,O--}if(_>M){if(_<=O){const H=O+1,Z=H<I?u[H].el:b;for(;_<=O;)S(null,u[_]=w?rt(u[_]):Ke(u[_]),h,Z,m,C,E,T,w),_++}}else if(_>O)for(;_<=M;)he(c[_],m,C,!0),_++;else{const H=_,Z=_,re=new Map;for(_=Z;_<=O;_++){const Me=u[_]=w?rt(u[_]):Ke(u[_]);Me.key!=null&&re.set(Me.key,_)}let se,ie=0;const Re=O-Z+1;let _t=!1,Cr=0;const jt=new Array(Re);for(_=0;_<Re;_++)jt[_]=0;for(_=H;_<=M;_++){const Me=c[_];if(ie>=Re){he(Me,m,C,!0);continue}let De;if(Me.key!=null)De=re.get(Me.key);else for(se=Z;se<=O;se++)if(jt[se-Z]===0&&pt(Me,u[se])){De=se;break}De===void 0?he(Me,m,C,!0):(jt[De-Z]=_+1,De>=Cr?Cr=De:_t=!0,S(Me,u[De],h,null,m,C,E,T,w),ie++)}const wr=_t?ml(jt):Tt;for(se=wr.length-1,_=Re-1;_>=0;_--){const Me=Z+_,De=u[Me],Er=Me+1<I?u[Me+1].el:b;jt[_]===0?S(null,De,h,Er,m,C,E,T,w):_t&&(se<0||_!==wr[se]?X(De,h,Er,2):se--)}}},X=(c,u,h,b,m=null)=>{const{el:C,type:E,transition:T,children:w,shapeFlag:_}=c;if(_&6){X(c.component.subTree,u,h,b);return}if(_&128){c.suspense.move(u,h,b);return}if(_&64){E.move(c,u,h,Ae);return}if(E===Ie){r(C,u,h);for(let M=0;M<w.length;M++)X(w[M],u,h,b);r(c.anchor,u,h);return}if(E===Fn){Q(c,u,h);return}if(b!==2&&_&1&&T)if(b===0)T.beforeEnter(C),r(C,u,h),we(()=>T.enter(C),m);else{const{leave:M,delayLeave:O,afterLeave:H}=T,Z=()=>r(C,u,h),re=()=>{M(C,()=>{Z(),H&&H()})};O?O(C,Z,re):re()}else r(C,u,h)},he=(c,u,h,b=!1,m=!1)=>{const{type:C,props:E,ref:T,children:w,dynamicChildren:_,shapeFlag:I,patchFlag:M,dirs:O}=c;if(T!=null&&zn(T,null,h,c,!0),I&256){u.ctx.deactivate(c);return}const H=I&1&&O,Z=!tn(c);let re;if(Z&&(re=E&&E.onVnodeBeforeUnmount)&&He(re,u,c),I&6)Te(c.component,h,b);else{if(I&128){c.suspense.unmount(h,b);return}H&&ct(c,null,u,"beforeUnmount"),I&64?c.type.remove(c,u,h,m,Ae,b):_&&(C!==Ie||M>0&&M&64)?Y(_,u,h,!1,!0):(C===Ie&&M&384||!m&&I&16)&&Y(w,u,h),b&&fe(c)}(Z&&(re=E&&E.onVnodeUnmounted)||H)&&we(()=>{re&&He(re,u,c),H&&ct(c,null,u,"unmounted")},h)},fe=c=>{const{type:u,el:h,anchor:b,transition:m}=c;if(u===Ie){Pe(h,b);return}if(u===Fn){ae(c);return}const C=()=>{s(h),m&&!m.persisted&&m.afterLeave&&m.afterLeave()};if(c.shapeFlag&1&&m&&!m.persisted){const{leave:E,delayLeave:T}=m,w=()=>E(h,C);T?T(c.el,C,w):w()}else C()},Pe=(c,u)=>{let h;for(;c!==u;)h=x(c),s(c),c=h;s(u)},Te=(c,u,h)=>{const{bum:b,scope:m,update:C,subTree:E,um:T}=c;b&&Cn(b),m.stop(),C&&(C.active=!1,he(E,c,u,h)),T&&we(T,u),we(()=>{c.isUnmounted=!0},u),u&&u.pendingBranch&&!u.isUnmounted&&c.asyncDep&&!c.asyncResolved&&c.suspenseId===u.pendingId&&(u.deps--,u.deps===0&&u.resolve())},Y=(c,u,h,b=!1,m=!1,C=0)=>{for(let E=C;E<c.length;E++)he(c[E],u,h,b,m)},je=c=>c.shapeFlag&6?je(c.component.subTree):c.shapeFlag&128?c.suspense.next():x(c.anchor||c.el),Be=(c,u,h)=>{c==null?u._vnode&&he(u._vnode,null,null,!0):S(u._vnode||null,c,u,null,null,null,h),Rr(),Ws(),u._vnode=c},Ae={p:S,um:he,m:X,r:fe,mt:d,mc:N,pc:W,pbc:V,n:je,o:e};let Ze,Qe;return t&&([Ze,Qe]=t(Ae)),{render:Be,hydrate:Ze,createApp:hl(Be,Ze)}}function ft({effect:e,update:t},n){e.allowRecurse=t.allowRecurse=n}function uo(e,t,n=!1){const r=e.children,s=t.children;if(k(r)&&k(s))for(let o=0;o<r.length;o++){const i=r[o];let l=s[o];l.shapeFlag&1&&!l.dynamicChildren&&((l.patchFlag<=0||l.patchFlag===32)&&(l=s[o]=rt(s[o]),l.el=i.el),n||uo(i,l))}}function ml(e){const t=e.slice(),n=[0];let r,s,o,i,l;const f=e.length;for(r=0;r<f;r++){const a=e[r];if(a!==0){if(s=n[n.length-1],e[s]<a){t[r]=s,n.push(r);continue}for(o=0,i=n.length-1;o<i;)l=o+i>>1,e[n[l]]<a?o=l+1:i=l;a<e[n[o]]&&(o>0&&(t[r]=n[o-1]),n[o]=r)}}for(o=n.length,i=n[o-1];o-- >0;)n[o]=i,i=t[i];return n}const bl=e=>e.__isTeleport,Ie=Symbol(void 0),br=Symbol(void 0),ke=Symbol(void 0),Fn=Symbol(void 0),Bt=[];let Le=null;function Ee(e=!1){Bt.push(Le=e?null:[])}function _l(){Bt.pop(),Le=Bt[Bt.length-1]||null}let zt=1;function Wr(e){zt+=e}function ao(e){return e.dynamicChildren=zt>0?Le||Tt:null,_l(),zt>0&&Le&&Le.push(e),e}function nt(e,t,n,r,s,o){return ao(de(e,t,n,r,s,o,!0))}function yt(e,t,n,r,s){return ao(xe(e,t,n,r,s,!0))}function qn(e){return e?e.__v_isVNode===!0:!1}function pt(e,t){return e.type===t.type&&e.key===t.key}const yn="__vInternal",ho=({key:e})=>e!=null?e:null,nn=({ref:e,ref_key:t,ref_for:n})=>e!=null?pe(e)||ye(e)||z(e)?{i:ze,r:e,k:t,f:!!n}:e:null;function de(e,t=null,n=null,r=0,s=null,o=e===Ie?0:1,i=!1,l=!1){const f={__v_isVNode:!0,__v_skip:!0,type:e,props:t,key:t&&ho(t),ref:t&&nn(t),scopeId:Vs,slotScopeIds:null,children:n,component:null,suspense:null,ssContent:null,ssFallback:null,dirs:null,transition:null,el:null,anchor:null,target:null,targetAnchor:null,staticCount:0,shapeFlag:o,patchFlag:r,dynamicProps:s,dynamicChildren:null,appContext:null};return l?(_r(f,n),o&128&&e.normalize(f)):n&&(f.shapeFlag|=pe(n)?8:16),zt>0&&!i&&Le&&(f.patchFlag>0||o&6)&&f.patchFlag!==32&&Le.push(f),f}const xe=yl;function yl(e,t=null,n=null,r=0,s=null,o=!1){if((!e||e===el)&&(e=ke),qn(e)){const l=lt(e,t,!0);return n&&_r(l,n),zt>0&&!o&&Le&&(l.shapeFlag&6?Le[Le.indexOf(e)]=l:Le.push(l)),l.patchFlag|=-2,l}if(Ol(e)&&(e=e.__vccOpts),t){t=vl(t);let{class:l,style:f}=t;l&&!pe(l)&&(t.class=Gn(l)),ce(f)&&(Ls(f)&&!k(f)&&(f=me({},f)),t.style=un(f))}const i=pe(e)?1:ki(e)?128:bl(e)?64:ce(e)?4:z(e)?2:0;return de(e,t,n,r,s,i,o,!0)}function vl(e){return e?Ls(e)||yn in e?me({},e):e:null}function lt(e,t,n=!1){const{props:r,ref:s,patchFlag:o,children:i}=e,l=t?xl(r||{},t):r;return{__v_isVNode:!0,__v_skip:!0,type:e.type,props:l,key:l&&ho(l),ref:t&&t.ref?n&&s?k(s)?s.concat(nn(t)):[s,nn(t)]:nn(t):s,scopeId:e.scopeId,slotScopeIds:e.slotScopeIds,children:i,target:e.target,targetAnchor:e.targetAnchor,staticCount:e.staticCount,shapeFlag:e.shapeFlag,patchFlag:t&&e.type!==Ie?o===-1?16:o|16:o,dynamicProps:e.dynamicProps,dynamicChildren:e.dynamicChildren,appContext:e.appContext,dirs:e.dirs,transition:e.transition,component:e.component,suspense:e.suspense,ssContent:e.ssContent&&lt(e.ssContent),ssFallback:e.ssFallback&&lt(e.ssFallback),el:e.el,anchor:e.anchor}}function Vn(e=" ",t=0){return xe(br,null,e,t)}function kt(e="",t=!1){return t?(Ee(),yt(ke,null,e)):xe(ke,null,e)}function Ke(e){return e==null||typeof e=="boolean"?xe(ke):k(e)?xe(Ie,null,e.slice()):typeof e=="object"?rt(e):xe(br,null,String(e))}function rt(e){return e.el===null||e.memo?e:lt(e)}function _r(e,t){let n=0;const{shapeFlag:r}=e;if(t==null)t=null;else if(k(t))n=16;else if(typeof t=="object")if(r&65){const s=t.default;s&&(s._c&&(s._d=!1),_r(e,s()),s._c&&(s._d=!0));return}else{n=32;const s=t._;!s&&!(yn in t)?t._ctx=ze:s===3&&ze&&(ze.slots._===1?t._=1:(t._=2,e.patchFlag|=1024))}else z(t)?(t={default:t,_ctx:ze},n=32):(t=String(t),r&64?(n=16,t=[Vn(t)]):n=8);e.children=t,e.shapeFlag|=n}function xl(...e){const t={};for(let n=0;n<e.length;n++){const r=e[n];for(const s in r)if(s==="class")t.class!==r.class&&(t.class=Gn([t.class,r.class]));else if(s==="style")t.style=un([t.style,r.style]);else if(an(s)){const o=t[s],i=r[s];i&&o!==i&&!(k(o)&&o.includes(i))&&(t[s]=o?[].concat(o,i):i)}else s!==""&&(t[s]=r[s])}return t}function He(e,t,n,r=null){Ne(e,t,7,[n,r])}const Tl=fo();let Cl=0;function wl(e,t,n){const r=e.type,s=(t?t.appContext:e.appContext)||Tl,o={uid:Cl++,vnode:e,type:r,parent:t,appContext:s,root:null,next:null,subTree:null,effect:null,update:null,scope:new Yo(!0),render:null,proxy:null,exposed:null,exposeProxy:null,withProxy:null,provides:t?t.provides:Object.create(s.provides),accessCache:null,renderCache:[],components:null,directives:null,propsOptions:oo(r,s),emitsOptions:qs(r,s),emit:null,emitted:null,propsDefaults:oe,inheritAttrs:r.inheritAttrs,ctx:oe,data:oe,props:oe,attrs:oe,slots:oe,refs:oe,setupState:oe,setupContext:null,suspense:n,suspenseId:n?n.pendingId:0,asyncDep:null,asyncResolved:!1,isMounted:!1,isUnmounted:!1,isDeactivated:!1,bc:null,c:null,bm:null,m:null,bu:null,u:null,um:null,bum:null,da:null,a:null,rtg:null,rtc:null,ec:null,sp:null};return o.ctx={_:o},o.root=t?t.root:o,o.emit=ji.bind(null,o),e.ce&&e.ce(o),o}let ge=null;const El=()=>ge||ze,It=e=>{ge=e,e.scope.on()},bt=()=>{ge&&ge.scope.off(),ge=null};function po(e){return e.vnode.shapeFlag&4}let qt=!1;function Al(e,t=!1){qt=t;const{props:n,children:r}=e.vnode,s=po(e);ll(e,n,s,t),ul(e,r);const o=s?Ml(e,t):void 0;return qt=!1,o}function Ml(e,t){const n=e.type;e.accessCache=Object.create(null),e.proxy=$s(new Proxy(e.ctx,tl));const{setup:r}=n;if(r){const s=e.setupContext=r.length>1?Fl(e):null;It(e),Nt();const o=ot(r,e,0,[e.props,s]);if(Pt(),bt(),vs(o)){if(o.then(bt,bt),t)return o.then(i=>{zr(e,i,t)}).catch(i=>{gn(i,e,0)});e.asyncDep=o}else zr(e,o,t)}else go(e,t)}function zr(e,t,n){z(t)?e.type.__ssrInlineRender?e.ssrRender=t:e.render=t:ce(t)&&(e.setupState=Ds(t)),go(e,n)}let qr;function go(e,t,n){const r=e.type;if(!e.render){if(!t&&qr&&!r.render){const s=r.template||gr(e).template;if(s){const{isCustomElement:o,compilerOptions:i}=e.appContext.config,{delimiters:l,compilerOptions:f}=r,a=me(me({isCustomElement:o,delimiters:l},i),f);r.render=qr(s,a)}}e.render=r.render||$e}It(e),Nt(),nl(e),Pt(),bt()}function Il(e){return new Proxy(e.attrs,{get(t,n){return Fe(e,"get","$attrs"),t[n]}})}function Fl(e){const t=r=>{e.exposed=r||{}};let n;return{get attrs(){return n||(n=Il(e))},slots:e.slots,emit:e.emit,expose:t}}function yr(e){if(e.exposed)return e.exposeProxy||(e.exposeProxy=new Proxy(Ds($s(e.exposed)),{get(t,n){if(n in t)return t[n];if(n in ln)return ln[n](e)}}))}function Ol(e){return z(e)&&"__vccOpts"in e}const mo=(e,t)=>Ai(e,t,qt);function Nl(e,t,n){const r=arguments.length;return r===2?ce(t)&&!k(t)?qn(t)?xe(e,null,[t]):xe(e,t):xe(e,null,t):(r>3?n=Array.prototype.slice.call(arguments,2):r===3&&qn(n)&&(n=[n]),xe(e,t,n))}const Pl="3.2.39",jl="http://www.w3.org/2000/svg",gt=typeof document<"u"?document:null,Vr=gt&&gt.createElement("template"),Rl={insert:(e,t,n)=>{t.insertBefore(e,n||null)},remove:e=>{const t=e.parentNode;t&&t.removeChild(e)},createElement:(e,t,n,r)=>{const s=t?gt.createElementNS(jl,e):gt.createElement(e,n?{is:n}:void 0);return e==="select"&&r&&r.multiple!=null&&s.setAttribute("multiple",r.multiple),s},createText:e=>gt.createTextNode(e),createComment:e=>gt.createComment(e),setText:(e,t)=>{e.nodeValue=t},setElementText:(e,t)=>{e.textContent=t},parentNode:e=>e.parentNode,nextSibling:e=>e.nextSibling,querySelector:e=>gt.querySelector(e),setScopeId(e,t){e.setAttribute(t,"")},cloneNode(e){const t=e.cloneNode(!0);return"_value"in e&&(t._value=e._value),t},insertStaticContent(e,t,n,r,s,o){const i=n?n.previousSibling:t.lastChild;if(s&&(s===o||s.nextSibling))for(;t.insertBefore(s.cloneNode(!0),n),!(s===o||!(s=s.nextSibling)););else{Vr.innerHTML=r?`<svg>${e}</svg>`:e;const l=Vr.content;if(r){const f=l.firstChild;for(;f.firstChild;)l.appendChild(f.firstChild);l.removeChild(f)}t.insertBefore(l,n)}return[i?i.nextSibling:t.firstChild,n?n.previousSibling:t.lastChild]}};function Sl(e,t,n){const r=e._vtc;r&&(t=(t?[t,...r]:[...r]).join(" ")),t==null?e.removeAttribute("class"):n?e.setAttribute("class",t):e.className=t}function Ll(e,t,n){const r=e.style,s=pe(n);if(n&&!s){for(const o in n)Yn(r,o,n[o]);if(t&&!pe(t))for(const o in t)n[o]==null&&Yn(r,o,"")}else{const o=r.display;s?t!==n&&(r.cssText=n):t&&e.removeAttribute("style"),"_vod"in e&&(r.display=o)}}const Yr=/\s*!important$/;function Yn(e,t,n){if(k(n))n.forEach(r=>Yn(e,t,r));else if(n==null&&(n=""),t.startsWith("--"))e.setProperty(t,n);else{const r=$l(e,t);Yr.test(n)?e.setProperty(Ot(r),n.replace(Yr,""),"important"):e[r]=n}}const Xr=["Webkit","Moz","ms"],On={};function $l(e,t){const n=On[t];if(n)return n;let r=At(t);if(r!=="filter"&&r in e)return On[t]=r;r=Cs(r);for(let s=0;s<Xr.length;s++){const o=Xr[s]+r;if(o in e)return On[t]=o}return t}const Jr="http://www.w3.org/1999/xlink";function kl(e,t,n,r,s){if(r&&t.startsWith("xlink:"))n==null?e.removeAttributeNS(Jr,t.slice(6,t.length)):e.setAttributeNS(Jr,t,n);else{const o=Lo(t);n==null||o&&!bs(n)?e.removeAttribute(t):e.setAttribute(t,o?"":n)}}function Bl(e,t,n,r,s,o,i){if(t==="innerHTML"||t==="textContent"){r&&i(r,s,o),e[t]=n==null?"":n;return}if(t==="value"&&e.tagName!=="PROGRESS"&&!e.tagName.includes("-")){e._value=n;const f=n==null?"":n;(e.value!==f||e.tagName==="OPTION")&&(e.value=f),n==null&&e.removeAttribute(t);return}let l=!1;if(n===""||n==null){const f=typeof e[t];f==="boolean"?n=bs(n):n==null&&f==="string"?(n="",l=!0):f==="number"&&(n=0,l=!0)}try{e[t]=n}catch{}l&&e.removeAttribute(t)}const[bo,Dl]=(()=>{let e=Date.now,t=!1;if(typeof window<"u"){Date.now()>document.createEvent("Event").timeStamp&&(e=performance.now.bind(performance));const n=navigator.userAgent.match(/firefox\/(\d+)/i);t=!!(n&&Number(n[1])<=53)}return[e,t]})();let Xn=0;const Hl=Promise.resolve(),Ul=()=>{Xn=0},Kl=()=>Xn||(Hl.then(Ul),Xn=bo());function Wl(e,t,n,r){e.addEventListener(t,n,r)}function zl(e,t,n,r){e.removeEventListener(t,n,r)}function ql(e,t,n,r,s=null){const o=e._vei||(e._vei={}),i=o[t];if(r&&i)i.value=r;else{const[l,f]=Vl(t);if(r){const a=o[t]=Yl(r,s);Wl(e,l,a,f)}else i&&(zl(e,l,i,f),o[t]=void 0)}}const Zr=/(?:Once|Passive|Capture)$/;function Vl(e){let t;if(Zr.test(e)){t={};let r;for(;r=e.match(Zr);)e=e.slice(0,e.length-r[0].length),t[r[0].toLowerCase()]=!0}return[e[2]===":"?e.slice(3):Ot(e.slice(2)),t]}function Yl(e,t){const n=r=>{const s=r.timeStamp||bo();(Dl||s>=n.attached-1)&&Ne(Xl(r,n.value),t,5,[r])};return n.value=e,n.attached=Kl(),n}function Xl(e,t){if(k(t)){const n=e.stopImmediatePropagation;return e.stopImmediatePropagation=()=>{n.call(e),e._stopped=!0},t.map(r=>s=>!s._stopped&&r&&r(s))}else return t}const Qr=/^on[a-z]/,Jl=(e,t,n,r,s=!1,o,i,l,f)=>{t==="class"?Sl(e,r,s):t==="style"?Ll(e,n,r):an(t)?er(t)||ql(e,t,n,r,i):(t[0]==="."?(t=t.slice(1),!0):t[0]==="^"?(t=t.slice(1),!1):Zl(e,t,r,s))?Bl(e,t,r,o,i,l,f):(t==="true-value"?e._trueValue=r:t==="false-value"&&(e._falseValue=r),kl(e,t,r,s))};function Zl(e,t,n,r){return r?!!(t==="innerHTML"||t==="textContent"||t in e&&Qr.test(t)&&z(n)):t==="spellcheck"||t==="draggable"||t==="translate"||t==="form"||t==="list"&&e.tagName==="INPUT"||t==="type"&&e.tagName==="TEXTAREA"||Qr.test(t)&&pe(n)?!1:t in e}const et="transition",Rt="animation",xt=(e,{slots:t})=>Nl(Js,Ql(e),t);xt.displayName="Transition";const _o={name:String,type:String,css:{type:Boolean,default:!0},duration:[String,Number,Object],enterFromClass:String,enterActiveClass:String,enterToClass:String,appearFromClass:String,appearActiveClass:String,appearToClass:String,leaveFromClass:String,leaveActiveClass:String,leaveToClass:String};xt.props=me({},Js.props,_o);const ut=(e,t=[])=>{k(e)?e.forEach(n=>n(...t)):e&&e(...t)},Gr=e=>e?k(e)?e.some(t=>t.length>1):e.length>1:!1;function Ql(e){const t={};for(const A in e)A in _o||(t[A]=e[A]);if(e.css===!1)return t;const{name:n="v",type:r,duration:s,enterFromClass:o=`${n}-enter-from`,enterActiveClass:i=`${n}-enter-active`,enterToClass:l=`${n}-enter-to`,appearFromClass:f=o,appearActiveClass:a=i,appearToClass:g=l,leaveFromClass:y=`${n}-leave-from`,leaveActiveClass:x=`${n}-leave-active`,leaveToClass:v=`${n}-leave-to`}=e,j=Gl(s),K=j&&j[0],S=j&&j[1],{onBeforeEnter:U,onEnter:ue,onEnterCancelled:ne,onLeave:Q,onLeaveCancelled:ae,onBeforeAppear:q=U,onAppear:ee=ue,onAppearCancelled:L=ne}=t,N=(A,te,p)=>{at(A,te?g:l),at(A,te?a:i),p&&p()},B=(A,te)=>{A._isLeaving=!1,at(A,y),at(A,v),at(A,x),te&&te()},V=A=>(te,p)=>{const d=A?ee:ue,R=()=>N(te,A,p);ut(d,[te,R]),es(()=>{at(te,A?f:o),tt(te,A?g:l),Gr(d)||ts(te,r,K,R)})};return me(t,{onBeforeEnter(A){ut(U,[A]),tt(A,o),tt(A,i)},onBeforeAppear(A){ut(q,[A]),tt(A,f),tt(A,a)},onEnter:V(!1),onAppear:V(!0),onLeave(A,te){A._isLeaving=!0;const p=()=>B(A,te);tt(A,y),nc(),tt(A,x),es(()=>{!A._isLeaving||(at(A,y),tt(A,v),Gr(Q)||ts(A,r,S,p))}),ut(Q,[A,p])},onEnterCancelled(A){N(A,!1),ut(ne,[A])},onAppearCancelled(A){N(A,!0),ut(L,[A])},onLeaveCancelled(A){B(A),ut(ae,[A])}})}function Gl(e){if(e==null)return null;if(ce(e))return[Nn(e.enter),Nn(e.leave)];{const t=Nn(e);return[t,t]}}function Nn(e){return ws(e)}function tt(e,t){t.split(/\s+/).forEach(n=>n&&e.classList.add(n)),(e._vtc||(e._vtc=new Set)).add(t)}function at(e,t){t.split(/\s+/).forEach(r=>r&&e.classList.remove(r));const{_vtc:n}=e;n&&(n.delete(t),n.size||(e._vtc=void 0))}function es(e){requestAnimationFrame(()=>{requestAnimationFrame(e)})}let ec=0;function ts(e,t,n,r){const s=e._endId=++ec,o=()=>{s===e._endId&&r()};if(n)return setTimeout(o,n);const{type:i,timeout:l,propCount:f}=tc(e,t);if(!i)return r();const a=i+"end";let g=0;const y=()=>{e.removeEventListener(a,x),o()},x=v=>{v.target===e&&++g>=f&&y()};setTimeout(()=>{g<f&&y()},l+1),e.addEventListener(a,x)}function tc(e,t){const n=window.getComputedStyle(e),r=j=>(n[j]||"").split(", "),s=r(et+"Delay"),o=r(et+"Duration"),i=ns(s,o),l=r(Rt+"Delay"),f=r(Rt+"Duration"),a=ns(l,f);let g=null,y=0,x=0;t===et?i>0&&(g=et,y=i,x=o.length):t===Rt?a>0&&(g=Rt,y=a,x=f.length):(y=Math.max(i,a),g=y>0?i>a?et:Rt:null,x=g?g===et?o.length:f.length:0);const v=g===et&&/\b(transform|all)(,|$)/.test(n[et+"Property"]);return{type:g,timeout:y,propCount:x,hasTransform:v}}function ns(e,t){for(;e.length<t.length;)e=e.concat(e);return Math.max(...t.map((n,r)=>rs(n)+rs(e[r])))}function rs(e){return Number(e.slice(0,-1).replace(",","."))*1e3}function nc(){return document.body.offsetHeight}const rc=me({patchProp:Jl},Rl);let ss;function sc(){return ss||(ss=pl(rc))}const oc=(...e)=>{const t=sc().createApp(...e),{mount:n}=t;return t.mount=r=>{const s=ic(r);if(!s)return;const o=t._component;!z(o)&&!o.render&&!o.template&&(o.template=s.innerHTML),s.innerHTML="";const i=n(s,!1,s instanceof SVGElement);return s instanceof Element&&(s.removeAttribute("v-cloak"),s.setAttribute("data-v-app","")),i},t};function ic(e){return pe(e)?document.querySelector(e):e}const lc="./assets/1.c2d37b6c.png?v=naiwa12",cc="./assets/10.16f53fe4.png?v=naiwa12",fc="./assets/11.2e4a54bb.png?v=naiwa12",uc="./assets/12.5b74aec2.png?v=naiwa12",ac="./assets/13.b2635009.png?v=naiwa12",dc="./assets/14.26821821.png?v=naiwa12",hc="./assets/15.6d0ea0b4.png?v=naiwa12",pc="./assets/2.03cb3b4c.png?v=naiwa12",gc="./assets/3.aafbb419.png?v=naiwa12",mc="./assets/4.ecb4ccc3.png?v=naiwa12",bc="./assets/5.8815abdb.png?v=naiwa12",_c="./assets/6.78512e60.png?v=naiwa12",yc="./assets/7.cfacdfa6.png?v=naiwa12",vc="./assets/8.58d9ca22.png?v=naiwa12",xc="./assets/9.54ec0e4b.png?v=naiwa12",Tc=["src","alt"],Cc={key:0,class:"mask"},wc=Gs({__name:"card",props:{node:null,isDock:{type:Boolean}},emits:["clickCard"],setup(e,{emit:t}){const n=e,r=Object.assign({"../assets/tutu2/1.png":lc,"../assets/tutu2/10.png":cc,"../assets/tutu2/11.png":fc,"../assets/tutu2/12.png":uc,"../assets/tutu2/13.png":ac,"../assets/tutu2/14.png":dc,"../assets/tutu2/15.png":hc,"../assets/tutu2/2.png":pc,"../assets/tutu2/3.png":gc,"../assets/tutu2/4.png":mc,"../assets/tutu2/5.png":bc,"../assets/tutu2/6.png":_c,"../assets/tutu2/7.png":yc,"../assets/tutu2/8.png":vc,"../assets/tutu2/9.png":xc}),s=Object.keys(r).reduce((l,f)=>{const a=f.replace("../assets/tutu2/","").replace(".png","");return l[a]=r[f],l},{}),o=mo(()=>n.node.parents.length>0?n.node.parents.some(l=>l.state<2):!1);function i(){o.value||t("clickCard",n.node)}return(l,f)=>(Ee(),nt("div",{class:"card",style:un(e.isDock?{}:{position:"absolute",zIndex:e.node.zIndex,top:`${e.node.top}px`,left:`${e.node.left}px`}),onClick:i},[de("img",{src:Ce(s)[e.node.type],width:"40",height:"40",alt:`${e.node.type}`},null,8,Tc),Ce(o)?(Ee(),nt("div",Cc)):kt("",!0)],4))}}),Ec=(e,t)=>{const n=e.__vccOpts||e;for(const[r,s]of t)n[r]=s;return n},Pn=Ec(wc,[["__scopeId","data-v-a0e0f0b7"]]);var Ac=typeof global=="object"&&global&&global.Object===Object&&global;const yo=Ac;var Mc=typeof self=="object"&&self&&self.Object===Object&&self,Ic=yo||Mc||Function("return this")();const vr=Ic;var Fc=vr.Symbol;const Ft=Fc;var vo=Object.prototype,Oc=vo.hasOwnProperty,Nc=vo.toString,St=Ft?Ft.toStringTag:void 0;function Pc(e){var t=Oc.call(e,St),n=e[St];try{e[St]=void 0;var r=!0}catch{}var s=Nc.call(e);return r&&(t?e[St]=n:delete e[St]),s}var jc=Object.prototype,Rc=jc.toString;function Sc(e){return Rc.call(e)}var Lc="[object Null]",$c="[object Undefined]",os=Ft?Ft.toStringTag:void 0;function vn(e){return e==null?e===void 0?$c:Lc:os&&os in Object(e)?Pc(e):Sc(e)}function xn(e){return e!=null&&typeof e=="object"}var kc="[object Symbol]";function xo(e){return typeof e=="symbol"||xn(e)&&vn(e)==kc}function To(e,t){for(var n=-1,r=e==null?0:e.length,s=Array(r);++n<r;)s[n]=t(e[n],n,e);return s}var Bc=Array.isArray;const xr=Bc;var Dc=1/0,is=Ft?Ft.prototype:void 0,ls=is?is.toString:void 0;function Co(e){if(typeof e=="string")return e;if(xr(e))return To(e,Co)+"";if(xo(e))return ls?ls.call(e):"";var t=e+"";return t=="0"&&1/e==-Dc?"-0":t}var Hc=/\s/;function Uc(e){for(var t=e.length;t--&&Hc.test(e.charAt(t)););return t}var Kc=/^\s+/;function Wc(e){return e&&e.slice(0,Uc(e)+1).replace(Kc,"")}function fn(e){var t=typeof e;return e!=null&&(t=="object"||t=="function")}var cs=0/0,zc=/^[-+]0x[0-9a-f]+$/i,qc=/^0b[01]+$/i,Vc=/^0o[0-7]+$/i,Yc=parseInt;function wo(e){if(typeof e=="number")return e;if(xo(e))return cs;if(fn(e)){var t=typeof e.valueOf=="function"?e.valueOf():e;e=fn(t)?t+"":t}if(typeof e!="string")return e===0?e:+e;e=Wc(e);var n=qc.test(e);return n||Vc.test(e)?Yc(e.slice(2),n?2:8):zc.test(e)?cs:+e}var fs=1/0,Xc=17976931348623157e292;function Jn(e){if(!e)return e===0?e:0;if(e=wo(e),e===fs||e===-fs){var t=e<0?-1:1;return t*Xc}return e===e?e:0}function Jc(e){var t=Jn(e),n=t%1;return t===t?n?t-n:t:0}var Zc="[object AsyncFunction]",Qc="[object Function]",Gc="[object GeneratorFunction]",ef="[object Proxy]";function tf(e){if(!fn(e))return!1;var t=vn(e);return t==Qc||t==Gc||t==Zc||t==ef}function nf(e,t){var n=-1,r=e.length;for(t||(t=Array(r));++n<r;)t[n]=e[n];return t}var rf=9007199254740991,sf=/^(?:0|[1-9]\d*)$/;function Eo(e,t){var n=typeof e;return t=t==null?rf:t,!!t&&(n=="number"||n!="symbol"&&sf.test(e))&&e>-1&&e%1==0&&e<t}function of(e,t){return e===t||e!==e&&t!==t}var lf=9007199254740991;function Ao(e){return typeof e=="number"&&e>-1&&e%1==0&&e<=lf}function Mo(e){return e!=null&&Ao(e.length)&&!tf(e)}function cf(e,t,n){if(!fn(n))return!1;var r=typeof t;return(r=="number"?Mo(n)&&Eo(t,n.length):r=="string"&&t in n)?of(n[t],e):!1}var ff=Object.prototype;function uf(e){var t=e&&e.constructor,n=typeof t=="function"&&t.prototype||ff;return e===n}function af(e,t){for(var n=-1,r=Array(e);++n<e;)r[n]=t(n);return r}var df="[object Arguments]";function us(e){return xn(e)&&vn(e)==df}var Io=Object.prototype,hf=Io.hasOwnProperty,pf=Io.propertyIsEnumerable,gf=us(function(){return arguments}())?us:function(e){return xn(e)&&hf.call(e,"callee")&&!pf.call(e,"callee")};const mf=gf;function bf(){return!1}var Fo=typeof Ve=="object"&&Ve&&!Ve.nodeType&&Ve,as=Fo&&typeof Ye=="object"&&Ye&&!Ye.nodeType&&Ye,_f=as&&as.exports===Fo,ds=_f?vr.Buffer:void 0,yf=ds?ds.isBuffer:void 0,vf=yf||bf;const xf=vf;var Tf="[object Arguments]",Cf="[object Array]",wf="[object Boolean]",Ef="[object Date]",Af="[object Error]",Mf="[object Function]",If="[object Map]",Ff="[object Number]",Of="[object Object]",Nf="[object RegExp]",Pf="[object Set]",jf="[object String]",Rf="[object WeakMap]",Sf="[object ArrayBuffer]",Lf="[object DataView]",$f="[object Float32Array]",kf="[object Float64Array]",Bf="[object Int8Array]",Df="[object Int16Array]",Hf="[object Int32Array]",Uf="[object Uint8Array]",Kf="[object Uint8ClampedArray]",Wf="[object Uint16Array]",zf="[object Uint32Array]",le={};le[$f]=le[kf]=le[Bf]=le[Df]=le[Hf]=le[Uf]=le[Kf]=le[Wf]=le[zf]=!0;le[Tf]=le[Cf]=le[Sf]=le[wf]=le[Lf]=le[Ef]=le[Af]=le[Mf]=le[If]=le[Ff]=le[Of]=le[Nf]=le[Pf]=le[jf]=le[Rf]=!1;function qf(e){return xn(e)&&Ao(e.length)&&!!le[vn(e)]}function Vf(e){return function(t){return e(t)}}var Oo=typeof Ve=="object"&&Ve&&!Ve.nodeType&&Ve,Dt=Oo&&typeof Ye=="object"&&Ye&&!Ye.nodeType&&Ye,Yf=Dt&&Dt.exports===Oo,jn=Yf&&yo.process,Xf=function(){try{var e=Dt&&Dt.require&&Dt.require("util").types;return e||jn&&jn.binding&&jn.binding("util")}catch{}}();const hs=Xf;var ps=hs&&hs.isTypedArray,Jf=ps?Vf(ps):qf;const Zf=Jf;var Qf=Object.prototype,Gf=Qf.hasOwnProperty;function eu(e,t){var n=xr(e),r=!n&&mf(e),s=!n&&!r&&xf(e),o=!n&&!r&&!s&&Zf(e),i=n||r||s||o,l=i?af(e.length,String):[],f=l.length;for(var a in e)(t||Gf.call(e,a))&&!(i&&(a=="length"||s&&(a=="offset"||a=="parent")||o&&(a=="buffer"||a=="byteLength"||a=="byteOffset")||Eo(a,f)))&&l.push(a);return l}function tu(e,t){return function(n){return e(t(n))}}var nu=tu(Object.keys,Object);const ru=nu;var su=Object.prototype,ou=su.hasOwnProperty;function iu(e){if(!uf(e))return ru(e);var t=[];for(var n in Object(e))ou.call(e,n)&&n!="constructor"&&t.push(n);return t}function lu(e){return Mo(e)?eu(e):iu(e)}function gs(e){return e==null?"":Co(e)}var cu=vr.isFinite,fu=Math.min;function No(e){var t=Math[e];return function(n,r){if(n=wo(n),r=r==null?0:fu(Jc(r),292),r&&cu(n)){var s=(gs(n)+"e").split("e"),o=t(s[0]+"e"+(+s[1]+r));return s=(gs(o)+"e").split("e"),+(s[0]+"e"+(+s[1]-r))}return t(n)}}var uu=No("ceil");const au=uu;var du=No("floor");const Qt=du;function hu(e,t){return To(t,function(n){return e[n]})}function pu(e){return e==null?[]:hu(e,lu(e))}var gu=Math.floor,mu=Math.random;function Po(e,t){return e+gu(mu()*(t-e+1))}var bu=parseFloat,_u=Math.min,yu=Math.random;function Gt(e,t,n){if(n&&typeof n!="boolean"&&cf(e,t,n)&&(t=n=void 0),n===void 0&&(typeof t=="boolean"?(n=t,t=void 0):typeof e=="boolean"&&(n=e,e=void 0)),e===void 0&&t===void 0?(e=0,t=1):(e=Jn(e),t===void 0?(t=e,e=0):t=Jn(t)),e>t){var r=e;e=t,t=r}if(n||e%1||t%1){var s=yu();return _u(e+s*(t-e+bu("1e-"+((s+"").length-1))),t)}return Po(e,t)}function jo(e,t){var n=-1,r=e.length,s=r-1;for(t=t===void 0?r:t;++n<t;){var o=Po(n,s),i=e[o];e[o]=e[n],e[n]=i}return e.length=t,e}function vu(e){return jo(nf(e))}function xu(e){return jo(pu(e))}function ms(e){var t=xr(e)?vu:xu;return t(e)}const Tu={cardNum:9,layerNum:1,trap:!1,delNode:!1};function Cu(e){const{container:t,delNode:n,events:r={},...s}={...Tu,...e},o=be([]),i=be(!1),l=be(!1),f=be([]),a=be(null),g=be([]),y=new Set;let x=[];const v=be([]),j=40;let K=[];function S(){g.value.forEach(q=>{q.state=q.parents.every(ee=>ee.state>0)?1:0})}function U(q){if(v.value.length>=(window.__NAIWA_CAP__||9))return;q.state=2,o.value.push(q),a.value=q;const ee=g.value.findIndex(N=>N.id===q.id);ee>-1&&n&&g.value.splice(ee,1);const L=v.value.filter(N=>N.type===q.type);if(L.length===2){const N=v.value.findIndex(B=>B.id===L[1].id);v.value.splice(N+1,0,q),setTimeout(()=>{for(let B=0;B<3;B++)v.value.splice(N-1,1);a.value=null,(n?g.value.length===0:g.value.every(B=>B.state>0)&&f.value.length===0&&v.value.length===0)?(l.value=!0,i.value=!0,r.winCallback&&r.winCallback()):r.dropCallback&&r.dropCallback()},100)}else{r.clickCallback&&r.clickCallback();const N=v.value.findIndex(B=>B.type===q.type);N>-1?v.value.splice(N+1,0,q):v.value.push(q),v.value.length>=(window.__NAIWA_CAP__||9)&&(l.value=!0,i.value=!0,r.loseCallback&&r.loseCallback())}}function ue(q){const ee=f.value.findIndex(L=>L.id===q.id);ee>-1&&f.value.splice(ee,1),U(q)}function ne(){const q=a.value;if(!q)return;a.value=null,i.value=!0,q.state=0,n&&g.value.push(q);const ee=v.value.findIndex(L=>L.id===q.id);v.value.splice(ee,1)}function Q(){if(!(v.value.length<3)){l.value=!0,a.value=null;for(let q=0;q<3;q++){const ee=v.value.shift();if(!ee)return;f.value.push(ee)}}}function ae(q){const{cardNum:ee,layerNum:L,trap:N}={...s,...q};o.value=[],i.value=!1,l.value=!1,f.value=[],a.value=null,g.value=[],y.clear(),x=[],v.value=[],K=[];const B=N&&Qt(Gt(0,100))!==50,V=new Array(ee).fill(0).map(($,D)=>D+1);let A=[];for(let $=0;$<3*L;$++)A=[...A,...V];if(B){const $=A.length;A.splice($-ee,$)}A=ms(ms(A));let te=0,p=1;const d=A.length;for(;te<=d;){const $=p*p,D=au(Gt($/2,$));K.push(A.splice(0,D)),te+=D,p++}const R=t.value.clientWidth,F=t.value.clientHeight,P=R/2,W=F/2-60;K.forEach(($,D)=>{y.clear();let X=0;const he=[];$.forEach(fe=>{for(X=Qt(Gt(0,(D+1)**2));y.has(X);)X=Qt(Gt(0,(D+1)**2));const Pe=Qt(X/(D+1)),Te=D?X%D:0,Y={id:`${D}-${X}`,type:fe,zIndex:D,index:X,row:Pe,column:Te,top:W+(j*Pe-j/2*D),left:P+(j*Te-j/2*D),parents:[],state:0},je=[Y.top,Y.left];x.forEach(Be=>{Math.abs(Be.top-je[0])<=j&&Math.abs(Be.left-je[1])<=j&&Be.parents.push(Y)}),he.push(Y),y.add(X)}),g.value=g.value.concat(he),x=he}),S()}return{nodes:g,selectedNodes:v,removeFlag:l,removeList:f,backFlag:i,handleSelect:U,handleBack:ne,handleRemove:Q,handleSelectRemove:ue,initData:ae}}var Tr={};(function e(t,n,r,s){var o=!!(t.Worker&&t.Blob&&t.Promise&&t.OffscreenCanvas&&t.OffscreenCanvasRenderingContext2D&&t.HTMLCanvasElement&&t.HTMLCanvasElement.prototype.transferControlToOffscreen&&t.URL&&t.URL.createObjectURL);function i(){}function l(p){var d=n.exports.Promise,R=d!==void 0?d:t.Promise;return typeof R=="function"?new R(p):(p(i,i),null)}var f=function(){var p=Math.floor(16.666666666666668),d,R,F={},P=0;return typeof requestAnimationFrame=="function"&&typeof cancelAnimationFrame=="function"?(d=function(W){var $=Math.random();return F[$]=requestAnimationFrame(function D(X){P===X||P+p-1<X?(P=X,delete F[$],W()):F[$]=requestAnimationFrame(D)}),$},R=function(W){F[W]&&cancelAnimationFrame(F[W])}):(d=function(W){return setTimeout(W,p)},R=function(W){return clearTimeout(W)}),{frame:d,cancel:R}}(),a=function(){var p,d,R={};function F(P){function W($,D){P.postMessage({options:$||{},callback:D})}P.init=function(D){var X=D.transferControlToOffscreen();P.postMessage({canvas:X},[X])},P.fire=function(D,X,he){if(d)return W(D,null),d;var fe=Math.random().toString(36).slice(2);return d=l(function(Pe){function Te(Y){Y.data.callback===fe&&(delete R[fe],P.removeEventListener("message",Te),d=null,he(),Pe())}P.addEventListener("message",Te),W(D,fe),R[fe]=Te.bind(null,{data:{callback:fe}})}),d},P.reset=function(){P.postMessage({reset:!0});for(var D in R)R[D](),delete R[D]}}return function(){if(p)return p;if(!r&&o){var P=["var CONFETTI, SIZE = {}, module = {};","("+e.toString()+")(this, module, true, SIZE);","onmessage = function(msg) {","  if (msg.data.options) {","    CONFETTI(msg.data.options).then(function () {","      if (msg.data.callback) {","        postMessage({ callback: msg.data.callback });","      }","    });","  } else if (msg.data.reset) {","    CONFETTI.reset();","  } else if (msg.data.resize) {","    SIZE.width = msg.data.resize.width;","    SIZE.height = msg.data.resize.height;","  } else if (msg.data.canvas) {","    SIZE.width = msg.data.canvas.width;","    SIZE.height = msg.data.canvas.height;","    CONFETTI = module.exports.create(msg.data.canvas);","  }","}"].join(`
+`);try{p=new Worker(URL.createObjectURL(new Blob([P])))}catch(W){return typeof console!==void 0&&typeof console.warn=="function"&&console.warn("\u{1F38A} Could not load worker",W),null}F(p)}return p}}(),g={particleCount:50,angle:90,spread:45,startVelocity:45,decay:.9,gravity:1,drift:0,ticks:200,x:.5,y:.5,shapes:["square","circle"],zIndex:100,colors:["#26ccff","#a25afd","#ff5e7e","#88ff5a","#fcff42","#ffa62d","#ff36ff"],disableForReducedMotion:!1,scalar:1};function y(p,d){return d?d(p):p}function x(p){return p!=null}function v(p,d,R){return y(p&&x(p[d])?p[d]:g[d],R)}function j(p){return p<0?0:Math.floor(p)}function K(p,d){return Math.floor(Math.random()*(d-p))+p}function S(p){return parseInt(p,16)}function U(p){return p.map(ue)}function ue(p){var d=String(p).replace(/[^0-9a-f]/gi,"");return d.length<6&&(d=d[0]+d[0]+d[1]+d[1]+d[2]+d[2]),{r:S(d.substring(0,2)),g:S(d.substring(2,4)),b:S(d.substring(4,6))}}function ne(p){var d=v(p,"origin",Object);return d.x=v(d,"x",Number),d.y=v(d,"y",Number),d}function Q(p){p.width=document.documentElement.clientWidth,p.height=document.documentElement.clientHeight}function ae(p){var d=p.getBoundingClientRect();p.width=d.width,p.height=d.height}function q(p){var d=document.createElement("canvas");return d.style.position="fixed",d.style.top="0px",d.style.left="0px",d.style.pointerEvents="none",d.style.zIndex=p,d}function ee(p,d,R,F,P,W,$,D,X){p.save(),p.translate(d,R),p.rotate(W),p.scale(F,P),p.arc(0,0,1,$,D,X),p.restore()}function L(p){var d=p.angle*(Math.PI/180),R=p.spread*(Math.PI/180);return{x:p.x,y:p.y,wobble:Math.random()*10,wobbleSpeed:Math.min(.11,Math.random()*.1+.05),velocity:p.startVelocity*.5+Math.random()*p.startVelocity,angle2D:-d+(.5*R-Math.random()*R),tiltAngle:(Math.random()*(.75-.25)+.25)*Math.PI,color:p.color,shape:p.shape,tick:0,totalTicks:p.ticks,decay:p.decay,drift:p.drift,random:Math.random()+2,tiltSin:0,tiltCos:0,wobbleX:0,wobbleY:0,gravity:p.gravity*3,ovalScalar:.6,scalar:p.scalar}}function N(p,d){d.x+=Math.cos(d.angle2D)*d.velocity+d.drift,d.y+=Math.sin(d.angle2D)*d.velocity+d.gravity,d.wobble+=d.wobbleSpeed,d.velocity*=d.decay,d.tiltAngle+=.1,d.tiltSin=Math.sin(d.tiltAngle),d.tiltCos=Math.cos(d.tiltAngle),d.random=Math.random()+2,d.wobbleX=d.x+10*d.scalar*Math.cos(d.wobble),d.wobbleY=d.y+10*d.scalar*Math.sin(d.wobble);var R=d.tick++/d.totalTicks,F=d.x+d.random*d.tiltCos,P=d.y+d.random*d.tiltSin,W=d.wobbleX+d.random*d.tiltCos,$=d.wobbleY+d.random*d.tiltSin;return p.fillStyle="rgba("+d.color.r+", "+d.color.g+", "+d.color.b+", "+(1-R)+")",p.beginPath(),d.shape==="circle"?p.ellipse?p.ellipse(d.x,d.y,Math.abs(W-F)*d.ovalScalar,Math.abs($-P)*d.ovalScalar,Math.PI/10*d.wobble,0,2*Math.PI):ee(p,d.x,d.y,Math.abs(W-F)*d.ovalScalar,Math.abs($-P)*d.ovalScalar,Math.PI/10*d.wobble,0,2*Math.PI):(p.moveTo(Math.floor(d.x),Math.floor(d.y)),p.lineTo(Math.floor(d.wobbleX),Math.floor(P)),p.lineTo(Math.floor(W),Math.floor($)),p.lineTo(Math.floor(F),Math.floor(d.wobbleY))),p.closePath(),p.fill(),d.tick<d.totalTicks}function B(p,d,R,F,P){var W=d.slice(),$=p.getContext("2d"),D,X,he=l(function(fe){function Pe(){D=X=null,$.clearRect(0,0,F.width,F.height),P(),fe()}function Te(){r&&!(F.width===s.width&&F.height===s.height)&&(F.width=p.width=s.width,F.height=p.height=s.height),!F.width&&!F.height&&(R(p),F.width=p.width,F.height=p.height),$.clearRect(0,0,F.width,F.height),W=W.filter(function(Y){return N($,Y)}),W.length?D=f.frame(Te):Pe()}D=f.frame(Te),X=Pe});return{addFettis:function(fe){return W=W.concat(fe),he},canvas:p,promise:he,reset:function(){D&&f.cancel(D),X&&X()}}}function V(p,d){var R=!p,F=!!v(d||{},"resize"),P=v(d,"disableForReducedMotion",Boolean),W=o&&!!v(d||{},"useWorker"),$=W?a():null,D=R?Q:ae,X=p&&$?!!p.__confetti_initialized:!1,he=typeof matchMedia=="function"&&matchMedia("(prefers-reduced-motion)").matches,fe;function Pe(Y,je,Be){for(var Ae=v(Y,"particleCount",j),Ze=v(Y,"angle",Number),Qe=v(Y,"spread",Number),c=v(Y,"startVelocity",Number),u=v(Y,"decay",Number),h=v(Y,"gravity",Number),b=v(Y,"drift",Number),m=v(Y,"colors",U),C=v(Y,"ticks",Number),E=v(Y,"shapes"),T=v(Y,"scalar"),w=ne(Y),_=Ae,I=[],M=p.width*w.x,O=p.height*w.y;_--;)I.push(L({x:M,y:O,angle:Ze,spread:Qe,startVelocity:c,color:m[_%m.length],shape:E[K(0,E.length)],ticks:C,decay:u,gravity:h,drift:b,scalar:T}));return fe?fe.addFettis(I):(fe=B(p,I,D,je,Be),fe.promise)}function Te(Y){var je=P||v(Y,"disableForReducedMotion",Boolean),Be=v(Y,"zIndex",Number);if(je&&he)return l(function(c){c()});R&&fe?p=fe.canvas:R&&!p&&(p=q(Be),document.body.appendChild(p)),F&&!X&&D(p);var Ae={width:p.width,height:p.height};$&&!X&&$.init(p),X=!0,$&&(p.__confetti_initialized=!0);function Ze(){if($){var c={getBoundingClientRect:function(){if(!R)return p.getBoundingClientRect()}};D(c),$.postMessage({resize:{width:c.width,height:c.height}});return}Ae.width=Ae.height=null}function Qe(){fe=null,F&&t.removeEventListener("resize",Ze),R&&p&&(document.body.removeChild(p),p=null,X=!1)}return F&&t.addEventListener("resize",Ze,!1),$?$.fire(Y,Ae,Qe):Pe(Y,Ae,Qe)}return Te.reset=function(){$&&$.reset(),fe&&fe.reset()},Te}var A;function te(){return A||(A=V(null,{useWorker:!0,resize:!0})),A}n.exports=function(){return te().apply(this,arguments)},n.exports.reset=function(){te().reset()},n.exports.create=V})(function(){return typeof window<"u"?window:typeof self<"u"?self:this||{}}(),Tr,!1);const Zn=Tr.exports;Tr.exports.create;function wu(){const e=Date.now()+15e3,t=["#ffa62d","#ff5e7e","#26ccff","#a25afd","#88ff5a","#fcff42","#ff36ff"];(function n(){Zn({particleCount:2,angle:60,spread:55,origin:{x:0},colors:t}),Zn({particleCount:2,angle:120,spread:55,origin:{x:1},colors:t}),Date.now()<e&&requestAnimationFrame(n)})()}function Eu(){Zn({particleCount:100,spread:100,origin:{y:.6}})}const Au={flex:"","flex-col":"","w-full":"","h-full":""},Mu=de("div",{"text-44px":"","text-center":"","w-full":"",color:"#000","fw-600":"","h-60px":"",flex:"","items-center":"","justify-center":"","mt-10px":""}," \u6293\u5976\u86D9 ",-1),Iu={"w-full":"",relative:"","flex-1":""},Fu={key:0,color:"#000",flex:"","items-center":"","justify-center":"","w-full":"","text-28px":"","fw-bold":""},Ou={key:0,color:"#000",flex:"","items-center":"","justify-center":"","w-full":"","text-28px":"","fw-bold":""},Nu={"text-center":"","h-50px":"",flex:"","items-center":"","justify-center":""},Pu={"w-full":"",flex:"","items-center":"","justify-center":""},ju={border:"~ 4px dashed #000","w-295px":"","h-44px":"",flex:""},Ru={"h-50px":"",flex:"","items-center":"","w-full":"","justify-center":""},Su=["disabled"],Lu=["disabled"],$u=de("div",{"w-full":"",color:"#000","fw-600":"","text-center":"","pb-10px":""},[de("span",{"mr-20px":""},"designer: Teacher Face"),Vn(" by: Xc "),de("a",{class:"icon-btn",color:"#000","i-carbon-logo-github":"",rel:"noreferrer",href:"https://github.com/chenxch",target:"_blank",title:"GitHub"}),de("span",{"text-12px":"",color:"#00000018"},[de("span",{class:"icon-btn","text-2":"","i-carbon:arrow-up-left":""}),Vn(" star buff")])],-1),ku=Gs({__name:"App",setup(e){const t=be(),n=be(),r=be(),s=be(),o=be(),i=be(),l=be(1),f=be(!1),a=[{cardNum:3,layerNum:1,trap:!1},{cardNum:4,layerNum:2,trap:!1},{cardNum:6,layerNum:2,trap:!1},{cardNum:9,layerNum:2,trap:!1}],g=be(!1),{nodes:y,selectedNodes:x,handleSelect:v,handleBack:j,backFlag:K,handleRemove:S,removeFlag:U,removeList:ue,handleSelectRemove:ne,initData:Q}=Cu({container:t,cardNum:3,layerNum:1,trap:!1,events:{clickCallback:ae,dropCallback:q,winCallback:ee,loseCallback:L}});window.__NAIWA__={levelCount:a.length,current:()=>l.value,start:function(n){var i=Math.max(1,Math.min(a.length,n));l.value=i;if(i===1){Q()}else{Q(a[i-1])}},startEndless:function(c,ly){l.value=5;Q({cardNum:c,layerNum:ly,trap:!1})}};function ae(){var N;(N=n.value)!=null&&N.paused?n.value.play():n.value&&(n.value.load(),n.value.play())}function q(){var N;(N=r.value)==null||N.play()}function ee(){var N;(N=s.value)==null||N.play(),l.value<a.length?(Eu(),f.value=!0,setTimeout(()=>{f.value=!1},1500),window.__NAIWA_ADV__=setTimeout(()=>{if(!window.__NAIWA_HOLD__){Q(a[l.value]),l.value++}},2e3)):(g.value=!0,wu())}function L(){var N;(N=o.value)==null||N.play(),setTimeout(()=>{var B;alert("\u69FD\u4F4D\u5DF2\u6EE1\uFF0C\u518D\u63A5\u518D\u5389~"),y.value=[],ue.value=[],x.value=[],(B=i.value)==null||B.play(),l.value=0,f.value=!0,setTimeout(()=>{f.value=!1},1500),window.__NAIWA_ADV__=setTimeout(()=>{if(!window.__NAIWA_HOLD__){Q(a[l.value]),l.value++}},2e3)},500)}return pr(()=>{Q()}),(N,B)=>(Ee(),nt("div",Au,[Mu,de("div",{ref_key:"containerRef",ref:t,"flex-1":"",flex:""},[de("div",Iu,[(Ee(!0),nt(Ie,null,In(Ce(y),V=>(Ee(),yt(xt,{key:V.id,name:"slide-fade"},{default:$t(()=>[[0,1].includes(V.state)?(Ee(),yt(Pn,{key:0,node:V,onClickCard:Ce(v)},null,8,["node","onClickCard"])):kt("",!0)]),_:2},1024))),128))]),xe(xt,{name:"bounce"},{default:$t(()=>[g.value?(Ee(),nt("div",Fu," \u6210\u529F\u52A0\u5165\u86D9\u5708~ ")):kt("",!0)]),_:1}),xe(xt,{name:"bounce"},{default:$t(()=>[f.value?(Ee(),nt("div",Ou," \u7B2C"+Do(l.value+1)+"\u5173 ",1)):kt("",!0)]),_:1})],512),de("div",Nu,[(Ee(!0),nt(Ie,null,In(Ce(ue),V=>(Ee(),yt(Pn,{key:V.id,node:V,"is-dock":"",onClickCard:Ce(ne)},null,8,["node","onClickCard"]))),128))]),de("div",Pu,[de("div",ju,[(Ee(!0),nt(Ie,null,In(Ce(x),V=>(Ee(),yt(xt,{key:V.id,name:"bounce"},{default:$t(()=>[V.state===2?(Ee(),yt(Pn,{key:0,node:V,"is-dock":""},null,8,["node"])):kt("",!0)]),_:2},1024))),128))])]),de("div",Ru,[de("button",{disabled:Ce(U),"mr-10px":"",onClick:B[0]||(B[0]=(...V)=>Ce(S)&&Ce(S)(...V))}," \u79FB\u51FA\u524D\u4E09\u4E2A ",8,Su),de("button",{disabled:Ce(K),onClick:B[1]||(B[1]=(...V)=>Ce(j)&&Ce(j)(...V))}," \u56DE\u9000 ",8,Lu)]),$u,de("audio",{ref_key:"clickAudioRef",ref:n,style:{display:"none"},controls:"",src:"./audio/click.wav"},null,512),de("audio",{ref_key:"dropAudioRef",ref:r,style:{display:"none"},controls:"",src:"./audio/drop.wav"},null,512),de("audio",{ref_key:"winAudioRef",ref:s,style:{display:"none"},controls:"",src:"./audio/win.wav"},null,512),de("audio",{ref_key:"loseAudioRef",ref:o,style:{display:"none"},controls:"",src:"./audio/lose.wav"},null,512),de("audio",{ref_key:"welAudioRef",ref:i,style:{display:"none"},controls:"",src:"./audio/welcome.wav"},null,512)]))}});oc(ku).mount("#app")});export default Bu();
+
+</script>
+<!-- 动效层 -->
+<script type="module">
+/* ==========================================================================
+   奶蛙 · 动效层（theme-cute.js）
+   纯外挂脚本，不改动 xlegex 构建产物，靠 DOM 事件 + MutationObserver + WAAPI 生效：
+
+     1. 抓牌：在牌堆里点一张 → 新落进托盘的牌从「被点那张牌的位置」飞进槽位（不是瞬移）
+     2. 回退/移出：牌从托盘飞回牌堆原位
+     3. 消除：托盘闪光 + 飘出「+3 消除」
+     4. 开局：整副牌按层错峰"落桌"入场
+     5. 一切动画都遵守 prefers-reduced-motion
+
+   实现要点：
+     · 牌堆容器有 CSS transform: scale(1.18/1.24)，而 WAAPI 的 translate 作用在元素局部坐标系，
+       所以屏幕位移要除以祖先缩放比（否则飞行距离会放大 1.2 倍）
+     · 托盘牌自带 transform: scale(.94)，动画首帧用 scale(1) 才能和牌堆里的 40px 视觉尺寸对齐，
+       末帧回到 scale(.94) 与 CSS 无缝衔接
+     · Vue 复用/移动节点时 MutationObserver 也会报 add/remove，用 WeakSet 区分"真新增"与"被搬动"
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var FLY_MS = 260;          // 飞入时长
+  var PENDING_TTL = 700;     // 点击到落牌的匹配窗口(ms)
+  var BRIDGE_MS = 200;       // 轻点兜底等待 click 的时间
+  var TRAY_SEL = 'div[w-295px]';
+  var SLOT_N = 9;            // 托盘槽位数（DOM 里画满 9 个）
+  var DANGER_GAP = 2;        // 还剩几格时开始预警
+
+  /** 当前容量：构建产物读 window.__NAIWA_CAP__（无尽模式会调小），这里保持一致 */
+  function capNow() {
+    var c = Number(window.__NAIWA_CAP__);
+    return c >= 3 && c <= SLOT_N ? c : SLOT_N;
+  }
+
+  var seen = new WeakSet();      // 已登记过的牌元素
+  var pending = null;            // { rect, alt, t } 最近一次点击的牌位
+  var trayRemoved = [];          // 最近从托盘被移走的牌位（用于飞回）
+
+  function q(sel, root) { return (root || document).querySelector(sel); }
+  function rectOf(el) { try { return el.getBoundingClientRect(); } catch (e) { return null; } }
+
+  /** 祖先缩放比（牌堆容器被整体 scale 过） */
+  function ancestorScale(el) {
+    try {
+      var host = q('#app div[relative][flex-1]');
+      if (!host) return 1;
+      var t = getComputedStyle(host).transform;
+      if (!t || t === 'none') return 1;
+      var m = new DOMMatrixReadOnly(t);
+      return m.a || 1;
+    } catch (e) { return 1; }
+  }
+
+  /** 记录被点击的牌位（capture 阶段，先于 Vue 的 @click） */
+  function record(ev) {
+    try {
+      var el = ev.target && ev.target.closest ? ev.target.closest('.card') : null;
+      if (!el) return;
+      var trayEl = q(TRAY_SEL);
+      if (trayEl && trayEl.contains(el)) return;         // 托盘里的牌不算
+      var r = rectOf(el);
+      if (!r) return;
+      pending = { rect: r, alt: (el.querySelector('img') || {}).alt || null, t: Date.now() };
+      buzz(9);                                            // 抓牌轻震一下
+    } catch (e) { /* 忽略 */ }
+  }
+  document.addEventListener('pointerdown', record, true);
+  document.addEventListener('click', record, true);
+
+  /** 从某处飞进最终位置 */
+  function flyIn(el, srcRect) {
+    if (REDUCED || !el.animate || !srcRect) return popIn(el);
+    var dst = rectOf(el);
+    if (!dst) return;
+    var s = ancestorScale(el);
+    var dx = (srcRect.left - dst.left) / s;
+    var dy = (srcRect.top - dst.top) / s;
+    el.animate([
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(1) rotate(-7deg)' },
+      { transform: 'translate(' + dx * 0.45 + 'px,' + (dy * 0.45 - 20) + 'px) scale(1.04) rotate(3deg)', offset: 0.6 },
+      { transform: 'translate(0,0) scale(.90) rotate(0deg)', offset: 0.86 },
+      { transform: 'translate(0,0) scale(.94) rotate(0deg)' },
+    ], { duration: FLY_MS, easing: 'cubic-bezier(.22,.68,.3,1)' });
+    return true;
+  }
+
+  /** 兜底：原地弹出（新关卡发牌、脚本点击等） */
+  function popIn(el, delay) {
+    if (REDUCED || !el.animate) return;
+    el.animate([
+      { transform: 'translate(0,-14px) scale(.86)', opacity: 0.2 },
+      { transform: 'translate(0,0) scale(.94)', opacity: 1 },
+    ], { duration: 220, delay: delay || 0, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+  }
+
+  /** 回退：从托盘飞回牌堆 */
+  function flyBack(el, srcRect) {
+    if (REDUCED || !el.animate || !srcRect) return;
+    var dst = rectOf(el);
+    if (!dst) return;
+    var s = ancestorScale(el);
+    var dx = (srcRect.left - dst.left) / s;
+    var dy = (srcRect.top - dst.top) / s;
+    el.animate([
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.94) rotate(6deg)' },
+      { transform: 'translate(0,0) scale(1) rotate(0deg)' },
+    ], { duration: 240, easing: 'cubic-bezier(.3,.9,.3,1)' });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 托盘槽位可视化：在木槽里画 9 个凹槽，占用越多越亮，≥7 格开始告警
+   * 槽位盒是绝对定位的底板（z-index 低于牌），牌自己 z-index:1 盖在上面
+   * ------------------------------------------------------------------ */
+  function ensureSlots(trayEl) {
+    var box = trayEl.querySelector(':scope > .nw-slots');
+    if (box) return box;
+    box = document.createElement('div');
+    box.className = 'nw-slots';
+    for (var i = 0; i < SLOT_N; i++) box.appendChild(document.createElement('i'));
+    trayEl.insertBefore(box, trayEl.firstChild);
+    return box;
+  }
+
+  function syncSlots(trayEl) {
+    var box = ensureSlots(trayEl);
+    var n = trayEl.querySelectorAll('.card').length;
+    var cap = capNow();
+    var pips = box.children;
+    for (var i = 0; i < pips.length; i++) {
+      pips[i].classList.toggle('is-full', i < n);
+      pips[i].classList.toggle('is-blocked', i >= cap);      // 本局用不到的槽位（无尽模式会收窄）
+    }
+    var danger = n >= Math.max(1, cap - DANGER_GAP);
+    trayEl.classList.toggle('is-danger', danger);
+    trayEl.classList.toggle('is-critical', n >= cap - 1);
+    trayEl.setAttribute('data-fill', String(n));
+    trayEl.setAttribute('data-cap', String(cap));
+    // 明确的文字告警：光靠颜色在高亮牌面上不够醒目
+    var tag = trayEl.querySelector(':scope > .nw-slotwarn');
+    if (danger) {
+      if (!tag) {
+        tag = document.createElement('div');
+        tag.className = 'nw-slotwarn';
+        tag.setAttribute('role', 'status');
+        trayEl.appendChild(tag);
+      }
+      var left = cap - n;
+      tag.textContent = left > 1 ? '只剩 ' + left + ' 格！' : left === 1 ? '最后一格！' : '没格子了！';
+    } else if (tag) {
+      tag.remove();
+    }
+    return n;
+  }
+
+  /** 触感反馈：手机上轻震，桌面端 navigator.vibrate 不存在会自动跳过 */
+  function buzz(pattern) {
+    try {
+      if (localStorage.getItem('naiwa.haptics') === '0') return;
+      if (navigator.vibrate) navigator.vibrate(pattern);
+    } catch (e) { /* 忽略 */ }
+  }
+  window.__NAIWA_BUZZ__ = buzz;
+
+  /** 槽位告警：当占用跨过阈值时震一下（同一个状态只震一次） */
+  function watchDanger(trayEl) {
+    var last = 0;
+    return function (n) {
+      var cap = capNow();
+      if (n >= Math.max(1, cap - DANGER_GAP) && last < Math.max(1, cap - DANGER_GAP)) buzz([14, 60, 14]);
+      if (n >= cap - 1 && last < cap - 1) buzz([22, 50, 22]);
+      last = n;
+    };
+  }
+
+  /** 消除反馈：托盘闪一下 + 飘字 + 粒子 + 触感 */
+  function matchFlash() {
+    var trayEl = q(TRAY_SEL);
+    if (!trayEl) return;
+    trayEl.classList.remove('is-match');
+    void trayEl.offsetWidth;                 // 强制重排以重放动画
+    trayEl.classList.add('is-match');
+    setTimeout(function () { trayEl.classList.remove('is-match'); }, 600);
+    buzz([16, 40, 16]);
+    if (REDUCED) return;
+    var tag = document.createElement('div');
+    tag.className = 'zw-float';
+    tag.textContent = '+3 消除';
+    trayEl.appendChild(tag);
+    setTimeout(function () { tag.remove(); }, 950);
+    burst(trayEl);
+  }
+
+  /** 星星粒子：从槽位中心往四周炸开（纯 DOM + WAAPI，无外部资源） */
+  function burst(trayEl) {
+    if (!trayEl.animate) return;
+    var r = rectOf(trayEl);
+    if (!r) return;
+    var cx = r.width / 2, cy = r.height / 2;
+    for (var i = 0; i < 10; i++) {
+      var p = document.createElement('span');
+      p.className = 'zw-spark';
+      var ang = (Math.PI * 2 * i) / 10 + (i % 2 ? 0.3 : 0);
+      var dist = 42 + (i % 3) * 22;
+      p.style.left = cx + 'px';
+      p.style.top = cy + 'px';
+      trayEl.appendChild(p);
+      p.animate([
+        { transform: 'translate(-50%,-50%) scale(.4)', opacity: 1 },
+        { transform: 'translate(calc(-50% + ' + Math.cos(ang) * dist + 'px), calc(-50% + ' + Math.sin(ang) * dist + 'px)) scale(1.15)', opacity: 0 },
+      ], { duration: 620 + (i % 4) * 60, easing: 'cubic-bezier(.2,.7,.3,1)' }).onfinish = function () { this.effect.target.remove(); };
+    }
+  }
+
+  function watchTray() {
+    var trayEl = q(TRAY_SEL);
+    if (!trayEl) return requestAnimationFrame(watchTray);
+    var checkDanger = watchDanger(trayEl);
+    syncSlots(trayEl);
+    new MutationObserver(function (muts) {
+      var added = [], removed = 0;
+      muts.forEach(function (m) {
+        Array.prototype.forEach.call(m.addedNodes, function (n) {
+          if (n.nodeType === 1 && n.classList && n.classList.contains('card')) added.push(n);
+        });
+        Array.prototype.forEach.call(m.removedNodes, function (n) {
+          if (n.nodeType === 1 && n.classList && n.classList.contains('card')) {
+            removed++;
+            var r = rectOf(n);
+            if (r) trayRemoved.push({ rect: r, t: Date.now() });
+          }
+        });
+      });
+      trayRemoved = trayRemoved.filter(function (it) { return Date.now() - it.t < 500; });
+
+      added.forEach(function (el, i) {
+        var isNew = !seen.has(el);
+        seen.add(el);
+        if (!isNew) return;                                    // 被 Vue 搬动的老牌，跳过
+        var fresh = pending && Date.now() - pending.t < PENDING_TTL;
+        var sameAlt = fresh && (!pending.alt || (el.querySelector('img') || {}).alt === pending.alt);
+        if (sameAlt) {
+          flyIn(el, pending.rect);
+          pending = null;
+        } else {
+          popIn(el, i * 40);
+        }
+      });
+
+      if (removed >= 3) matchFlash();
+      checkDanger(syncSlots(trayEl));
+    }).observe(trayEl, { childList: true });
+  }
+
+  function watchBoard() {
+    var host = q('#app div[relative][flex-1]');
+    if (!host) return requestAnimationFrame(watchBoard);
+    new MutationObserver(function (muts) {
+      var added = [];
+      muts.forEach(function (m) {
+        Array.prototype.forEach.call(m.addedNodes, function (n) {
+          if (n.nodeType === 1 && n.classList && n.classList.contains('card')) added.push(n);
+        });
+      });
+      var fresh = trayRemoved.filter(function (it) { return Date.now() - it.t < 500; });
+      var bulk = added.filter(function (el) { return !seen.has(el); }).length + added.length >= 4;
+      added.forEach(function (el, i) {
+        var isNew = !seen.has(el);
+        seen.add(el);
+        if (!isNew) return;
+        if (i < fresh.length) flyBack(el, fresh[i].rect);       // 从托盘飞回
+        else if (bulk) popIn(el, Math.min(i, 24) * 14);         // 开局发牌：错峰落下
+        else popIn(el, i * 40);
+      });
+      if (fresh.length) trayRemoved = [];
+    }).observe(host, { childList: true });
+  }
+
+  function start() {
+    window.__NAIWA_FX__ = 'on';               // 启动自检标记
+    installTapBridge();
+    watchTray();
+    watchBoard();
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 手机端"轻点 → click"兜底桥接
+   *
+   * 背景：游戏只监听 click。某些移动浏览器会把轻点吞掉——
+   *   · iOS Safari：元素带 :hover 样式时，第一次轻点只触发 hover，要点第二次才 click
+   *     （已在 CSS 里用 @media (hover:hover) and (pointer:fine) 规避）
+   *   · 部分安卓 WebView / 小程序容器：touchend 后不补 click
+   *   · 图片长按弹系统菜单，反而"长按能选中"
+   * 所以这里再兜一层：触摸抬起后若 200ms 内没等到 click，就自己补发一个，
+   * 并给补发过的元素打时间戳；真 click 若姗姗来迟则丢弃，保证一次轻点只抓一张牌。
+   * ------------------------------------------------------------------ */
+  function installTapBridge() {
+    if (!window.PointerEvent) return;
+    window.__NAIWA_TAPBRIDGE__ = 'on';        // 启动自检标记
+    var pending = null;
+
+    function tapTarget(node) {
+      if (!node || !node.closest) return null;
+      return node.closest('.card, button, [data-act], [data-lv], [data-run], a, .icon-btn');
+    }
+
+    function tapLog(msg) { if (window.__NAIWA_TAPLOG__) window.__NAIWA_TAPLOG__.push(msg); }
+
+    document.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse') return;                 // 鼠标不需要兜底
+      clearPending();
+      pending = { x: e.clientX, y: e.clientY, el: tapTarget(e.target), timer: 0 };
+      tapLog('down type=' + e.pointerType + ' target=' + (e.target && e.target.tagName) + ' el=' + (pending.el ? pending.el.className : 'null'));
+    }, true);
+
+    document.addEventListener('pointerup', function (e) {
+      if (e.pointerType === 'mouse' || !pending || !pending.el) { tapLog('up skipped type=' + e.pointerType + ' pending=' + !!pending + ' el=' + !!(pending && pending.el)); return; }
+      var moved = Math.sqrt(Math.pow(e.clientX - pending.x, 2) + Math.pow(e.clientY - pending.y, 2));
+      tapLog('up moved=' + Math.round(moved));
+      if (moved > 12) { clearPending(); return; }             // 划动/滚动不补发
+      var el = pending.el;
+      pending.timer = setTimeout(function () {
+        pending = null;
+        if (!el.isConnected) { tapLog('timer fired 但元素已不在文档里'); return; }
+        var ev = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
+        // ★ 必须给事件实例直接挂标记：MouseEvent 的初始化字典会忽略未知字段，
+        //   用 { __naiwaSynthetic: true } 传给构造函数是无效的，
+        //   会导致下面那个"丢弃迟到 click"的监听器把补发的 click 也一起拦掉
+        ev.__naiwaSynthetic = true;
+        el.__naiwaBridgedAt = Date.now();
+        el.dispatchEvent(ev);
+        tapLog('synthetic click dispatched');
+      }, BRIDGE_MS);
+    }, true);
+
+    document.addEventListener('pointercancel', function () { tapLog('pointercancel'); clearPending(); }, true);
+
+    // 真 click 到达：取消待补发；若这个元素刚被补发过，就把迟到的 click 丢掉，避免抓两张
+    document.addEventListener('click', function (e) {
+      clearPending();
+      if (e.__naiwaSynthetic) return;
+      var el = tapTarget(e.target);
+      if (el && el.__naiwaBridgedAt && Date.now() - el.__naiwaBridgedAt < 900) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+
+    function clearPending() {
+      if (pending && pending.timer) clearTimeout(pending.timer);
+      pending = null;
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+})();
+
+</script>
+<!-- UI 层（选关 / 结算 / 进度） -->
+<script type="module">
+/* ==========================================================================
+   抓奶蛙 · UI 层（选关界面 / HUD / 结算面板 / 进度存档 / 音效开关）
+   纯外挂脚本：不改游戏逻辑，只通过 window.__NAIWA__（由构建产物里注入的小接口）
+   按编号开某一关；胜负则靠观察牌堆与托盘 DOM，以及劫持原生 alert 判定。
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var KEY_PROGRESS = 'naiwa.progress.v1';
+  var KEY_MUTED = 'naiwa.muted';
+  var TRAY_CAP = 9;                       // 托盘容量（与游戏内一致）
+
+  /* 关卡表：与构建产物里的 LevelConfig 对应（3/1、4/2、6/2、9/2 → 9/24/36/54 张）
+     star : [三星上限秒数, 二星上限秒数]，超过二星线只有一星
+     第 5 项是无尽模式：塔一层层加高，配置在运行时算，不在那 4 条的配置表里 */
+  var LEVELS = [
+    { n: 1, name: '教程关', types: 3, tiles: 9,  stars: 1, star: [8, 16],   tip: '只有 3 种图案，怎么点都不会输' },
+    { n: 2, name: '轻松关', types: 4, tiles: 24, stars: 2, star: [22, 42],  tip: '4 种图案，随便点点也能过' },
+    { n: 3, name: '进阶关', types: 6, tiles: 36, stars: 4, star: [45, 80],  tip: '6 种图案，得看清被压住的方块了' },
+    { n: 4, name: '挑战关', types: 9, tiles: 54, stars: 5, star: [75, 140], tip: '9 种图案全上，托盘很容易塞满，先用「移出前三个」救急' },
+    { n: 5, name: '无尽模式', types: 9, tiles: 0, stars: 5, star: [0, 0], endless: true,
+      tip: '一座塔清空马上起下一座，每塔再高一层；托盘满一次挑战就结束' },
+  ];
+  var ENDLESS = 5;                       // 无尽模式的"关卡号"
+  var ENDLESS_MAX_LAYER = 6;             // 塔最高几层（小屏会自动降到 4~5 层，见 endlessMaxLayer）
+  /** 小屏放不下 6 层：塔是环绕牌桌中心长的，屏越矮能放的层越少 */
+  function endlessMaxLayer() {
+    if (window.innerHeight < 620) return 4;
+    if (window.innerHeight < 720) return 5;
+    return ENDLESS_MAX_LAYER;
+  }
+  /* 无尽模式的难度曲线：塔变高 + 槽位变少。
+     实测（endless-scale.mjs，用同一副牌换托盘容量 + 修正过遮挡方向的求解器）：
+       · 9 格：2~6 层可解率 83%~100%，最优解峰值 7.2~7.7（9 格托盘已经只剩 1~2 格余量）
+       · 8 格：可解率掉到 33%~50%
+       · 7 格：0%~17%（基本靠运气，所以不做）
+       · 层数本身也有影响：3 层峰值 7.7 > 2 层 7.4（同容量下更高的塔更紧）
+     所以曲线是：第 1~2 塔给 9 格但塔比挑战关高一半，第 3 塔起收到 8 格（这时求解器都要重发一半才找得到通路）。 */
+  var ENDLESS_MIN_CAP = 8;
+  function endlessCap(tower) {
+    if (tower <= 2) return 9;
+    return ENDLESS_MIN_CAP;
+  }
+  function endlessTower(tower) {
+    var layer = Math.min(2 + tower, endlessMaxLayer());
+    var cap = endlessCap(tower);
+    if (window.__NAIWA_LAYER_OVERRIDE__) layer = window.__NAIWA_LAYER_OVERRIDE__;   // 只给自动化测试用
+    return { cardNum: 9, layer: layer, cap: cap, tiles: 27 * layer };
+  }
+  /** 按用时评星：3★ / 2★ / 1★ */
+  function starFor(n, sec) {
+    var t = info(n).star;
+    if (sec <= t[0]) return 3;
+    if (sec <= t[1]) return 2;
+    return 1;
+  }
+  function starRow(k) {
+    var s = '';
+    for (var i = 0; i < 3; i++) s += (i < k ? '★' : '☆');
+    return s;
+  }
+
+  /* ---------------- 存档 ---------------- */
+  function loadProgress() {
+    try {
+      var p = JSON.parse(localStorage.getItem(KEY_PROGRESS) || '{}');
+      return {
+        unlocked: Math.max(1, Math.min(LEVELS.length, p.unlocked || 1)),
+        cleared: Array.isArray(p.cleared) ? p.cleared : [],
+        best: p.best && typeof p.best === 'object' ? p.best : {},
+        stars: p.stars && typeof p.stars === 'object' ? p.stars : {},
+        endlessBest: p.endlessBest || 0,        // 无尽模式最高爬到的塔数
+        endlessTiles: p.endlessTiles || 0,      // 单次挑战最多清掉多少张
+      };
+    } catch (e) { return { unlocked: 1, cleared: [], best: {}, stars: {}, endlessBest: 0, endlessTiles: 0 }; }
+  }
+  function saveProgress() {
+    try { localStorage.setItem(KEY_PROGRESS, JSON.stringify(progress)); } catch (e) { /* 忽略 */ }
+  }
+  var progress = loadProgress();
+  var muted = localStorage.getItem(KEY_MUTED) === '1';
+
+  /* ---------------- 运行时状态 ---------------- */
+  var cur = progress.unlocked;      // 玩家当前选的关
+  var playing = false;              // 是否处于"这一关进行中"（用于判定胜负）
+  var pendingStart = false;
+  var startAt = 0;
+  var pausedAt = 0;
+  var lastSeen = { left: 0, tray: 0 };   // 最近一次非空场面（失败瞬间游戏会立刻清空牌堆，得先记住）
+  var dealTotal = 0;                     // 本关发牌总张数（用于进度条，从场面里量出来）
+  var endless = { on: false, tower: 0, tiles: 0, startedAt: 0 };   // 无尽模式运行时状态
+
+  /** 闸门：挡住游戏自带的"过关/失败后自动切关"定时器，避免覆盖玩家在面板里选的关卡 */
+  function setHold(v) { window.__NAIWA_HOLD__ = !!v; }
+
+  /* ---------------- DOM 骨架 ---------------- */
+  var ui = document.createElement('div');
+  ui.id = 'nw-ui';
+  ui.innerHTML = [
+    '<div class="nw-hud">',
+    '  <button class="nw-btn nw-btn--ghost" data-act="levels">☰ 选关</button>',
+    '  <span class="nw-chip" data-el="level">第 1 关</span>',
+    '  <span class="nw-hud__spacer"></span>',
+    '  <span class="nw-chip" data-el="left">剩余 <b>0</b></span>',
+    '  <span class="nw-chip" data-el="time">00:00</span>',
+    '  <button class="nw-btn nw-btn--ghost" data-act="mute" title="音效开关">🔊</button>',
+    '</div>',
+    '<div class="nw-progress" data-el="barwrap" role="progressbar" aria-label="本关进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">',
+    '  <i data-el="bar"></i>',
+    '</div>',
+    '<div class="nw-overlay" data-el="overlay" hidden>',
+    '  <div class="nw-panel" data-el="panel"></div>',
+    '</div>',
+  ].join('');
+  document.body.appendChild(ui);
+
+  var el = {};
+  ['level', 'left', 'time', 'overlay', 'panel', 'barwrap', 'bar'].forEach(function (k) { el[k] = ui.querySelector('[data-el="' + k + '"]'); });
+  var muteBtn = ui.querySelector('[data-act="mute"]');
+
+  /* ---------------- 小工具 ---------------- */
+  function fmtTime(ms) {
+    var s = Math.max(0, Math.floor(ms / 1000));
+    return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  }
+  function info(n) { return LEVELS[Math.min(LEVELS.length, Math.max(1, n)) - 1]; }
+  function boardCards() { return [].slice.call(document.querySelectorAll('.card')).filter(function (c) { return !c.closest('div[w-295px]'); }); }
+  function trayCards() { var t = document.querySelector('div[w-295px]'); return t ? [].slice.call(t.querySelectorAll('.card')) : []; }
+  function actionBtn(label, cls, fn) {
+    return '<button class="nw-btn ' + (cls || '') + '" data-run="' + label + '">' + label + '</button>';
+  }
+
+  /* ---------------- 提示条 ---------------- */
+  function flash(text) {
+    var d = document.createElement('div');
+    d.className = 'nw-flash';
+    d.setAttribute('role', 'status');
+    d.setAttribute('aria-live', 'polite');
+    d.textContent = text;
+    ui.appendChild(d);
+    setTimeout(function () { d.remove(); }, 1200);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 牌堆自适应缩放
+   *
+   * 背景：塔的层数越多，牌堆以"牌桌中心"为圆心向四周长。无尽模式最高 6 层（162 张）时
+   * 上沿会顶到 HUD 的按钮、下沿会压到道具行——顶到按钮的那几张会点不动（按钮吃掉了点击）。
+   * 这里在每次发牌后量一次牌堆的实际包围盒，按"允许的纵向区间"反解出合适的缩放比。
+   * ------------------------------------------------------------------ */
+  function boardHost() { return document.querySelector('#app div[relative][flex-1]'); }
+
+  function boardBand() {
+    var bar = el.barwrap.getBoundingClientRect();
+    var row = document.querySelector('#app > div > div[h-50px][text-center]');
+    var bottom = row ? row.getBoundingClientRect().top - 8 : window.innerHeight - 200;
+    return { top: bar.bottom + 10, bottom: bottom };
+  }
+
+  function fitBoard() {
+    var host = boardHost();
+    if (!host) return null;
+    var board = boardCards();
+    if (board.length < 6) return null;                       // 小牌堆不用管
+    var wide = window.innerWidth >= 620;
+    var base = wide ? 1.32 : 1.18;
+    var oy = wide ? 0.46 : 0.44;
+    host.style.transformOrigin = '50% ' + oy * 100 + '%';
+    host.style.transform = 'scale(' + base + ')';
+    var rect = host.getBoundingClientRect();
+    var H = host.offsetHeight;
+    var o = oy * H;                                          // 本地坐标里的锚点
+    // 反推"没缩放时"牌堆容器的顶边
+    var T = rect.top - o * (1 - base);
+    var rs = board.map(function (c) { return c.getBoundingClientRect(); });
+    var vTop = Math.min.apply(null, rs.map(function (r) { return r.top; }));
+    var vBottom = Math.max.apply(null, rs.map(function (r) { return r.bottom; }));
+    var localTop = o + (vTop - T - o) / base;
+    var localBottom = o + (vBottom - T - o) / base;
+    var band = boardBand();
+    var sTop = (band.top - T - o) / (localTop - o);
+    var sBottom = (band.bottom - T - o) / (localBottom - o);
+    var s = Math.max(0.5, Math.min(base, sTop, sBottom));
+    host.style.transform = 'scale(' + (Math.round(s * 1000) / 1000) + ')';
+    return s;
+  }
+
+
+  function setBar(p) {
+    p = Math.max(0, Math.min(1, p || 0));
+    el.bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    el.barwrap.setAttribute('aria-valuenow', String(Math.round(p * 100)));
+  }
+
+  function updateHud() {
+    var i = info(cur);
+    if (cur === ENDLESS && endless.on) {
+      el.level.innerHTML = '无尽 <small>第 ' + endless.tower + ' 塔</small>';
+    } else {
+      el.level.innerHTML = '第 ' + cur + ' 关 <small>' + i.name + '</small>';
+    }
+    var left = boardCards().length + trayCards().length;
+    el.left.innerHTML = '剩余 <b>' + left + '</b>';
+    if (!playing) el.time.textContent = startAt ? fmtTime(performance.now() - startAt) : '00:00';
+  }
+
+  /* ---------------- 开关选关 / 结算面板 ---------------- */
+  function openOverlay() { el.overlay.hidden = false; }
+  function closeOverlay() { el.overlay.hidden = true; }
+
+  function showLevels() {
+    clearAuto();                                         // 防止"难度飙升"的倒计时在选关后把牌局带跑
+    var resumable = boardCards().length > 0 || trayCards().length > 0;   // 桌面上还有牌 = 有一关正在进行
+    if (playing) { pausedAt = performance.now(); }
+    playing = false;                                     // 面板打开期间不做胜负判定
+    var total = LEVELS.length;
+    var done = progress.cleared.length;
+    var starSum = LEVELS.reduce(function (a, lv) { return a + (progress.stars[lv.n] || 0); }, 0);
+    var cells = LEVELS.map(function (lv) {
+      var locked = lv.n > progress.unlocked;
+      var cleared = progress.cleared.indexOf(lv.n) >= 0;
+      var best = progress.best[lv.n];
+      var st = progress.stars[lv.n] || 0;
+      var meta = lv.endless
+        ? (progress.endlessBest ? '<em>9 种 · 最高 ' + progress.endlessBest + ' 塔</em>' : '<em>9 种 · 越爬越高</em>')
+        : '<em>' + lv.types + ' 种 · ' + lv.tiles + ' 张</em>';
+      var sub = lv.endless
+        ? '<span class="nw-lv__stars has">🔥</span>'
+        : '<span class="nw-lv__stars' + (st ? ' has' : '') + '">' + starRow(st) + '</span>';
+      return [
+        '<button class="nw-lv' + (locked ? ' is-locked' : '') + (cleared ? ' is-cleared' : '') + (lv.endless ? ' nw-lv--endless' : '') + '"',
+        locked ? ' disabled' : '', ' data-lv="' + lv.n + '"',
+        ' aria-label="第 ' + lv.n + ' 关 ' + lv.name + (locked ? '（未解锁）' : cleared ? '（已通关，' + st + ' 星）' : '') + '">',
+        '<i>' + (locked ? '🔒' : lv.endless ? '🔥' : lv.n) + '</i>',
+        '<b>' + lv.name + '</b>',
+        meta,
+        sub,
+        best ? '<span class="nw-lv__time">最快 ' + best + 's</span>' : '',
+        '</button>',
+      ].join('');
+    }).join('');
+
+    var contLabel = '开始第 ' + progress.unlocked + ' 关';
+    if (progress.unlocked === 1 && done === 0) contLabel = '开始教程关';
+    if (progress.unlocked === ENDLESS) contLabel = '进入无尽模式 🔥';
+
+    el.panel.innerHTML = [
+      '<h2 class="nw-title">抓奶蛙</h2>',
+      '<p class="nw-sub">堆叠三消 · 共 ' + total + ' 关 · 已通关 ' + done + ' 关 · 星星 ' + starSum + ' / ' + ((total - 1) * 3) + '</p>',
+      '<div class="nw-grid">' + cells + '</div>',
+      '<div class="nw-actions">',
+      resumable ? '<button class="nw-btn nw-btn--lg" data-run="resume">继续游戏</button>' : '',
+      '<button class="nw-btn ' + (resumable ? '' : 'nw-btn--lg') + '" data-run="continue">' + contLabel + '</button>',
+      '<button class="nw-btn" data-act="leaderboard">🏆 排行榜</button>',
+      '<button class="nw-btn" data-run="help">玩法说明</button>',
+      '<button class="nw-btn nw-btn--ghost" data-run="reset">重置进度</button>',
+      '</div>',
+      '<p class="nw-tip">点方块把它抓进托盘，凑齐 <b>3 只相同</b> 自动消除；托盘 <b>9 格</b>全满就失败。' +
+      '被压住的方块会变暗，点不动。</p>',
+    ].join('');
+    openOverlay();
+    updateHud();
+  }
+
+  /** 中途点"继续游戏"：关面板、恢复计时、不动牌局 */
+  function continueGame() {
+    closeOverlay();
+    if (pausedAt) { startAt += performance.now() - pausedAt; pausedAt = 0; }   // 菜单时间不计入用时
+    playing = true;
+    updateHud();
+  }
+
+  function showHelp() {
+    playing = false;
+    el.panel.innerHTML = [
+      '<h2 class="nw-title">玩法说明</h2>',
+      '<p class="nw-sub">抓奶蛙 · 堆叠三消</p>',
+      '<ul class="nw-help">',
+      '<li><b>点方块</b>：抓进底部木槽，凑齐 3 只相同自动消除</li>',
+      '<li><b>被压住</b>的方块会变暗、点不动，先把上面的抓走</li>',
+      '<li>木槽共 <b>9 格</b>，塞满且无法消除即失败</li>',
+      '<li><b>移出前三个</b>：把木槽最前面三张退回牌堆，救急用</li>',
+      '<li><b>回退</b>：撤销上一步（把刚抓的那张还回去）</li>',
+      '<li>牌堆布局每一局都是随机的，同一种图案可能被压在下面</li>',
+      '</ul>',
+      '<div class="nw-actions">',
+      '<button class="nw-btn nw-btn--lg" data-run="back-levels">回到选关</button>',
+      '</div>',
+    ].join('');
+    openOverlay();
+  }
+
+  function showResult(kind, data) {
+    playing = false;
+    setHold(true);                     // 挡住游戏自带的自动切关，交给玩家点按钮
+    var starBlock = data.stars
+      ? '<div class="nw-stars" aria-label="获得 ' + data.stars + ' 星">' + starRow(data.stars)
+        + '<small>' + (data.starTip || '') + '</small></div>'
+      : '';
+    el.panel.innerHTML = [
+      '<h2 class="nw-title">' + data.title + '</h2>',
+      '<p class="nw-sub">' + (data.sub || '') + '</p>',
+      starBlock,
+      '<div class="nw-stats">' + data.stats.map(function (s) {
+        return '<div class="nw-stat"><b>' + s[1] + '</b><span>' + s[0] + '</span></div>';
+      }).join('') + '</div>',
+      data.tip ? '<p class="nw-tip">' + data.tip + '</p>' : '',
+      '<div class="nw-actions">' + data.actions.map(function (a) {
+        return '<button class="nw-btn ' + (a.cls === 'primary' ? 'nw-btn--lg' : a.cls === 'ghost' ? 'nw-btn--ghost' : '') + '" data-run="' + a.label + '">' + a.label + '</button>';
+      }).join('') + '</div>',
+    ].join('');
+    data.actions.forEach(function (a) { actions[a.label] = a.fn; });
+    openOverlay();
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 关卡可解性验证：发牌后自动检查，不可解就重发
+   *
+   * 做法：
+   *   1. 从 DOM 读出每张牌的类型 / 坐标 / 层号（z-index）
+   *   2. 重建依赖图 —— 与游戏规则一致：上一层里 |Δtop|≤40 且 |Δleft|≤40 的牌算压住它
+   *   3. 用多个贪心策略模拟通关（能凑三就凑三 → 能连拿三张的类型 → 随机兜底）
+   *   4. 只要有一种策略能清空就认为可解；否则重发，最多 6 次
+   * 同时统计"原始发牌不可解率"，用来量化这项优化的价值。
+   * ------------------------------------------------------------------ */
+  var TRAY_CAP = 9;
+  /** 当前托盘容量：构建产物里已改成读 window.__NAIWA_CAP__，无尽模式靠调小它拉高难度 */
+  function currentCap() {
+    var c = Number(window.__NAIWA_CAP__);
+    return c >= 3 && c <= 9 ? c : TRAY_CAP;
+  }
+  var MAX_REROLL = 6;
+  /* 发牌"刁度"门槛：最优解路线占用的托盘格数上限。
+     实测（endless-scale.mjs，遮挡方向修正后）：9 种图案下 54 张的第 4 关，
+     最优解峰值均值就有 7.4/9，可解率 83%——也就是说"按刁度重发"会把本来能打通、
+     只是走得紧的牌换掉，反而变简单。这里只保留"求解器完全找不到通路"这一条重发理由。 */
+  var TIGHT_MAX = { 1: 9, 2: 9, 3: 9, 4: 9, 5: 9 };
+  function tightMax(lv) { return TIGHT_MAX[lv] || 8; }
+  var validatePending = null;
+  var lastBoardCount = -1;
+  window.__NAIWA_SOLVE__ = [];
+  window.__NAIWA_STATS__ = { judged: 0, unsolvableAtFirstTry: 0, tooTightAtFirstTry: 0, rerolls: 0, acceptedTight: 0 };
+
+  /** 正在播"离场动画"的牌：Vue 的 <transition> 会让已抓走的牌在 DOM 里多留 200ms，
+      读盘面时必须剔掉，否则同一张牌会被当成"还在牌堆里"（总数对不上，求解器就会算成死局） */
+  function isLeaving(el) {
+    var cn = el.className || '';
+    return /leave-active|leave-to/.test(cn);
+  }
+
+  /** 每张牌一个稳定 id：同一层里可能有两张牌算出的 top/left 完全相同（游戏的 i→(row,column)
+      映射不是单射），只靠 inline style 认牌会认错，所以第一次读到时就打上标记。 */
+  var nwIdSeq = 0;
+  function cardKey(c) {
+    if (!c.__nwId) c.__nwId = ++nwIdSeq;
+    return 'id:' + c.__nwId;
+  }
+
+  function readBoardGraph() {
+    var out = [];
+    [].slice.call(document.querySelectorAll('.card')).forEach(function (c) {
+      if (c.closest('div[w-295px]')) return;                       // 托盘里的不算
+      if (isLeaving(c)) return;                                    // 刚被抓走、还在离场动画里的不算
+      var st = c.getAttribute('style') || '';
+      var img = c.querySelector('img');
+      if (!img) return;
+      var top = parseFloat((/top:\s*(-?[\d.]+)px/.exec(st) || [])[1]);
+      var left = parseFloat((/left:\s*(-?[\d.]+)px/.exec(st) || [])[1]);
+      var z = parseInt((/z-?index:\s*(-?\d+)/.exec(st) || [])[1], 10);
+      if (!isFinite(top) || !isFinite(left)) return;
+      out.push({ type: img.getAttribute('alt'), top: top, left: left, layer: isFinite(z) ? z : 0, blockers: [], key: cardKey(c) });
+    });
+    out.forEach(function (n, i) { n.i = i; });
+    out.forEach(function (n, ni) {
+      out.forEach(function (p, pi) {
+        // 与游戏一致：**高一层**的牌压住它（useGame 里 e.parents.push(node)：
+        // perFloorNodes 是下一层(index-1)，被 push 的 node 是上一层(index)，z-index 更大、画在上面）
+        if (p.layer === n.layer + 1 && Math.abs(p.top - n.top) <= 40 && Math.abs(p.left - n.left) <= 40) {
+          n.blockers.push(p.i);
+          return;
+        }
+        // 隔层压心：游戏的状态只看"上一层"，但更高的牌正好盖住这张牌的中心时，
+        // 点击会被上层那张接走 → 物理上就是点不到，必须一起算进前置条件
+        if (p.layer > n.layer && Math.abs(p.top - n.top) <= 20 && Math.abs(p.left - n.left) <= 20) {
+          n.blockers.push(p.i);
+          return;
+        }
+        // 同一层里 top/left 完全重合：DOM 顺序靠后的画在上面（游戏算行列时不是单射，会撞位）
+        if (p.layer === n.layer && p.top === n.top && p.left === n.left && pi > ni) n.blockers.push(p.i);
+      });
+    });
+    return out;
+  }
+
+  function mulberry(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  var solveFirst = null;          // 本轮试算的第一步（给"提示/自动测试"用）
+  var solveSeq = [];              // 本轮的取牌顺序（牌可能被上层别的牌压住点不到，提示时按顺序找可点的）
+
+  function trySolve(nodes, seed, cap, initTray) {
+    var CAP = cap || TRAY_CAP;
+    var removed = new Uint8Array(nodes.length);
+    var left = nodes.length;
+    var tray = (initTray || []).slice();
+    var maxTray = 0;
+    var rnd = mulberry(seed);
+    var guard = 0;
+    solveFirst = null;
+    solveSeq = [];
+    while (left > 0 || tray.length) {
+      if (guard++ > nodes.length * 4 + 100) return { ok: false, maxTray: maxTray, reason: 'loop' };
+      var free = [];
+      for (var i = 0; i < nodes.length; i++) {
+        if (removed[i]) continue;
+        var n = nodes[i], canPick = true;
+        for (var b = 0; b < n.blockers.length; b++) if (!removed[n.blockers[b]]) { canPick = false; break; }
+        if (canPick) free.push(n);
+      }
+      if (!free.length) return { ok: false, maxTray: maxTray, reason: 'deadlock' };
+      var counts = {}, byType = {};
+      tray.forEach(function (t) { counts[t] = (counts[t] || 0) + 1; });
+      free.forEach(function (n) { (byType[n.type] = byType[n.type] || []).push(n); });
+      var types = Object.keys(byType);
+      var pick = null, k;
+      for (k = 0; k < types.length && !pick; k++) if ((counts[types[k]] || 0) === 2) pick = byType[types[k]][0];          // 立刻凑三
+      for (k = 0; k < types.length && !pick; k++) if ((counts[types[k]] || 0) === 1 && byType[types[k]].length >= 2) pick = byType[types[k]][0];
+      for (k = 0; k < types.length && !pick; k++) if (!counts[types[k]] && byType[types[k]].length >= 3) pick = byType[types[k]][0];
+      if (!pick) pick = free[Math.floor(rnd() * free.length)];    // 不同种子 = 不同试法，降低误判
+      if (solveFirst === null) solveFirst = pick.type;
+      if (solveSeq.length < 400) solveSeq.push({ type: pick.type, key: pick.key });
+      tray.push(pick.type);
+      removed[pick.i] = 1; left--;
+      var same = 0;
+      for (k = 0; k < tray.length; k++) if (tray[k] === pick.type) same++;
+      if (same >= 3) {
+        var need = 3, rest = [];
+        for (k = 0; k < tray.length; k++) {
+          if (tray[k] === pick.type && need > 0) { need--; continue; }
+          rest.push(tray[k]);
+        }
+        tray = rest;
+      }
+      if (tray.length > maxTray) maxTray = tray.length;
+      // 与游戏一致：托盘塞到上限且这一手没消掉 → 判负
+      if (tray.length >= CAP) return { ok: false, maxTray: maxTray, reason: 'tray-full' };
+    }
+    return { ok: true, maxTray: maxTray, first: solveFirst, seq: solveSeq.slice(0) };
+  }
+
+  /** 多种策略里只要有一种能通就算可解；可解时取"峰值最省"的那条线当刁度指标 */
+  function judgeLevel(nodes, cap, initTray) {
+    var bestFail = { ok: false, maxTray: 0, reason: 'none' };
+    var bestOk = null;
+    for (var s = 0; s < 6; s++) {
+      var r = trySolve(nodes, s * 7919 + 13, cap, initTray);
+      if (r.ok) { if (!bestOk || r.maxTray < bestOk.maxTray) bestOk = r; }
+      else if (r.maxTray > bestFail.maxTray) bestFail = r;
+    }
+    return bestOk || bestFail;
+  }
+
+  /** 牌堆指纹：用来判断"重发之后是否真的换了一副新牌" */
+  function boardSig() {
+    var cards = [].slice.call(document.querySelectorAll('.card')).filter(function (c) { return !c.closest('div[w-295px]'); });
+    return cards.slice(0, 4).map(function (c) {
+      var img = c.querySelector('img');
+      return (c.getAttribute('style') || '') + (img ? img.getAttribute('alt') : '');
+    }).join('|');
+  }
+
+  /** 给某一关挂上"待验证"标记；发牌稳定后由 tick 驱动验证 */
+  function armValidation(level, redeal, budgetMs) {
+    validatePending = {
+      level: level, tries: 0, stable: 0, awaitSig: null, dealCount: 0,
+      redeal: redeal || null,
+      // 重发只在开局这几秒内做：真发牌后玩家开始点了就不再动牌面（moved 判定兜底）
+      deadline: performance.now() + (budgetMs || 2600),
+    };
+    lastBoardCount = -1;
+  }
+
+  /** 由 tick 驱动：牌堆稳定后验证，必要时重发 */
+  function runValidator(api) {
+    if (!validatePending) return;
+    if (el.overlay && !el.overlay.hidden) return;      // 结算/选关面板开着时不算"在玩"，不验证也不重发
+    if (boardCards().length === 0) return;
+    // 重发之后必须等到"牌堆指纹变了"再验，避免拿旧牌堆反复验
+    var sig = boardSig();
+    if (validatePending.awaitSig && sig === validatePending.awaitSig) return;
+    validatePending.awaitSig = null;
+
+    // 等牌堆连续两次数量不变，确认发牌结束
+    if (boardCards().length === lastBoardCount) validatePending.stable = (validatePending.stable || 0) + 1;
+    else validatePending.stable = 0;
+    if (validatePending.stable < 2) return;
+
+    var nodes = readBoardGraph();
+    if (!nodes.length) return;
+    if (!validatePending.dealCount) validatePending.dealCount = nodes.length;
+    var res = judgeLevel(nodes, currentCap());
+    var cap = tightMax(validatePending.level);
+    var tooTight = res.ok && res.maxTray > cap;        // 能通，但容错太窄
+    validatePending.tries++;
+    if (validatePending.tries === 1) {
+      window.__NAIWA_STATS__.judged++;
+      if (!res.ok) window.__NAIWA_STATS__.unsolvableAtFirstTry++;
+      else if (tooTight) window.__NAIWA_STATS__.tooTightAtFirstTry++;
+    }
+    window.__NAIWA_SOLVE__.push({
+      level: validatePending.level, try: validatePending.tries, ok: res.ok,
+      maxTray: res.maxTray, cap: cap, reason: res.reason || '', tiles: nodes.length,
+      t: Math.round(performance.now()),
+    });
+
+    // 玩家已经动过手了（拿过牌 / 托盘里有牌）→ 即便判定为"难"也不再重发，
+    // 否则会把玩家正在下的棋直接抹掉。
+    var moved = trayCards().length > 0 || boardCards().length < validatePending.dealCount;
+
+    var inBudget = performance.now() < (validatePending.deadline || 0);
+    var maxReroll = validatePending.level === ENDLESS ? 8 : MAX_REROLL;   // 无尽模式一条命，宁可多发几副
+    if ((!res.ok || tooTight) && !moved && inBudget && validatePending.tries < maxReroll) {
+      if (window.__NAIWA_STATS__.rerolls === 0) flash('重新发牌…');
+      window.__NAIWA_STATS__.rerolls++;
+      validatePending.awaitSig = sig;        // 记下这副"不合格"的指纹
+      validatePending.stable = 0;
+      // 重发要认模式：无尽模式第 5 关不能用 api.start(5)（那张配置表只有 4 关）
+      if (validatePending.redeal) validatePending.redeal();
+      else if (api) api.start(validatePending.level);
+      return;
+    }
+    if (!res.ok) { window.__NAIWA_STATS__.acceptedTight++; flash('这关有点难，稳住！'); }   // 试满仍判不可解 → 保留并提示
+    else if (tooTight) window.__NAIWA_STATS__.acceptedTight++;
+    validatePending = null;
+  }
+
+  var actions = {};
+
+  /* "难度飙升"过渡页：过关后不直接切关，先亮出下一关的难度对比，再（倒计时或点按钮）开战 */
+  var autoTimer = 0, autoTick = 0;
+  function clearAuto() {
+    if (autoTimer) { clearTimeout(autoTimer); autoTimer = 0; }
+    if (autoTick) { clearInterval(autoTick); autoTick = 0; }
+  }
+
+  function dots(n) {
+    var s = '<span class="nw-dots">';
+    for (var i = 1; i <= 5; i++) s += '<span class="' + (i <= n ? 'on' : '') + '"></span>';
+    return s + '</span>';
+  }
+
+  /** 倒计时 + 自动开始：文字更新只在 interval 里做，自动开跑交给 timeout（同一时刻两边都动手会互相清掉） */
+  function attachAuto(sec, fn, suffix) {
+    clearAuto();
+    var d = el.panel.querySelector('[data-el="auto"]');
+    var tail = suffix || ' 秒后自动开始…';
+    var left = sec;
+    autoTick = setInterval(function () {
+      left--;
+      if (left > 0) { if (d) d.textContent = left + tail; return; }
+      if (autoTick) { clearInterval(autoTick); autoTick = 0; }
+      if (d) d.textContent = '开始！';
+    }, 1000);
+    autoTimer = setTimeout(function () { clearAuto(); fn(); }, sec * 1000);
+  }
+
+  function showNextIntro(nextN) {
+    clearAuto();
+    playing = false;
+    setHold(true);                          // 过渡期间也别让游戏自己切关
+    // 挑战关之后的下一站是无尽模式：没有"张数对比"，改成讲规则
+    if (nextN === ENDLESS) {
+      var cfg1 = endlessTower(1);
+      el.panel.innerHTML = [
+        '<div class="nw-center"><div class="nw-spike">🔥 无尽模式</div></div>',
+        '<h2 class="nw-title nw-title--sm">难度大幅上升</h2>',
+        '<p class="nw-sub">清空「挑战关」之后，真正的考验才开始</p>',
+        '<div class="nw-compare">',
+        '<div class="nw-row"><span>第 1 塔</span><span><b class="up">' + cfg1.layer + ' 层</b><i>·</i><b class="up">' + cfg1.tiles + ' 张</b><i>·</i><b class="up">' + cfg1.cap + ' 格托盘</b></span></div>',
+        '<div class="nw-row"><span>每清一塔</span><span><b class="up">再高一层</b>，第 2 塔起托盘收到 ' + endlessTower(2).cap + ' 格</span></div>',
+        '<div class="nw-row"><span>容错</span><span><b class="up">托盘满一次即结束</b></span></div>',
+        '</div>',
+        '<div class="nw-diff"><span>难度</span>' + dots(5) + '</div>',
+        '<p class="nw-tip">没有重来，也不能某一塔重新开始；时间一路累计。最高塔数记在选关界面。</p>',
+        '<div class="nw-actions">',
+        '<button class="nw-btn nw-btn--lg" data-run="开战！">开战！</button>',
+        '<button class="nw-btn nw-btn--ghost" data-run="选关">选关</button>',
+        '</div>',
+        '<p class="nw-auto" data-el="auto">3 秒后自动开始…</p>',
+      ].join('');
+      actions = {
+        '开战！': function () { clearAuto(); startEndless(1, true); },
+        '选关': function () { clearAuto(); showLevels(); },
+      };
+      openOverlay();
+      attachAuto(3, function () { startEndless(1, true); });
+      return;
+    }
+    var a = info(cur), b = info(nextN);
+    var same = function (x, y) { return '<b>' + x + '</b><i>→</i><b' + (String(x) !== String(y) ? ' class="up"' : '') + '>' + y + '</b>'; };
+    el.panel.innerHTML = [
+      '<div class="nw-center"><div class="nw-spike">⚡ 难度飙升</div></div>',
+      '<h2 class="nw-title nw-title--sm">第 ' + nextN + ' 关 · ' + b.name + '</h2>',
+      '<p class="nw-sub">比「' + a.name + '」更难了，准备开战</p>',
+      '<div class="nw-compare">',
+      '<div class="nw-row"><span>图案种类</span><span>' + same(a.types + ' 种', b.types + ' 种') + '</span></div>',
+      '<div class="nw-row"><span>方块总数</span><span>' + same(a.tiles + ' 张', b.tiles + ' 张') + '</span></div>',
+      '<div class="nw-row"><span>托盘容量</span><span>' + same('9 格', '9 格') + '</span></div>',
+      '</div>',
+      '<div class="nw-diff"><span>难度</span>' + dots(b.stars) + '</div>',
+      '<p class="nw-tip">' + b.tip + '</p>',
+      '<div class="nw-actions">',
+      '<button class="nw-btn nw-btn--lg" data-run="开战！">开战！</button>',
+      '<button class="nw-btn nw-btn--ghost" data-run="选关">选关</button>',
+      '</div>',
+      '<p class="nw-auto" data-el="auto">3 秒后自动开始…</p>',
+    ].join('');
+    actions = {
+      '开战！': function () { clearAuto(); startLevel(nextN); },
+      '选关': function () { clearAuto(); showLevels(); },
+    };
+    openOverlay();
+    attachAuto(3, function () { startLevel(nextN); });
+  }
+
+  /* ---------------- 关卡控制 ---------------- */
+  /** 无尽模式：开第 tower 座塔（一座比一座高；托盘满一次就结束） */
+  function startEndless(tower, fresh) {
+    var api = window.__NAIWA__;
+    if (!api || !api.startEndless) { setTimeout(function () { startEndless(tower, fresh); }, 150); return; }
+    var cfg = endlessTower(tower);
+    cur = ENDLESS;
+    endless.on = true;
+    endless.tower = tower;
+    if (fresh) { endless.tiles = 0; endless.startedAt = performance.now(); }
+    if (!endless.startedAt) endless.startedAt = performance.now();
+    actions = {};
+    clearAuto();
+    if (window.__NAIWA_ADV__) { clearTimeout(window.__NAIWA_ADV__); window.__NAIWA_ADV__ = null; }
+    setHold(false);
+    closeOverlay();
+    window.__NAIWA_CAP__ = cfg.cap;         // 槽位变少 = 真正的难度（构建产物已改成读这个值）
+    api.startEndless(cfg.cardNum, cfg.layer);
+    pendingStart = true;
+    playing = false;
+    pausedAt = 0;
+    startAt = performance.now();
+    lastSeen = { left: 0, tray: 0 };
+    dealTotal = 0;
+    setBar(0);
+    // 无尽模式只挡"无解"的牌，不按刁度重发（否则越爬越高的塔就白爬了）；
+    // 一条命模式多给点重发预算：3 秒内最多换 8 副牌
+    armValidation(ENDLESS, function () { api.startEndless(cfg.cardNum, cfg.layer); }, 5000);
+    updateHud();
+    flash('无尽模式 · 第 ' + tower + ' 塔 · ' + cfg.tiles + ' 张 · 托盘 ' + cfg.cap + ' 格');
+    window.__NAIWA_ENDLESS__ = { tower: tower, layer: cfg.layer, tiles: cfg.tiles, cap: cfg.cap, on: true };
+  }
+
+  /** 一座塔清空：记成绩 → 弹过渡面板 → 3 秒后自动开下一座 */
+  function onTowerClear() {
+    var tower = endless.tower;
+    endless.tiles += dealTotal || 0;
+    if (tower > (progress.endlessBest || 0)) { progress.endlessBest = tower; saveProgress(); }
+    if (endless.tiles > (progress.endlessTiles || 0)) { progress.endlessTiles = endless.tiles; saveProgress(); }
+    var next = endlessTower(tower + 1);
+    setHold(true);
+    setBar(1);
+    el.panel.innerHTML = [
+      '<div class="nw-center"><div class="nw-spike">🔥 第 ' + tower + ' 塔 清空</div></div>',
+      '<h2 class="nw-title nw-title--sm">无尽模式</h2>',
+      '<p class="nw-sub">累计 ' + fmtTime(performance.now() - endless.startedAt) + ' · 已清 ' + endless.tiles + ' 张</p>',
+      '<div class="nw-compare">',
+      '<div class="nw-row"><span>本塔规模</span><span><b>' + Math.min(2 + tower, ENDLESS_MAX_LAYER) + ' 层</b><i>·</i><b>' + (27 * Math.min(2 + tower, ENDLESS_MAX_LAYER)) + ' 张</b><i>·</i><b>' + endlessCap(tower) + ' 格</b></span></div>',
+      '<div class="nw-row"><span>下一塔规模</span><span><b class="up">' + next.layer + ' 层</b><i>·</i><b class="up">' + next.tiles + ' 张</b><i>·</i><b class="up">' + next.cap + ' 格托盘</b></span></div>',
+      '<div class="nw-row"><span>最高纪录</span><span><b>' + (progress.endlessBest || 0) + ' 塔</b></span></div>',
+      '</div>',
+      '<p class="nw-tip">' + (next.cap < endlessCap(tower)
+        ? '下一塔的托盘更紧（' + next.cap + ' 格）。托盘满一次挑战就结束——没有重来，也不能把某一塔重新开始。'
+        : '下一塔更高一层（' + next.layer + ' 层 / ' + next.tiles + ' 张）。托盘满一次挑战就结束——没有重来。') + '</p>',
+      '<div class="nw-actions">',
+      '<button class="nw-btn nw-btn--lg" data-run="继续爬塔">继续爬塔 →</button>',
+      '<button class="nw-btn nw-btn--ghost" data-run="结束挑战">结束挑战</button>',
+      '</div>',
+      '<p class="nw-auto" data-el="auto">4 秒后自动接着爬…</p>',
+    ].join('');
+    actions = {
+      '继续爬塔': function () { clearAuto(); startEndless(tower + 1); },
+      '结束挑战': function () { clearAuto(); endEndless(); },
+    };
+    openOverlay();
+    attachAuto(4, function () { startEndless(tower + 1); }, ' 秒后自动接着爬…');
+  }
+
+  /** 主动结束挑战 / 挑战失败后的收尾 */
+  function endEndless() {
+    endless.on = false;
+    window.__NAIWA_ENDLESS__ = { tower: endless.tower, on: false };
+    showLevels();
+  }
+
+  function startLevel(n) {
+    var api = window.__NAIWA__;
+    if (!api) { setTimeout(function () { startLevel(n); }, 150); return; }
+    if (n === ENDLESS) { startEndless(1, true); return; }
+    endless.on = false;
+    window.__NAIWA_CAP__ = TRAY_CAP;        // 普通关卡恢复 9 格
+    cur = Math.max(1, Math.min(Math.min(api.levelCount, 4), n));
+    actions = {};
+    clearAuto();
+    // 关键：游戏在过关/失败后 2s 会自己切关（哪怕玩家已经在面板里选好了），
+    // 所以这里把那个待触发的定时器直接掐掉，再放行闸门
+    if (window.__NAIWA_ADV__) { clearTimeout(window.__NAIWA_ADV__); window.__NAIWA_ADV__ = null; }
+    setHold(false);
+    closeOverlay();
+    api.start(cur);
+    pendingStart = true;
+    playing = false;
+    pausedAt = 0;
+    startAt = performance.now();
+    lastSeen = { left: 0, tray: 0 };
+    dealTotal = 0;                                          // 进度条重新算
+    setBar(0);
+    armValidation(cur);                                     // 发牌后做可解性验证
+    updateHud();
+    flash('第 ' + cur + ' 关 · ' + info(cur).name);
+  }
+
+  function onWin() {
+    if (endless.on) { onTowerClear(); return; }     // 无尽模式：清空一座塔 → 换下一座
+    var sec = Math.round((performance.now() - startAt) / 1000);
+    setBar(1);                                             // 收尾把进度条拉满
+    if (progress.cleared.indexOf(cur) < 0) progress.cleared.push(cur);
+    progress.unlocked = Math.max(progress.unlocked, Math.min(cur + 1, LEVELS.length));
+    if (!progress.best[cur] || sec < progress.best[cur]) progress.best[cur] = sec;
+    var got = starFor(cur, sec);
+    var prev = progress.stars[cur] || 0;
+    if (got > prev) progress.stars[cur] = got;
+    saveProgress();
+    var last = cur >= 4;                      // 第 4 关（挑战关）是"主线"的最后一关
+    var acts = last
+      ? [{ label: '无尽模式 🔥', fn: function () { showNextIntro(ENDLESS); }, cls: 'primary' },
+         { label: '重玩本关', fn: function () { startLevel(cur); }, cls: 'ghost' },
+         { label: '选关', fn: function () { showLevels(); }, cls: 'ghost' }]
+      : [{ label: '下一关 →', fn: function () { showNextIntro(cur + 1); }, cls: 'primary' },
+         { label: '重玩本关', fn: function () { startLevel(cur); }, cls: 'ghost' },
+         { label: '选关', fn: showLevels, cls: 'ghost' }];
+    var t = info(cur).star;
+    var starTip = got >= 3 ? '三星！' + t[0] + 's 内通关真快'
+      : got === 2 ? '再快一点（' + t[0] + 's 内）就是三星'
+      : '试试 ' + t[1] + 's 内通关拿两星';
+    showResult('win', {
+      title: last ? '4 关全部通关！🏆' : '过关！🎉',
+      sub: last ? '挑战关也清空了 —— 该试试无尽模式了' : '第 ' + cur + ' 关 · ' + info(cur).name + ' 已清空',
+      stars: got,
+      starTip: starTip,
+      stats: [['用时', sec + 's'], ['剩余', '0 张'], ['已解锁', progress.unlocked + ' / ' + LEVELS.length]],
+      tip: last ? '试试刷新最快通关时间？' : info(cur + 1).tip,
+      actions: acts,
+    });
+  }
+
+  function onLose() {
+    playing = false;
+    if (endless.on) {
+      // 无尽模式：托盘满 = 挑战结束（记最高塔数）
+      endless.on = false;
+      window.__NAIWA_ENDLESS__ = { tower: endless.tower, on: false };
+      if (endless.tower > (progress.endlessBest || 0)) { progress.endlessBest = endless.tower; }
+      if (endless.tiles > (progress.endlessTiles || 0)) { progress.endlessTiles = endless.tiles; }
+      saveProgress();
+      var total = fmtTime(performance.now() - endless.startedAt);
+      setHold(true);
+      showResult('lose', {
+        title: '挑战结束 🔥',
+        sub: '无尽模式 · 止步第 ' + endless.tower + ' 塔',
+        stats: [['爬塔', endless.tower + ' 塔'], ['清除', endless.tiles + ' 张'], ['总用时', total]],
+        tip: '最高纪录 ' + (progress.endlessBest || 0) + ' 塔。下一塔只会更高，早点攒同种图案再下手。',
+        actions: [{ label: '上榜', fn: showSubmit, cls: 'primary' },
+                  { label: '再爬一次', fn: function () { startEndless(1, true); } },
+                  { label: '排行榜', fn: function () { showLeaderboard(true); }, cls: 'ghost' },
+                  { label: '选关', fn: showLevels, cls: 'ghost' }],
+      });
+      return;
+    }
+    // 游戏失败时会立刻清空牌堆与托盘，所以用"失败前最后一次看到的场面"来报数
+    var left = (lastSeen.left + lastSeen.tray) || 0;
+    showResult('lose', {
+      title: '托盘满了 😵',
+      sub: '第 ' + cur + ' 关 · ' + info(cur).name,
+      stats: [['剩余', left + ' 张'], ['托盘', currentCap() + ' / ' + currentCap()], ['用时', fmtTime(performance.now() - startAt)]],
+      tip: '尽量连着抓同一种图案；实在不行用「移出前三个」或「回退」救一下。失败不会扣进度，重来即可。',
+      actions: [{ label: '重玩本关', fn: function () { startLevel(cur); }, cls: 'primary' },
+                { label: '选关', fn: showLevels, cls: 'ghost' }],
+    });
+  }
+
+  /* ---------------- 音效开关 ---------------- */
+  function applyMute() {
+    [].slice.call(document.querySelectorAll('audio')).forEach(function (a) { a.muted = muted; });
+    muteBtn.textContent = muted ? '🔇' : '🔊';
+    muteBtn.setAttribute('aria-label', muted ? '音效已关闭，点击开启' : '音效已开启，点击关闭');
+    muteBtn.setAttribute('aria-pressed', muted ? 'true' : 'false');
+  }
+  function toggleMute() {
+    muted = !muted;
+    localStorage.setItem(KEY_MUTED, muted ? '1' : '0');
+    applyMute();
+  }
+
+  /* ---------------- 事件 ---------------- */
+  ui.addEventListener('click', function (ev) {
+    var t = ev.target;
+    var act = t.closest && t.closest('[data-act]');
+    if (act && act.dataset.act === 'levels') { showLevels(); return; }
+    if (act && act.dataset.act === 'mute') { toggleMute(); return; }
+    if (act && act.dataset.act === 'leaderboard') { showLeaderboard(true); return; }
+    var lb = t.closest && t.closest('[data-lb]');
+    if (lb) {
+      if (lb.dataset.lb === 'refresh') refreshLb();
+      else if (lb.dataset.lb === 'send') lbSend();
+      else if (lb.dataset.lb === 'skip') showLeaderboard(false);
+      else { lbSort = lb.dataset.lb; showLeaderboard(false); }
+      return;
+    }
+    var lv = t.closest && t.closest('[data-lv]');
+    if (lv && !lv.disabled) { startLevel(Number(lv.dataset.lv)); return; }
+    var run = t.closest && t.closest('[data-run]');
+    if (!run) return;
+    var label = run.dataset.run;
+    if (label === 'continue') { startLevel(progress.unlocked); return; }
+    if (label === 'resume') { continueGame(); return; }
+    if (label === 'help') { showHelp(); return; }
+    if (label === 'back-levels') { showLevels(); return; }
+    if (label === 'reset') {
+      if (window.confirm('确定要清空进度吗？（各关最快时间与解锁记录都会重置）')) {
+        progress = { unlocked: 1, cleared: [], best: {}, stars: {} };
+        saveProgress();
+        showLevels();
+      }
+      return;
+    }
+    if (actions[label]) { var fn = actions[label]; actions = {}; fn(); }
+  });
+
+  // 劫持原生 alert：游戏失败时弹的就是它，换成自己的面板
+  var nativeAlert = window.alert;
+  window.alert = function (msg) {
+    if (/槽位已满|再接再厉/.test(String(msg || ''))) { onLose(); return; }
+    return nativeAlert.apply(window, arguments);
+  };
+
+  /* ------------------------------------------------------------------ *
+   * 无尽模式排行榜（TinyWebDB）
+   *   · 提交：action=update，tag = naiwa-<epoch秒>-<随机>，value = 塔|张|秒|昵称
+   *   · 读取：action=search，tag=naiwa&count=100，返回 {tag: value}
+   *   · 服务端带 Access-Control-Allow-Origin: *，所以 file:// 双击打开也能读
+   *   · 读不到（断网/服务器挂了）就显示本地缓存的上一次结果，并标注"离线缓存"
+   * ------------------------------------------------------------------ */
+  var LB_API = 'https://tinywebdb.appinventor.space/api';
+  var LB_USER = 'zhuadae';
+  var LB_SECRET = '9c0ba660';
+  var KEY_LB = 'naiwa.leaderboard.v1';
+  var KEY_NICK = 'naiwa.nick';
+  var KEY_MINE = 'naiwa.mytags';
+  var lbState = { loading: false, from: 'cache', at: 0 };
+  var lbSort = 'new';        // new = 按提交时间倒序；top = 按塔数
+
+  function lbPost(params, timeoutMs) {
+    var body = 'user=' + encodeURIComponent(LB_USER) + '&secret=' + encodeURIComponent(LB_SECRET)
+      + '&action=' + encodeURIComponent(params.action)
+      + Object.keys(params).filter(function (k) { return k !== 'action'; })
+        .map(function (k) { return '&' + k + '=' + encodeURIComponent(params[k]); }).join('');
+    var opt = { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body };
+    if (window.AbortController) {
+      var ac = new AbortController();
+      opt.signal = ac.signal;
+      setTimeout(function () { try { ac.abort(); } catch (e) { /* 忽略 */ } }, timeoutMs || 8000);
+    }
+    return fetch(LB_API, opt).then(function (r) { return r.text(); });
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function lbDecode(obj) {
+    var out = [];
+    Object.keys(obj || {}).forEach(function (tag) {
+      if (tag.indexOf('naiwa') !== 0) return;
+      var parts = String(obj[tag]).split('|');
+      var m = /^naiwa-(\d{10,})-/.exec(tag);
+      var e = {
+        tag: tag,
+        tower: Math.max(0, parseInt(parts[0], 10) || 0),
+        tiles: Math.max(0, parseInt(parts[1], 10) || 0),
+        sec: Math.max(0, parseInt(parts[2], 10) || 0),
+        nick: (parts[3] || '匿名奶蛙').slice(0, 16),
+        ts: m ? Number(m[1]) * 1000 : 0,
+      };
+      if (e.tower > 0) out.push(e);
+    });
+    out.sort(function (a, b) { return b.ts - a.ts; });
+    return out;
+  }
+
+  function lbFetch() {
+    lbState.loading = true;
+    return lbPost({ action: 'search', no: 1, count: 100, tag: 'naiwa' }, 9000).then(function (txt) {
+      var list = lbDecode(JSON.parse(txt));
+      try { localStorage.setItem(KEY_LB, JSON.stringify({ at: Date.now(), list: list })); } catch (e) { /* 忽略 */ }
+      lbState.from = 'net';
+      lbState.at = Date.now();
+      lbState.loading = false;
+      return list;
+    });
+  }
+
+  function lbCache() {
+    try {
+      var d = JSON.parse(localStorage.getItem(KEY_LB) || '{}');
+      return { at: d.at || 0, list: Array.isArray(d.list) ? d.list : [] };
+    } catch (e) { return { at: 0, list: [] }; }
+  }
+
+  function lbNick() { return localStorage.getItem(KEY_NICK) || '奶蛙玩家'; }
+  function lbSetNick(n) {
+    n = String(n || '').replace(/[|\r\n\t]/g, ' ').trim().slice(0, 12) || '奶蛙玩家';
+    try { localStorage.setItem(KEY_NICK, n); } catch (e) { /* 忽略 */ }
+    return n;
+  }
+  function lbMine() {
+    try { return JSON.parse(localStorage.getItem(KEY_MINE) || '[]'); } catch (e) { return []; }
+  }
+  function lbAddMine(tag) {
+    var m = lbMine();
+    m.push(tag);
+    try { localStorage.setItem(KEY_MINE, JSON.stringify(m.slice(-30))); } catch (e) { /* 忽略 */ }
+  }
+
+  function fmtAgo(ms) {
+    if (!ms) return '未知时间';
+    var d = Math.max(0, Date.now() - ms) / 1000;
+    if (d < 60) return '刚刚';
+    if (d < 3600) return Math.floor(d / 60) + ' 分钟前';
+    if (d < 86400) return Math.floor(d / 3600) + ' 小时前';
+    return Math.floor(d / 86400) + ' 天前';
+  }
+
+  function lbRows(list, limit) {
+    var mine = lbMine();
+    var byTower = list.slice().sort(function (a, b) { return b.tower - a.tower || a.sec - b.sec || b.ts - a.ts; });
+    var rankOf = {};
+    byTower.forEach(function (e, i) { rankOf[e.tag] = i + 1; });
+    var show = (lbSort === 'top' ? byTower : list).slice(0, limit || 20);
+    if (!show.length) return '<p class="nw-tip" data-el="lbbox">榜上还没有成绩，做第一个爬塔的人吧 🐸</p>';
+    return '<div class="nw-lb" data-el="lbbox">' + show.map(function (e) {
+      var r = rankOf[e.tag];
+      var medal = r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : '#' + r;
+      return '<div class="nw-lb__row' + (mine.indexOf(e.tag) >= 0 ? ' is-mine' : '') + '">'
+        + '<span class="nw-lb__rank">' + medal + '</span>'
+        + '<b class="nw-lb__tower">' + e.tower + ' 塔</b>'
+        + '<span class="nw-lb__meta">' + e.tiles + ' 张 · ' + fmtTime(e.sec * 1000) + '</span>'
+        + '<span class="nw-lb__nick">' + esc(e.nick) + '</span>'
+        + '<span class="nw-lb__time">' + fmtAgo(e.ts) + '</span>'
+        + '</div>';
+    }).join('') + '</div>';
+  }
+
+  /** 排行榜面板；fetchFirst=true 时先拉网再画（否则先画缓存） */
+  function showLeaderboard(fetchFirst) {
+    playing = false;
+    setHold(true);
+    var cache = lbCache();
+    var when = lbState.from === 'net' && lbState.at
+      ? 'TinyWebDB 实时数据 · 更新于 ' + new Date(lbState.at).toLocaleTimeString()
+      : (cache.at ? '离线缓存 · ' + fmtAgo(cache.at) + '（上次连上服务器的时间）' : '正在读取…');
+    el.panel.innerHTML = [
+      '<h2 class="nw-title nw-title--sm">🏆 无尽模式排行榜</h2>',
+      '<p class="nw-sub" data-el="lbsub">' + when + '</p>',
+      '<div class="nw-seg">',
+      '<button class="nw-seg__btn' + (lbSort === 'new' ? ' is-on' : '') + '" data-lb="new">最新 20 条</button>',
+      '<button class="nw-seg__btn' + (lbSort === 'top' ? ' is-on' : '') + '" data-lb="top">最强者</button>',
+      '</div>',
+      lbRows(cache.list, 20),
+      '<div class="nw-actions">',
+      '<button class="nw-btn" data-lb="refresh">刷新</button>',
+      '<button class="nw-btn nw-btn--ghost" data-run="back-levels">回到选关</button>',
+      '</div>',
+      '<p class="nw-tip">成绩由玩家自己提交（无尽模式结束后点「上榜」）；昵称存在本机，随时可改。</p>',
+    ].join('');
+    openOverlay();
+    if (fetchFirst) refreshLb();
+  }
+
+  function refreshLb() {
+    var btn = el.panel.querySelector('[data-lb="refresh"]');
+    if (btn) { btn.textContent = '读取中…'; btn.disabled = true; }
+    lbFetch().then(function (list) {
+      var box = el.panel.querySelector('[data-el="lbbox"]');
+      if (box) {
+        var tmp = document.createElement('div');
+        tmp.innerHTML = lbRows(list, 20);
+        box.parentNode.replaceChild(tmp.firstChild, box);
+      }
+      var sub = el.panel.querySelector('[data-el="lbsub"]');
+      if (sub) sub.textContent = 'TinyWebDB 实时数据 · 更新于 ' + new Date().toLocaleTimeString();
+      if (btn) { btn.textContent = '刷新'; btn.disabled = false; }
+    }).catch(function () {
+      lbState.loading = false;
+      if (btn) { btn.textContent = '重试'; btn.disabled = false; }
+      var sub = el.panel.querySelector('[data-el="lbsub"]');
+      if (sub) sub.textContent = '连不上排行榜服务器 · 下面是本机上次看到的数据';
+    });
+  }
+
+  /** 上榜表单（无尽模式结束后用） */
+  function showSubmit() {
+    var tower = endless.tower, tiles = endless.tiles;
+    var sec = Math.round((performance.now() - endless.startedAt) / 1000);
+    playing = false;
+    setHold(true);
+    el.panel.innerHTML = [
+      '<div class="nw-center"><div class="nw-spike">🔥 上榜</div></div>',
+      '<h2 class="nw-title nw-title--sm">提交你的爬塔成绩</h2>',
+      '<p class="nw-sub">止步第 ' + tower + ' 塔 · 清除 ' + tiles + ' 张 · 总用时 ' + fmtTime(sec * 1000) + '</p>',
+      '<div class="nw-form">',
+      '<label class="nw-form__row"><span>昵称</span><input class="nw-input" data-el="nick" maxlength="12" value="' + esc(lbNick()) + '" placeholder="最多 12 字" /></label>',
+      '</div>',
+      '<p class="nw-tip">只上传「塔数 / 清除张数 / 用时 / 昵称」四项，服务器是 TinyWebDB 免费实例。</p>',
+      '<div class="nw-actions">',
+      '<button class="nw-btn nw-btn--lg" data-lb="send">提交到排行榜</button>',
+      '<button class="nw-btn nw-btn--ghost" data-lb="skip">先不提交</button>',
+      '</div>',
+    ].join('');
+    openOverlay();
+  }
+
+  function lbSend() {
+    var input = el.panel.querySelector('[data-el="nick"]');
+    var nick = lbSetNick(input ? input.value : '');
+    var tower = endless.tower, tiles = endless.tiles;
+    var sec = Math.round((performance.now() - endless.startedAt) / 1000);
+    var tag = 'naiwa-' + Math.floor(Date.now() / 1000) + '-' + Math.floor(Math.random() * 9000 + 1000);
+    var btn = el.panel.querySelector('[data-lb="send"]');
+    if (btn) { btn.textContent = '提交中…'; btn.disabled = true; }
+    lbPost({ action: 'update', tag: tag, value: tower + '|' + tiles + '|' + sec + '|' + nick }, 9000)
+      .then(function () {
+        lbAddMine(tag);
+        flash('已上榜：' + tower + ' 塔');
+        showLeaderboard(true);
+      })
+      .catch(function () {
+        if (btn) { btn.textContent = '提交失败，点我重试'; btn.disabled = false; }
+        flash('提交失败：检查一下网络');
+      });
+  }
+
+  /* ---------------- 主循环（轻量轮询） ---------------- */
+  function tick() {
+    applyMuteOnce();
+    var api = window.__NAIWA__;
+    if (api && el.overlay.hidden) {
+      // 游戏自己切关（过关/失败后自动前进）时，把 cur 同步过来并重新挂上验证；
+      // 面板开着时不同步——失败后游戏会自己在背后重开第 1 关，别让顶栏跟着乱跳
+      var live = api.current();
+      if (live >= 1 && live !== cur) { cur = live; armValidation(live); }
+    }
+    var b = boardCards().length, t = trayCards().length;
+    if (b + t > 0) lastSeen = { left: b, tray: t };          // 记住场面，失败时用来报数
+    // 本关总牌数只在"托盘为空"时采样：落牌动画期间离场的牌还留在 DOM 里，
+    // 直接取 max(b+t) 会把同一张牌数两遍（实测会算出 10 张）
+    if (t === 0 && b > dealTotal) {
+      dealTotal = b;
+      fitBoard();          // 发牌这一刻牌堆最"胖"，此时定缩放比（塔高了也不会顶到 HUD）
+    }
+    el.left.innerHTML = '剩余 <b>' + (b + t) + '</b>';
+    setBar(dealTotal ? (dealTotal - b - t) / dealTotal : 0);
+    if (pendingStart && b > 0) { playing = true; pendingStart = false; }
+    if (playing) {
+      el.time.textContent = fmtTime(performance.now() - startAt);
+      if (b === 0 && t === 0) { playing = false; onWin(); }
+    }
+    runValidator(api);                                       // 发牌后验证可解性，不可解则重发
+    lastBoardCount = boardCards().length;
+  }
+  var muteApplied = false;
+  function applyMuteOnce() { if (!muteApplied) { muteApplied = true; applyMute(); } }
+
+  function boot() {
+    applyMute();
+    updateHud();
+    showLevels();
+    armValidation(cur);            // 游戏自己会先发第 1 关，这里也要验
+    setInterval(tick, 200);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+
+  // 自动化测试入口（回归脚本要能直接开指定规模的塔、按任意槽位容量判一次可解性）
+  window.__NAIWA_START_ENDLESS__ = startEndless;
+  window.__NAIWA_JUDGE__ = function (cap) {
+    var nodes = readBoardGraph();
+    var tray = trayCards().map(function (c) { var i = c.querySelector('img'); return i ? i.getAttribute('alt') : null; }).filter(Boolean);
+    var res = judgeLevel(nodes, cap || currentCap(), tray);
+    return { tiles: nodes.length, cap: cap || currentCap(), ok: res.ok, maxTray: res.maxTray, reason: res.reason || '' };
+  };
+  /** 提示：当前局面下"按最优线走"接下来该抓哪几种图案（给玩法提示与自动化测试用）
+      返回一整段顺序，而不是单一步：牌堆里有些"可点"的牌会被上两层的牌压住看不见，
+      照着顺序找第一张真正点得到的即可。 */
+  window.__NAIWA_HINT__ = function () {
+    var nodes = readBoardGraph();
+    if (!nodes.length) return { ok: false, seq: [], tiles: 0, free: 0 };
+    var tray = trayCards().map(function (c) { var i = c.querySelector('img'); return i ? i.getAttribute('alt') : null; }).filter(Boolean);
+    var free = nodes.filter(function (n) { return !n.blockers.length; }).length;
+    var res = judgeLevel(nodes, currentCap(), tray);
+    return {
+      ok: res.ok, type: res.ok ? res.first : null, seq: res.ok ? res.seq : [],
+      tiles: nodes.length, free: free, tray: tray.length, maxTray: res.maxTray, reason: res.reason || '',
+    };
+  };
+  window.__NAIWA_STATE__ = function () {
+    return {
+      cur: cur, cap: currentCap(),
+      endless: { on: endless.on, tower: endless.tower, tiles: endless.tiles },
+      best: progress.endlessBest || 0, unlocked: progress.unlocked,
+    };
+  };
+})();
+
+</script>
+</body>
+</html>

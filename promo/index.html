@@ -17,10 +17,15 @@
     font-family: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  #frame { position: fixed; inset: 0; display: grid; place-items: center; background: #06090a; }
+  /* 舞台缩放的关键：别用 grid 居中——Chrome 对"比容器还大的 grid item"会按 start 对齐，
+     缩放后右侧/底部直接被裁掉（表现就是"要缩到 80% 才看得全"）。
+     改成绝对定位 + left/top 50% + translate(-50%,-50%)，多大都稳居中。 */
+  #frame { position: fixed; inset: 0; overflow: hidden; background: #0d2a12; }
   #stage {
-    position: relative; width: 1920px; height: 1080px; overflow: hidden;
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px; overflow: hidden;
     transform-origin: center center;
+    transform: translate(-50%, -50%) scale(1);
     background:
       radial-gradient(rgba(255,255,255,.10) 1.2px, transparent 1.4px),
       repeating-linear-gradient(45deg, rgba(255,255,255,.03) 0 2px, transparent 2px 30px),
@@ -238,6 +243,7 @@
     transition: opacity .35s ease, transform .35s ease;
   }
   body.clean #bar { opacity: 0; transform: translateY(100%); pointer-events: none; }
+  #bar .scale { font-variant-numeric: tabular-nums; color: #ffe08f; font-weight: 800; min-width: 44px; text-align: center; }
   #bar button {
     height: 28px; padding: 0 12px; border-radius: 9px; border: 1px solid rgba(255,255,255,.3);
     background: linear-gradient(180deg, #ffe08f, #f0b545); color: #4a2f0c; font-weight: 800; font-family: inherit; cursor: pointer;
@@ -322,15 +328,18 @@
   <button id="btnReplay">重播</button>
   <button id="btnSound">BGM 开</button>
   <button id="btnClean">隐藏控制条</button>
+  <button id="btnFit">适应窗口</button>
   <div class="track"><i id="tk"></i></div>
   <span class="time" id="tm">0.0 / 30.0</span>
-  <span id="hint">F11 全屏 · 空格 暂停 · R 重播 · H 隐藏控制条</span>
+  <span class="scale" id="scaleTag">100%</span>
+  <span id="hint">F11 全屏 · 空格 暂停 · R 重播 · H 隐藏控制条 · <b>+ / -</b> 手动缩放</span>
 </div>
 
 <div id="cover">
   <div>
     <h2>抓奶蛙 · 30 秒宣传片</h2>
-    <p>画面 1920×1080（16:9），按窗口等比缩放；录制请按 <kbd>F11</kbd> 全屏，画面就是满幅。</p>
+    <p>画面 1920×1080（16:9），<b>自动缩放适应窗口</b>，永远不会超出屏幕（当前缩放见右下角）。</p>
+    <p>录制时按 <kbd>F11</kbd> 全屏；窗口不是 16:9 的话四周会留一圈绿边，属正常。嫌大就按 <kbd>-</kbd> 手动缩小、按 <kbd>0</kbd> 回到自动。</p>
     <p>点开始后 <b>播放期间控制条自动隐藏</b>，录出来的就是干净画面（按 <kbd>H</kbd> 可手动切换）。</p>
     <p>演示牌面用的是真游戏第 4 关的一副牌，取牌顺序由内置求解器给出——凑够 3 张相同的才会消。</p>
     <p>BGM 由这份 HTML 用 WebAudio 现场合成，没有外部音频文件。</p>
@@ -347,11 +356,23 @@
 
   /* ---------------- 舞台缩放 ---------------- */
   var stage = document.getElementById('stage');
+  var BOTTOM_BAR = 46;                 // 底部控制条高度：固定留出来，画面不会因它出现而跳动
+  var scaleNow = 1, zoomOverride = 0, barReserve = 46;   // zoomOverride=0 → 自动适应窗口；barReserve 给底部控制条留的位置
   function fit() {
-    var k = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-    stage.style.transform = 'scale(' + k + ')';
+    var auto = Math.min((window.innerWidth - 8) / 1920, (window.innerHeight - barReserve) / 1080);
+    auto = Math.max(0.2, Math.min(1, auto));   // 不放大：最大就是 1080p 原生尺寸
+    var k = zoomOverride || auto;
+    scaleNow = k;
+    stage.style.transform = 'translate(-50%, -50%) scale(' + k + ')';
+    var ind = document.getElementById('scaleTag');
+    if (ind) ind.textContent = Math.round(k * 100) + '%' + (zoomOverride ? '（手动）' : '');
   }
-  window.addEventListener('resize', fit);
+  function setZoom(delta) {
+    var base = zoomOverride || scaleNow;
+    zoomOverride = Math.max(0.2, Math.min(1, Math.round((base + delta) * 100) / 100));
+    fit();
+  }
+  window.addEventListener('resize', function () { fit(); });
   fit();
 
   var el = function (id) { return document.getElementById(id); };
@@ -788,7 +809,10 @@
         sfx('whoosh');
       }, 320);
     });
-    at(21.8, function () { caption('成绩实时上榜：TinyWebDB 同步', 900, 46); });
+    at(21.8, function () {
+      var pb = rectInStage(document.querySelector('#s4 .panel'));
+      caption('成绩实时上榜：TinyWebDB 同步', Math.round(pb.y + pb.h + 24), 46);
+    });
 
     at(25.4, function () {
       fade.classList.remove('clear');
@@ -812,6 +836,9 @@
     cleanMode = on;
     document.body.classList.toggle('clean', on);
     btnClean.textContent = on ? '显示控制条 (H)' : '隐藏控制条 (H)';
+    // 控制条藏起来后底部那 46px 也让给画面：全屏录制时正好铺满
+    barReserve = on ? 10 : 46;
+    fit();
   }
   function reset() {
     elapsed = 0; startAt = performance.now();
@@ -881,10 +908,14 @@
     if (master) master.gain.value = soundOn ? 0.85 : 0;
   });
   btnClean.addEventListener('click', function () { setClean(!cleanMode); });
+  el('btnFit').addEventListener('click', function () { zoomOverride = 0; fit(); });
   window.addEventListener('keydown', function (e) {
     if (e.code === 'Space') { e.preventDefault(); if (!ac) { initAudio(); ac.resume(); } pauseToggle(); }
     if (e.key === 'r' || e.key === 'R') { if (!ac) { initAudio(); ac.resume(); } play(); }
     if (e.key === 'h' || e.key === 'H') setClean(!cleanMode);
+    if (e.key === '+' || e.key === '=') setZoom(0.05);
+    if (e.key === '-' || e.key === '_') setZoom(-0.05);
+    if (e.key === '0') { zoomOverride = 0; fit(); }
   });
   ['pointerdown', 'touchstart'].forEach(function (ev) {
     window.addEventListener(ev, function () {

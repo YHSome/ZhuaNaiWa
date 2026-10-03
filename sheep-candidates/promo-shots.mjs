@@ -95,14 +95,15 @@ void audio;
 const frames = [
   [1.2, '01-开场-标题'],
   [3.4, '02-开场-副标题'],
-  [6.0, '03-玩法-演示牌桌'],
-  [8.2, '04-玩法-三消'],
-  [11.0, '05-玩法-第二次消除'],
-  [15.5, '06-无尽模式-第1塔'],
-  [18.2, '07-无尽模式-第2塔更高'],
-  [22.0, '08-排行榜'],
-  [26.2, '09-结尾'],
-  [29.4, '10-片尾淡出'],
+  [6.4, '03-玩法-真牌面'],
+  [8.0, '04-玩法-第一组三消'],
+  [9.6, '05-玩法-第二组三消'],
+  [11.6, '06-玩法-第三组三消'],
+  [15.5, '07-无尽模式-第1塔'],
+  [18.2, '08-无尽模式-第2塔更高'],
+  [22.0, '09-排行榜'],
+  [26.2, '10-结尾'],
+  [29.4, '11-片尾淡出'],
 ];
 const t0 = Date.now();
 for (const [t, name] of frames) {
@@ -110,12 +111,14 @@ for (const [t, name] of frames) {
   if (wait > 0) await sleep(wait);
   const st = await page.ev(`(function(){
     var on = [].slice.call(document.querySelectorAll('.scene.on')).map(function(s){ return s.id; });
+    var p = window.__promo.state();
     return { t: document.getElementById('tm').textContent, scenes: on.join('+'),
       tower: document.querySelectorAll('#tower .tile').length,
-      lb: document.querySelectorAll('#s4 .row.in').length, caps: document.querySelectorAll('.capt').length };
+      lb: document.querySelectorAll('#s4 .row.in').length, caps: document.querySelectorAll('.capt, .note').length,
+      tray: p.tray.join(','), cleared: p.cleared, tiles: p.tiles, clean: p.clean };
   })()`);
   const file = await page.shot('p' + name.slice(0, 2) + '-' + name.slice(3));
-  console.log(`   t=${st.t}  场景=${st.scenes || '无'}  塔牌=${st.tower}  榜行=${st.lb}  → promo-shots/${file}`);
+  console.log(`   t=${st.t}  场景=${st.scenes || '无'}  牌面=${st.tiles}  木槽=[${st.tray}]  已消=${st.cleared}  塔牌=${st.tower}  榜行=${st.lb}  控制条${st.clean ? '已隐藏' : '显示'}  → promo-shots/${file}`);
 }
 await sleep(1200);
 

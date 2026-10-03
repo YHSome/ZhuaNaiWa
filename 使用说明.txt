@@ -1,6 +1,22 @@
 抓奶蛙 · 双击即玩版
 ====================
 
+线上地址（不想下载也行）
+------------------------
+游戏        https://yhsome.github.io/zhuanaiwa/
+30 秒宣传片  https://yhsome.github.io/zhuanaiwa/promo/
+源码仓库    https://github.com/YHSome/zhuanaiwa
+排行榜数据页 http://tinywebdb.appinventor.space/webdb-zhuadae-9c0ba660
+
+宣传片怎么录（约 30 秒）
+------------------------
+1. 浏览器打开 promo\index.html（或线上 /promo/），按 F11 全屏
+2. 点「开始播放」→ 3-2-1 倒计时后自动播放 30 秒
+   BGM 是这份 HTML 用 WebAudio 现场合成的（无外部音频、无版权问题）
+3. 用系统录屏（Win+G / OBS / QuickTime）录整个窗口即可
+4. 空格暂停/继续、R 重播；底部控制条在舞台之外，录完裁掉那 46px 即可
+   舞台固定 1920×1080 等比缩放，想 1:1 就把窗口拉到 ≥1920×1126
+
 怎么玩
 ------
 双击本目录下的 index.html（Chrome / Edge / Firefox 都行），不需要启动任何服务。

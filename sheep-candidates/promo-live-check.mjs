@@ -2,7 +2,7 @@
  * 线上宣传片实测：确认 Pages 上是新版（真牌面 54 张 + 求解器顺序 18 步 + 满三才消）
  * 用法: node promo-live-check.mjs [baseUrl] [cdpPort]
  */
-const BASE = (process.argv[2] || 'https://yhsome.github.io/zhuanaiwa/promo/');
+const BASE = (process.argv[2] || 'https://yhsome.github.io/ZhuaNaiWa/promo/');
 const CDP_PORT = Number(process.argv[3] || 9222);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

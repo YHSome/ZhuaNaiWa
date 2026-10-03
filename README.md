@@ -2,7 +2,7 @@
 
 **堆叠三消小游戏 · 双击 `index.html` 就能玩 · 手机/平板/桌面都适配**
 
-在线版：**https://yhsome.github.io/zhuanaiwa/**  （GitHub Pages，直接用浏览器打开）
+在线版：**https://yhsome.github.io/ZhuaNaiWa/**  （GitHub Pages，直接用浏览器打开）
 排行榜：无尽模式成绩实时同步（TinyWebDB），榜上展示最近 20 条提交
 
 ---

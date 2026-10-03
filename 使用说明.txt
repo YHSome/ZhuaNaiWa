@@ -3,9 +3,9 @@
 
 线上地址（不想下载也行）
 ------------------------
-游戏        https://yhsome.github.io/zhuanaiwa/
-30 秒宣传片  https://yhsome.github.io/zhuanaiwa/promo/
-源码仓库    https://github.com/YHSome/zhuanaiwa
+游戏        https://yhsome.github.io/ZhuaNaiWa/
+30 秒宣传片  https://yhsome.github.io/ZhuaNaiWa/promo/
+源码仓库    https://github.com/YHSome/ZhuaNaiWa
 排行榜数据页 http://tinywebdb.appinventor.space/webdb-zhuadae-9c0ba660
 
 宣传片怎么录（约 30 秒）

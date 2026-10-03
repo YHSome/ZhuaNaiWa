@@ -5,7 +5,7 @@
  *   · 宣传片能加载、能播
  * 用法: node live-check.mjs [baseUrl] [cdpPort]
  */
-const BASE = process.argv[2] || 'https://yhsome.github.io/zhuanaiwa/';
+const BASE = process.argv[2] || 'https://yhsome.github.io/ZhuaNaiWa/';
 const CDP_PORT = Number(process.argv[3] || 9222);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

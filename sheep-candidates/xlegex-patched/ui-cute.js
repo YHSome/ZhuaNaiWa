@@ -88,6 +88,7 @@
   var pausedAt = 0;
   var lastSeen = { left: 0, tray: 0 };   // 最近一次非空场面（失败瞬间游戏会立刻清空牌堆，得先记住）
   var dealTotal = 0;                     // 本关发牌总张数（用于进度条，从场面里量出来）
+  var lastHudH = 0;                      // 顶栏实测高度：进度条跟着它往下排（字体变大后可能换行）
   var endless = { on: false, tower: 0, tiles: 0, startedAt: 0 };   // 无尽模式运行时状态
 
   /** 闸门：挡住游戏自带的"过关/失败后自动切关"定时器，避免覆盖玩家在面板里选的关卡 */
@@ -97,8 +98,8 @@
   var ui = document.createElement('div');
   ui.id = 'nw-ui';
   ui.innerHTML = [
-    '<div class="nw-hud">',
-    '  <button class="nw-btn nw-btn--ghost" data-act="levels">☰ 选关</button>',
+    '<div class="nw-hud" data-el="hud">',
+    '  <button class="nw-btn nw-btn--ghost" data-act="levels"><span class="nw-ico">☰</span><span class="nw-txt">选关</span></button>',
     '  <span class="nw-chip" data-el="level">第 1 关</span>',
     '  <span class="nw-hud__spacer"></span>',
     '  <span class="nw-chip" data-el="left">剩余 <b>0</b></span>',
@@ -115,7 +116,7 @@
   document.body.appendChild(ui);
 
   var el = {};
-  ['level', 'left', 'time', 'overlay', 'panel', 'barwrap', 'bar'].forEach(function (k) { el[k] = ui.querySelector('[data-el="' + k + '"]'); });
+  ['level', 'left', 'time', 'overlay', 'panel', 'barwrap', 'bar', 'hud'].forEach(function (k) { el[k] = ui.querySelector('[data-el="' + k + '"]'); });
   var muteBtn = ui.querySelector('[data-act="mute"]');
 
   /* ---------------- 小工具 ---------------- */
@@ -154,34 +155,65 @@
     var bar = el.barwrap.getBoundingClientRect();
     var row = document.querySelector('#app > div > div[h-50px][text-center]');
     var bottom = row ? row.getBoundingClientRect().top - 8 : window.innerHeight - 200;
-    return { top: bar.bottom + 10, bottom: bottom };
+    return { top: bar.bottom + 8, bottom: bottom };
   }
 
+  /* 牌堆缩放：量两次、线性插值反解可行区间（纵向可用区 + 横向不出屏），
+     小牌堆还会**放大到刚好填满**——教程关 9 张牌原来缩在中间一小块，手机上看着太小。
+     注意别用公式硬解 transform-origin（牌堆顶部在锚点之上时符号会反，比例会被压到 0.5） */
   function fitBoard() {
     var host = boardHost();
     if (!host) return null;
     var board = boardCards();
-    if (board.length < 6) return null;                       // 小牌堆不用管
+    if (board.length < 4) return null;
     var wide = window.innerWidth >= 620;
-    var base = wide ? 1.32 : 1.18;
-    var oy = wide ? 0.46 : 0.44;
-    host.style.transformOrigin = '50% ' + oy * 100 + '%';
-    host.style.transform = 'scale(' + base + ')';
-    var rect = host.getBoundingClientRect();
-    var H = host.offsetHeight;
-    var o = oy * H;                                          // 本地坐标里的锚点
-    // 反推"没缩放时"牌堆容器的顶边
-    var T = rect.top - o * (1 - base);
-    var rs = board.map(function (c) { return c.getBoundingClientRect(); });
-    var vTop = Math.min.apply(null, rs.map(function (r) { return r.top; }));
-    var vBottom = Math.max.apply(null, rs.map(function (r) { return r.bottom; }));
-    var localTop = o + (vTop - T - o) / base;
-    var localBottom = o + (vBottom - T - o) / base;
+    var BASE = 1.34;                       // 与 CSS 里的基准一致
+    var MAXS = wide ? 1.55 : 1.8;          // 小牌堆最多放大到多少
+    var MINS = 0.62;                       // 再小就不好点了
+    host.style.transformOrigin = '50% 46%';
     var band = boardBand();
-    var sTop = (band.top - T - o) / (localTop - o);
-    var sBottom = (band.bottom - T - o) / (localBottom - o);
-    var s = Math.max(0.5, Math.min(base, sTop, sBottom));
+    var vw = window.innerWidth;
+
+    function measure(s) {
+      host.style.transform = 'scale(' + s + ')';
+      var rs = board.map(function (c) { return c.getBoundingClientRect(); });
+      return {
+        top: Math.min.apply(null, rs.map(function (r) { return r.top; })),
+        bottom: Math.max.apply(null, rs.map(function (r) { return r.bottom; })),
+        left: Math.min.apply(null, rs.map(function (r) { return r.left; })),
+        right: Math.max.apply(null, rs.map(function (r) { return r.right; })),
+      };
+    }
+    var m1 = measure(BASE);
+    var s2 = BASE * 0.7;
+    var m2 = measure(s2);
+    var ds = BASE - s2;
+    var slope = {
+      top: (m1.top - m2.top) / ds, bottom: (m1.bottom - m2.bottom) / ds,
+      left: (m1.left - m2.left) / ds, right: (m1.right - m2.right) / ds,
+    };
+    // 每个约束都换算成"缩放不得大于多少"。
+    // 注意不要写"当前已满足就直接返回"——那会漏掉"放大到一定程度才越界"的情况（会长到顶住 HUD）。
+    var cap = MAXS;
+    function limit(v1, sl, bound, isLower) {
+      if (isLower) {                                   // v(s) ≥ bound
+        if (sl >= 0) return;                           // 放大方向不会让 v 变小 → 不构成上限
+        cap = Math.min(cap, BASE + (bound - v1) / sl);
+      } else {                                         // v(s) ≤ bound
+        if (sl <= 0) return;
+        cap = Math.min(cap, BASE + (bound - v1) / sl);
+      }
+    }
+    limit(m1.top, slope.top, band.top, true);
+    limit(m1.bottom, slope.bottom, band.bottom, false);
+    limit(m1.left, slope.left, 16, true);
+    limit(m1.right, slope.right, vw - 16, false);
+    var s = Math.max(MINS, Math.min(MAXS, cap));
     host.style.transform = 'scale(' + (Math.round(s * 1000) / 1000) + ')';
+    // 再按"可用区中线"把牌堆整体挪一下：塔小的时候不会全挤在上半屏、下半屏空一大片
+    var mb = measure(s);
+    var dy = Math.round(((band.top + band.bottom) / 2) - ((mb.top + mb.bottom) / 2));
+    if (Math.abs(dy) > 2) host.style.transform = 'translateY(' + dy + 'px) scale(' + (Math.round(s * 1000) / 1000) + ')';
     return s;
   }
 
@@ -330,7 +362,7 @@
     var c = Number(window.__NAIWA_CAP__);
     return c >= 3 && c <= 9 ? c : TRAY_CAP;
   }
-  var MAX_REROLL = 6;
+  var MAX_REROLL = 10;
   /* 发牌"刁度"门槛：最优解路线占用的托盘格数上限。
      实测（endless-scale.mjs，遮挡方向修正后）：9 种图案下 54 张的第 4 关，
      最优解峰值均值就有 7.4/9，可解率 83%——也就是说"按刁度重发"会把本来能打通、
@@ -482,7 +514,7 @@
       level: level, tries: 0, stable: 0, awaitSig: null, dealCount: 0,
       redeal: redeal || null,
       // 重发只在开局这几秒内做：真发牌后玩家开始点了就不再动牌面（moved 判定兜底）
-      deadline: performance.now() + (budgetMs || 2600),
+      deadline: performance.now() + (budgetMs || 4000),
     };
     lastBoardCount = -1;
   }
@@ -525,7 +557,7 @@
     var moved = trayCards().length > 0 || boardCards().length < validatePending.dealCount;
 
     var inBudget = performance.now() < (validatePending.deadline || 0);
-    var maxReroll = validatePending.level === ENDLESS ? 8 : MAX_REROLL;   // 无尽模式一条命，宁可多发几副
+    var maxReroll = validatePending.level === ENDLESS ? 12 : MAX_REROLL;   // 无尽模式一条命，宁可多发几副
     if ((!res.ok || tooTight) && !moved && inBudget && validatePending.tries < maxReroll) {
       if (window.__NAIWA_STATS__.rerolls === 0) flash('重新发牌…');
       window.__NAIWA_STATS__.rerolls++;
@@ -657,7 +689,7 @@
     setBar(0);
     // 无尽模式只挡"无解"的牌，不按刁度重发（否则越爬越高的塔就白爬了）；
     // 一条命模式多给点重发预算：3 秒内最多换 8 副牌
-    armValidation(ENDLESS, function () { api.startEndless(cfg.cardNum, cfg.layer); }, 5000);
+    armValidation(ENDLESS, function () { api.startEndless(cfg.cardNum, cfg.layer); }, 6000);
     updateHud();
     flash('无尽模式 · 第 ' + tower + ' 塔 · ' + cfg.tiles + ' 张 · 托盘 ' + cfg.cap + ' 格');
     window.__NAIWA_ENDLESS__ = { tower: tower, layer: cfg.layer, tiles: cfg.tiles, cap: cfg.cap, on: true };
@@ -1136,6 +1168,10 @@
     }
     var b = boardCards().length, t = trayCards().length;
     if (b + t > 0) lastSeen = { left: b, tray: t };          // 记住场面，失败时用来报数
+    // 顶栏可能因为字体变大换成两行：把实际高度写回 CSS，进度条跟着往下让；
+    // 进度条一动，可用区就变了，牌堆要重新适配一次（否则会刚刚好顶出去十几像素）
+    var hh = el.hud.offsetHeight + 8;
+    if (hh !== lastHudH) { lastHudH = hh; ui.style.setProperty('--hud-h', hh + 'px'); fitBoard(); }
     // 本关总牌数只在"托盘为空"时采样：落牌动画期间离场的牌还留在 DOM 里，
     // 直接取 max(b+t) 会把同一张牌数两遍（实测会算出 10 张）
     if (t === 0 && b > dealTotal) {

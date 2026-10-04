@@ -48,11 +48,21 @@
   --wood-hi: #b3833a;
   --wood-mid: #8a5c22;
   --wood-lo: #5d3a12;
-  --slot-w: 34px;      /* 一个槽位的布局宽（托盘已从 7 格扩到 9 格） */
-  --slot-gap: 2px;     /* 9×34 + 8×2 = 322 = 托盘内容宽 */
-  --slot-pitch: 36px;
-  --tray-w: 322px;     /* 总宽 322 + 4×2 边框 = 330，360 宽的手机仍留 15px 边距 */
+  /* 木槽尺寸：手机上尽量占满宽度，槽位/图案都放大一档（"UI 太小"的主要反馈点） */
+  --slot-w: 38px;      /* 一个槽位的布局宽 */
+  --slot-gap: 2px;     /* 9×38 + 8×2 = 358 = 托盘内容宽 */
+  --slot-pitch: 40px;
+  --tray-w: 358px;     /* 总宽 358 + 4×2 边框 = 366，390 宽的手机留 12px 边距 */
   --table-w: 500px;    /* 桌面端牌桌宽度：HUD / 进度条 / 面板都按它对齐 */
+}
+
+/* 中等窄屏（≤381）：槽位 34，托盘外宽 330 */
+@media (max-width: 381px) {
+  :root { --slot-w: 34px; --slot-pitch: 36px; --tray-w: 322px; }
+}
+/* 极小屏（≤345）：槽位 30，托盘外宽 294 */
+@media (max-width: 345px) {
+  :root { --slot-w: 30px; --slot-pitch: 32px; --tray-w: 286px; }
 }
 
 /* ---------- 1. 场景：木纹台面 + 绒面牌桌 ---------- */
@@ -203,12 +213,14 @@ body {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, .3);
 }
 
-/* 牌堆整体放大，牌桌才不空（JS 用 clientWidth 布点，transform 不影响命中） */
+/* 牌堆整体放大，牌桌才不空（JS 用 clientWidth 布点，transform 不影响命中）
+   移动端从 1.18 提到 1.34：反馈"UI 太小"主要就来自牌面偏小；
+   大塔时由 fitBoard() 按可用空间自动缩回（最低 0.62） */
 @media (max-width: 619px) {
-  #app div[relative][flex-1] { transform: scale(1.18); transform-origin: 50% 44%; }
+  #app div[relative][flex-1] { transform: scale(1.34); transform-origin: 50% 46%; }
 }
 @media (min-width: 620px) {
-  #app div[relative][flex-1] { transform: scale(1.32); transform-origin: 50% 46%; }
+  #app div[relative][flex-1] { transform: scale(1.34); transform-origin: 50% 46%; }
   /* 桌面端牌桌更宽裕：牌堆整体往中间压一点，让"标题—牌堆—木槽"三段留白均衡 */
   #app div[relative][flex-1] > .card[data-v-a0e0f0b7] { translate: 0 22px; }
 }
@@ -493,19 +505,23 @@ body {
   #app > div > div[text-44px] { font-size: 34px !important; }
   #app > div > div[text-44px]::before,
   #app > div > div[text-44px]::after { width: 20px; height: 20px; margin: 0 8px; }
-  /* 触控目标不小于 40px（Apple HIG 建议 44px） */
-  #app button { height: 44px; padding: 0 18px !important; font-size: 15px !important; }
+  /* 触控目标不小于 44px（Apple HIG），道具按钮再加一点 */
+  #app button { height: 48px; padding: 0 20px !important; font-size: 16px !important; }
 }
 
-/* 窄屏（iPhone SE / 小安卓 320~380px）：9 格托盘按 322px 会溢出，整体收窄到 286px */
-@media (max-width: 380px) {
-  :root {
-    --tray-w: 286px;      /* 9 × 30 + 8 × 2 */
-    --slot-w: 30px;
-    --slot-pitch: 32px;
-  }
-  #app div[w-295px][h-44px] > .card[data-v-a0e0f0b7] img { width: 22px; height: 22px; border-radius: 3px; }
+/* 托盘里的牌/图案跟着槽位走：38→30、34→27、30→24（比原来的固定 26 更清楚） */
+#app div[w-295px][h-44px] > .card[data-v-a0e0f0b7] img { width: 30px; height: 30px; border-radius: 4px; }
+@media (max-width: 381px) {
+  #app div[w-295px][h-44px] > .card[data-v-a0e0f0b7] img { width: 27px; height: 27px; }
+}
+@media (max-width: 345px) {
+  #app div[w-295px][h-44px] > .card[data-v-a0e0f0b7] img { width: 24px; height: 24px; }
   #app div[w-295px][h-44px] > .card[data-v-a0e0f0b7] { border-radius: 5px; }
+}
+
+/* 矮屏（手机横放、小屏竖放）：大标题让位给牌面，顶部控件上移，牌堆可用区更大 */
+@media (max-height: 620px) {
+  #app > div > div[text-44px] { display: none; }
 }
 
 </style>
@@ -525,7 +541,12 @@ body {
   -webkit-tap-highlight-color: transparent;
   /* HUD 的顶边位置：让开游戏自己的标题（竖屏实测标题占 10~78） */
   --hud-top: calc(84px + env(safe-area-inset-top, 0px));
+  --hud-h: 44px;                   /* 顶栏实测高度，由 JS 写回（换行时会变大） */
 }
+
+/* 顶栏里"图标 + 文字"分开：窄屏只留图标，省出一行位置 */
+.nw-ico { font-size: 16px; line-height: 1; }
+.nw-txt { margin-left: 4px; }
 
 /* ---------- 无尽模式排行榜 ---------- */
 .nw-seg {
@@ -605,7 +626,7 @@ body {
   position: absolute;
   left: 10px;
   right: 10px;
-  top: calc(var(--hud-top) + 44px);      /* 紧贴顶栏下方，不会压到标题或牌面 */
+  top: calc(var(--hud-top) + var(--hud-h));      /* 紧跟顶栏下方（高度由 JS 实测写回，换行也不会压住） */
   height: 8px;
   border-radius: 999px;
   border: 2px solid var(--tile-line, #3a2914);
@@ -660,33 +681,33 @@ body {
   display: inline-flex;
   align-items: baseline;
   gap: 6px;
-  padding: 7px 13px;
+  padding: 8px 15px;
   border-radius: 999px;
   border: 2px solid var(--tile-line, #3a2914);
   background: linear-gradient(180deg, #fffdf6, #f2e7cb);
   color: #4a2f0c;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   white-space: nowrap;
   box-shadow: 0 2px 0 var(--tile-edge, #c69a5c), 0 4px 8px rgba(10, 30, 12, .35);
 }
-.nw-chip small { font-size: 11px; font-weight: 700; opacity: .68; }
-.nw-chip b { font-size: 15px; }
+.nw-chip small { font-size: 12.5px; font-weight: 700; opacity: .68; }
+.nw-chip b { font-size: 17px; }
 
 .nw-btn {
   pointer-events: auto;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 34px;
-  padding: 0 13px;
+  height: 40px;
+  padding: 0 16px;
   font-family: inherit;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: .04em;
   color: #4a2f0c;
   border: 2px solid var(--wood-lo, #5d3a12);
-  border-radius: 11px;
+  border-radius: 12px;
   background: linear-gradient(180deg, #ffe08f, #f0b545 55%, #d9932c);
   box-shadow: 0 3px 0 var(--wood-mid, #8a5c22), 0 5px 10px rgba(0, 0, 0, .3), inset 0 2px 0 rgba(255, 255, 255, .6);
   cursor: pointer;
@@ -704,7 +725,7 @@ body {
   background: linear-gradient(180deg, #fffdf6, #efe3c6);
   color: #4a2f0c;
 }
-.nw-btn--lg { height: 44px; padding: 0 22px; font-size: 15px; border-radius: 14px; }
+.nw-btn--lg { height: 50px; padding: 0 26px; font-size: 17px; border-radius: 15px; }
 .nw-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 
 .nw-hud__spacer { flex: 1; }
@@ -771,8 +792,8 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: 12px 8px;
-  min-height: 96px;                 /* 触控目标够大 */
+  padding: 14px 10px;
+  min-height: 108px;                /* 触控目标够大 */
   font-family: inherit;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -789,16 +810,16 @@ body {
   transition: transform .1s ease, filter .1s ease;
 }
 .nw-lv.is-locked { filter: grayscale(.65) brightness(.9); cursor: not-allowed; }
-.nw-lv b { font-size: 15px; font-weight: 900; letter-spacing: .06em; }
+.nw-lv b { font-size: 17px; font-weight: 900; letter-spacing: .06em; }
 .nw-lv:active { transform: translateY(1px); }
-.nw-lv em { font-size: 11px; font-style: normal; color: #7a6440; }
+.nw-lv em { font-size: 12.5px; font-style: normal; color: #7a6440; }
 .nw-lv i {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  margin-bottom: 2px;
-  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 3px;
+  font-size: 20px;
   font-weight: 900;
   font-style: normal;
   color: #fff7da;
@@ -832,14 +853,14 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 64px;
-  padding: 10px 12px;
+  min-height: 74px;
+  padding: 12px 14px;
   border-color: #8a3a12;
   background: linear-gradient(180deg, #fff6de 0%, #ffe3ac 58%, #f6c069 100%);
 }
 .nw-lv--endless i { margin-bottom: 0; background: linear-gradient(180deg, #ff9d4d, #e8422a); }
 .nw-lv--endless em { color: #8a4a12; }
-.nw-lv--endless .nw-lv__stars { font-size: 15px; }
+.nw-lv--endless .nw-lv__stars { font-size: 17px; }
 .nw-lv--endless.is-locked { filter: grayscale(.6) brightness(.94); }
 
 /* ---------- 结算评星 ---------- */
@@ -849,16 +870,16 @@ body {
   align-items: center;
   gap: 4px;
   margin: 6px 0 0;
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 900;
-  letter-spacing: 6px;
+  letter-spacing: 7px;
   line-height: 1.1;
   color: #f2b23f;
   text-shadow: 0 2px 0 #7a4d16, 0 0 12px rgba(255, 190, 90, .55);
   animation: nw-stars-pop .55s cubic-bezier(.34, 1.5, .5, 1);
 }
 .nw-stars small {
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0;
   color: #8a7550;
@@ -880,13 +901,13 @@ body {
 /* ---------- 结算统计 ---------- */
 .nw-stats { display: flex; justify-content: center; gap: 22px; margin: 14px 0 2px; }
 .nw-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.nw-stat b { font-size: 21px; font-weight: 900; color: #d9822b; }
-.nw-stat span { font-size: 11px; color: #7a6440; }
+.nw-stat b { font-size: 24px; font-weight: 900; color: #d9822b; }
+.nw-stat span { font-size: 12.5px; color: #7a6440; }
 
 .nw-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
-.nw-tip { margin: 10px 0 0; font-size: 12px; line-height: 1.7; color: #6b5a3a; }
+.nw-tip { margin: 10px 0 0; font-size: 13.5px; line-height: 1.75; color: #6b5a3a; }
 .nw-tip b { color: #4a2f0c; }
-.nw-help { margin: 6px 0 0; padding-left: 20px; font-size: 12.5px; line-height: 1.9; color: #5f5137; }
+.nw-help { margin: 6px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.95; color: #5f5137; }
 .nw-help b { color: #4a2f0c; }
 
 /* ---------- 顶部过关提醒（游戏自带的"第 N 关"之外，再加一个轻提示条） ---------- */
@@ -990,40 +1011,51 @@ body {
   [data-el="time"] { display: none; }
 }
 @media (max-width: 430px) {
-  .nw-title { font-size: 26px; }
-  .nw-grid { gap: 10px; }
-  .nw-lv { padding: 10px 6px; min-height: 92px; }
-  .nw-lv i { width: 34px; height: 34px; font-size: 17px; }
-  .nw-chip { font-size: 12px; padding: 7px 11px; }
-  /* 顶栏按钮也给到 38px，方便单指点击 */
-  .nw-btn { height: 38px; padding: 0 12px; font-size: 13px; }
-  .nw-btn--lg { height: 46px; padding: 0 20px; font-size: 15px; }
+  .nw-title { font-size: 28px; }
+  .nw-grid { gap: 11px; }
+  /* 手机上不要再缩格子：保持 40px 数字牌 + 17px 关卡名，单手点得准 */
+  .nw-lv { padding: 12px 7px; min-height: 104px; }
+  .nw-lv i { width: 40px; height: 40px; font-size: 20px; }
+  .nw-chip { font-size: 14.5px; padding: 7px 12px; }
+  .nw-btn { height: 40px; padding: 0 13px; font-size: 14.5px; }
+  .nw-btn--lg { height: 50px; padding: 0 22px; font-size: 16.5px; }
+  .nw-tip { font-size: 13px; }
+  .nw-sub { font-size: 12.5px; }
 }
-/* ---------- 横屏 / 矮屏（手机横放、小窗口） ---------- */
+/* 窄屏顶栏只留图标，保证两枚 chip 不被挤到第二行 */
+@media (max-width: 400px) {
+  .nw-txt { display: none; }
+  .nw-btn { padding: 0 11px; }
+}
+/* ---------- 矮屏（手机竖放偏矮 / 横放）：牌堆优先，顶栏上移、面板压缩 ---------- */
+@media (max-height: 620px) {
+  /* 短屏把游戏大标题让出来给牌面，HUD 顶到最上面，可用高度多出约 75px */
+  #nw-ui { --hud-top: calc(8px + env(safe-area-inset-top, 0px)); }
+}
 @media (max-height: 520px) {
-  /* 竖向空间紧张：隐藏游戏自带的大标题，HUD 回到最上面，面板整体压缩、关卡排成一行 */
+  /* 竖向空间更紧：面板整体压缩、关卡排成一行 */
   #app > div > div[text-44px] { display: none; }
   #nw-ui { --hud-top: calc(6px + env(safe-area-inset-top, 0px)); }
 
   .nw-panel { padding: 12px 14px 10px; border-radius: 18px; }
-  .nw-title { font-size: 20px; letter-spacing: .08em; }
-  .nw-title--sm { font-size: 18px; }
-  .nw-sub { margin-bottom: 8px; font-size: 11px; }
+  .nw-title { font-size: 22px; letter-spacing: .08em; }
+  .nw-title--sm { font-size: 19px; }
+  .nw-sub { margin-bottom: 8px; font-size: 12px; }
   .nw-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .nw-lv { min-height: 0; padding: 8px 4px; gap: 1px; border-radius: 12px; }
-  .nw-lv i { width: 26px; height: 26px; font-size: 14px; margin-bottom: 1px; border-radius: 8px; }
-  .nw-lv b { font-size: 13px; }
-  .nw-lv em { font-size: 10px; }
-  .nw-lv__time { font-size: 9px; }
+  .nw-lv i { width: 28px; height: 28px; font-size: 15px; margin-bottom: 1px; border-radius: 8px; }
+  .nw-lv b { font-size: 14px; }
+  .nw-lv em { font-size: 11px; }
+  .nw-lv__time { font-size: 10px; }
   .nw-compare { margin: 8px 0 6px; }
-  .nw-row { padding: 5px 12px; font-size: 12px; }
+  .nw-row { padding: 6px 12px; font-size: 13px; }
   .nw-stats { margin: 8px 0 0; }
-  .nw-stat b { font-size: 18px; }
+  .nw-stat b { font-size: 20px; }
   .nw-actions { margin-top: 10px; gap: 8px; }
-  .nw-btn { height: 34px; }
-  .nw-btn--lg { height: 40px; font-size: 14px; }
-  .nw-tip { margin-top: 6px; font-size: 11px; }
-  .nw-spike { padding: 3px 14px; font-size: 12px; margin-bottom: 6px; }
+  .nw-btn { height: 36px; font-size: 14px; }
+  .nw-btn--lg { height: 42px; font-size: 15px; }
+  .nw-tip { margin-top: 6px; font-size: 12px; }
+  .nw-spike { padding: 3px 14px; font-size: 13px; margin-bottom: 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1125,10 +1157,12 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
     var s = ancestorScale(el);
     var dx = (srcRect.left - dst.left) / s;
     var dy = (srcRect.top - dst.top) / s;
+    // 首帧缩放按"牌堆里那张牌 / 托盘槽位"的真实尺寸比来定：
+    // 牌堆在手机上会放大到 1.34~1.8，槽位只有 38px，不补偿就会看到"大牌突然变小小牌"
+    var k0 = Math.max(0.6, Math.min(3, (srcRect.width / Math.max(1, dst.width)) / s));
     el.animate([
-      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(1) rotate(-7deg)' },
-      { transform: 'translate(' + dx * 0.45 + 'px,' + (dy * 0.45 - 20) + 'px) scale(1.04) rotate(3deg)', offset: 0.6 },
-      { transform: 'translate(0,0) scale(.90) rotate(0deg)', offset: 0.86 },
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + k0.toFixed(3) + ') rotate(-7deg)' },
+      { transform: 'translate(' + dx * 0.45 + 'px,' + (dy * 0.45 - 20) + 'px) scale(' + (k0 * 0.8 + 0.2).toFixed(3) + ') rotate(3deg)', offset: 0.6 },
       { transform: 'translate(0,0) scale(.94) rotate(0deg)' },
     ], { duration: FLY_MS, easing: 'cubic-bezier(.22,.68,.3,1)' });
     return true;
@@ -1498,6 +1532,7 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
   var pausedAt = 0;
   var lastSeen = { left: 0, tray: 0 };   // 最近一次非空场面（失败瞬间游戏会立刻清空牌堆，得先记住）
   var dealTotal = 0;                     // 本关发牌总张数（用于进度条，从场面里量出来）
+  var lastHudH = 0;                      // 顶栏实测高度：进度条跟着它往下排（字体变大后可能换行）
   var endless = { on: false, tower: 0, tiles: 0, startedAt: 0 };   // 无尽模式运行时状态
 
   /** 闸门：挡住游戏自带的"过关/失败后自动切关"定时器，避免覆盖玩家在面板里选的关卡 */
@@ -1507,8 +1542,8 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
   var ui = document.createElement('div');
   ui.id = 'nw-ui';
   ui.innerHTML = [
-    '<div class="nw-hud">',
-    '  <button class="nw-btn nw-btn--ghost" data-act="levels">☰ 选关</button>',
+    '<div class="nw-hud" data-el="hud">',
+    '  <button class="nw-btn nw-btn--ghost" data-act="levels"><span class="nw-ico">☰</span><span class="nw-txt">选关</span></button>',
     '  <span class="nw-chip" data-el="level">第 1 关</span>',
     '  <span class="nw-hud__spacer"></span>',
     '  <span class="nw-chip" data-el="left">剩余 <b>0</b></span>',
@@ -1525,7 +1560,7 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
   document.body.appendChild(ui);
 
   var el = {};
-  ['level', 'left', 'time', 'overlay', 'panel', 'barwrap', 'bar'].forEach(function (k) { el[k] = ui.querySelector('[data-el="' + k + '"]'); });
+  ['level', 'left', 'time', 'overlay', 'panel', 'barwrap', 'bar', 'hud'].forEach(function (k) { el[k] = ui.querySelector('[data-el="' + k + '"]'); });
   var muteBtn = ui.querySelector('[data-act="mute"]');
 
   /* ---------------- 小工具 ---------------- */
@@ -1564,34 +1599,65 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
     var bar = el.barwrap.getBoundingClientRect();
     var row = document.querySelector('#app > div > div[h-50px][text-center]');
     var bottom = row ? row.getBoundingClientRect().top - 8 : window.innerHeight - 200;
-    return { top: bar.bottom + 10, bottom: bottom };
+    return { top: bar.bottom + 8, bottom: bottom };
   }
 
+  /* 牌堆缩放：量两次、线性插值反解可行区间（纵向可用区 + 横向不出屏），
+     小牌堆还会**放大到刚好填满**——教程关 9 张牌原来缩在中间一小块，手机上看着太小。
+     注意别用公式硬解 transform-origin（牌堆顶部在锚点之上时符号会反，比例会被压到 0.5） */
   function fitBoard() {
     var host = boardHost();
     if (!host) return null;
     var board = boardCards();
-    if (board.length < 6) return null;                       // 小牌堆不用管
+    if (board.length < 4) return null;
     var wide = window.innerWidth >= 620;
-    var base = wide ? 1.32 : 1.18;
-    var oy = wide ? 0.46 : 0.44;
-    host.style.transformOrigin = '50% ' + oy * 100 + '%';
-    host.style.transform = 'scale(' + base + ')';
-    var rect = host.getBoundingClientRect();
-    var H = host.offsetHeight;
-    var o = oy * H;                                          // 本地坐标里的锚点
-    // 反推"没缩放时"牌堆容器的顶边
-    var T = rect.top - o * (1 - base);
-    var rs = board.map(function (c) { return c.getBoundingClientRect(); });
-    var vTop = Math.min.apply(null, rs.map(function (r) { return r.top; }));
-    var vBottom = Math.max.apply(null, rs.map(function (r) { return r.bottom; }));
-    var localTop = o + (vTop - T - o) / base;
-    var localBottom = o + (vBottom - T - o) / base;
+    var BASE = 1.34;                       // 与 CSS 里的基准一致
+    var MAXS = wide ? 1.55 : 1.8;          // 小牌堆最多放大到多少
+    var MINS = 0.62;                       // 再小就不好点了
+    host.style.transformOrigin = '50% 46%';
     var band = boardBand();
-    var sTop = (band.top - T - o) / (localTop - o);
-    var sBottom = (band.bottom - T - o) / (localBottom - o);
-    var s = Math.max(0.5, Math.min(base, sTop, sBottom));
+    var vw = window.innerWidth;
+
+    function measure(s) {
+      host.style.transform = 'scale(' + s + ')';
+      var rs = board.map(function (c) { return c.getBoundingClientRect(); });
+      return {
+        top: Math.min.apply(null, rs.map(function (r) { return r.top; })),
+        bottom: Math.max.apply(null, rs.map(function (r) { return r.bottom; })),
+        left: Math.min.apply(null, rs.map(function (r) { return r.left; })),
+        right: Math.max.apply(null, rs.map(function (r) { return r.right; })),
+      };
+    }
+    var m1 = measure(BASE);
+    var s2 = BASE * 0.7;
+    var m2 = measure(s2);
+    var ds = BASE - s2;
+    var slope = {
+      top: (m1.top - m2.top) / ds, bottom: (m1.bottom - m2.bottom) / ds,
+      left: (m1.left - m2.left) / ds, right: (m1.right - m2.right) / ds,
+    };
+    // 每个约束都换算成"缩放不得大于多少"。
+    // 注意不要写"当前已满足就直接返回"——那会漏掉"放大到一定程度才越界"的情况（会长到顶住 HUD）。
+    var cap = MAXS;
+    function limit(v1, sl, bound, isLower) {
+      if (isLower) {                                   // v(s) ≥ bound
+        if (sl >= 0) return;                           // 放大方向不会让 v 变小 → 不构成上限
+        cap = Math.min(cap, BASE + (bound - v1) / sl);
+      } else {                                         // v(s) ≤ bound
+        if (sl <= 0) return;
+        cap = Math.min(cap, BASE + (bound - v1) / sl);
+      }
+    }
+    limit(m1.top, slope.top, band.top, true);
+    limit(m1.bottom, slope.bottom, band.bottom, false);
+    limit(m1.left, slope.left, 16, true);
+    limit(m1.right, slope.right, vw - 16, false);
+    var s = Math.max(MINS, Math.min(MAXS, cap));
     host.style.transform = 'scale(' + (Math.round(s * 1000) / 1000) + ')';
+    // 再按"可用区中线"把牌堆整体挪一下：塔小的时候不会全挤在上半屏、下半屏空一大片
+    var mb = measure(s);
+    var dy = Math.round(((band.top + band.bottom) / 2) - ((mb.top + mb.bottom) / 2));
+    if (Math.abs(dy) > 2) host.style.transform = 'translateY(' + dy + 'px) scale(' + (Math.round(s * 1000) / 1000) + ')';
     return s;
   }
 
@@ -1740,7 +1806,7 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
     var c = Number(window.__NAIWA_CAP__);
     return c >= 3 && c <= 9 ? c : TRAY_CAP;
   }
-  var MAX_REROLL = 6;
+  var MAX_REROLL = 10;
   /* 发牌"刁度"门槛：最优解路线占用的托盘格数上限。
      实测（endless-scale.mjs，遮挡方向修正后）：9 种图案下 54 张的第 4 关，
      最优解峰值均值就有 7.4/9，可解率 83%——也就是说"按刁度重发"会把本来能打通、
@@ -1892,7 +1958,7 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
       level: level, tries: 0, stable: 0, awaitSig: null, dealCount: 0,
       redeal: redeal || null,
       // 重发只在开局这几秒内做：真发牌后玩家开始点了就不再动牌面（moved 判定兜底）
-      deadline: performance.now() + (budgetMs || 2600),
+      deadline: performance.now() + (budgetMs || 4000),
     };
     lastBoardCount = -1;
   }
@@ -1935,7 +2001,7 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
     var moved = trayCards().length > 0 || boardCards().length < validatePending.dealCount;
 
     var inBudget = performance.now() < (validatePending.deadline || 0);
-    var maxReroll = validatePending.level === ENDLESS ? 8 : MAX_REROLL;   // 无尽模式一条命，宁可多发几副
+    var maxReroll = validatePending.level === ENDLESS ? 12 : MAX_REROLL;   // 无尽模式一条命，宁可多发几副
     if ((!res.ok || tooTight) && !moved && inBudget && validatePending.tries < maxReroll) {
       if (window.__NAIWA_STATS__.rerolls === 0) flash('重新发牌…');
       window.__NAIWA_STATS__.rerolls++;
@@ -2067,7 +2133,7 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
     setBar(0);
     // 无尽模式只挡"无解"的牌，不按刁度重发（否则越爬越高的塔就白爬了）；
     // 一条命模式多给点重发预算：3 秒内最多换 8 副牌
-    armValidation(ENDLESS, function () { api.startEndless(cfg.cardNum, cfg.layer); }, 5000);
+    armValidation(ENDLESS, function () { api.startEndless(cfg.cardNum, cfg.layer); }, 6000);
     updateHud();
     flash('无尽模式 · 第 ' + tower + ' 塔 · ' + cfg.tiles + ' 张 · 托盘 ' + cfg.cap + ' 格');
     window.__NAIWA_ENDLESS__ = { tower: tower, layer: cfg.layer, tiles: cfg.tiles, cap: cfg.cap, on: true };
@@ -2546,6 +2612,10 @@ var Ro=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Bu=Ro((Ve,Ye)
     }
     var b = boardCards().length, t = trayCards().length;
     if (b + t > 0) lastSeen = { left: b, tray: t };          // 记住场面，失败时用来报数
+    // 顶栏可能因为字体变大换成两行：把实际高度写回 CSS，进度条跟着往下让；
+    // 进度条一动，可用区就变了，牌堆要重新适配一次（否则会刚刚好顶出去十几像素）
+    var hh = el.hud.offsetHeight + 8;
+    if (hh !== lastHudH) { lastHudH = hh; ui.style.setProperty('--hud-h', hh + 'px'); fitBoard(); }
     // 本关总牌数只在"托盘为空"时采样：落牌动画期间离场的牌还留在 DOM 里，
     // 直接取 max(b+t) 会把同一张牌数两遍（实测会算出 10 张）
     if (t === 0 && b > dealTotal) {

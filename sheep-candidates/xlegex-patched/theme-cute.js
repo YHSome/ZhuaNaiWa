@@ -75,10 +75,12 @@
     var s = ancestorScale(el);
     var dx = (srcRect.left - dst.left) / s;
     var dy = (srcRect.top - dst.top) / s;
+    // 首帧缩放按"牌堆里那张牌 / 托盘槽位"的真实尺寸比来定：
+    // 牌堆在手机上会放大到 1.34~1.8，槽位只有 38px，不补偿就会看到"大牌突然变小小牌"
+    var k0 = Math.max(0.6, Math.min(3, (srcRect.width / Math.max(1, dst.width)) / s));
     el.animate([
-      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(1) rotate(-7deg)' },
-      { transform: 'translate(' + dx * 0.45 + 'px,' + (dy * 0.45 - 20) + 'px) scale(1.04) rotate(3deg)', offset: 0.6 },
-      { transform: 'translate(0,0) scale(.90) rotate(0deg)', offset: 0.86 },
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + k0.toFixed(3) + ') rotate(-7deg)' },
+      { transform: 'translate(' + dx * 0.45 + 'px,' + (dy * 0.45 - 20) + 'px) scale(' + (k0 * 0.8 + 0.2).toFixed(3) + ') rotate(3deg)', offset: 0.6 },
       { transform: 'translate(0,0) scale(.94) rotate(0deg)' },
     ], { duration: FLY_MS, easing: 'cubic-bezier(.22,.68,.3,1)' });
     return true;

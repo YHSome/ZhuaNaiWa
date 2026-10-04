@@ -151,6 +151,16 @@
    * ------------------------------------------------------------------ */
   function boardHost() { return document.querySelector('#app div[relative][flex-1]'); }
 
+  /* 窗口尺寸变了（转屏、拖窗口）要重新适配一次：否则缩放和位移还是旧视口的，
+     牌堆会被摆到偏下/偏大的位置（实测 320×568 上能差 180px） */
+  var fitTimer = 0;
+  function scheduleFit() {
+    if (fitTimer) clearTimeout(fitTimer);
+    fitTimer = setTimeout(function () { fitTimer = 0; fitBoard(); }, 140);
+  }
+  window.addEventListener('resize', scheduleFit);
+  window.addEventListener('orientationchange', scheduleFit);
+
   function boardBand() {
     var bar = el.barwrap.getBoundingClientRect();
     var row = document.querySelector('#app > div > div[h-50px][text-center]');

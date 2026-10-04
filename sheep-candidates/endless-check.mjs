@@ -148,8 +148,9 @@ check('塔越高牌越多（层数→张数线性增长）',
   rows.map((r) => r.layer + '层=' + r.tiles + '张').join(' < '));
 
 /* ---------- A2. 槽位容量才是难度旋钮 ---------- */
+const CAP_N = 16;                                      // 样本 16 副：10 副时统计噪声大，偶尔会把方向判反
 const capTable = { 9: [], 8: [], 7: [] };
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < CAP_N; i++) {
   await page.ev(`(function(){ window.__NAIWA_LAYER_OVERRIDE__ = 3; window.__NAIWA_START_ENDLESS__(1, true); return true; })()`);
   await sleep(1400);
   const r = await page.ev(`(function(){
@@ -168,13 +169,14 @@ const capStat = [9, 8, 7].map((c) => {
 });
 await page.ev(`delete window.__NAIWA_LAYER_OVERRIDE__`);
 console.log('');
-console.log('同一批牌（3 层 / 81 张）换托盘容量，10 副牌统计：');
+console.log('同一批牌（3 层 / 81 张）换托盘容量，' + CAP_N + ' 副牌统计：');
 console.log(' 容量 | 求解器可解率 | 最优解峰值均值');
 console.log('------|--------------|---------------');
 for (const s of capStat) console.log(`  ${String(s.cap).padStart(2)}  |     ${String(s.rate).padStart(3)}%     |      ${s.peak}`);
-check('收窄槽位确实抬高难度（可解率下降、峰值贴近上限）',
-  capStat[0].rate >= capStat[2].rate && Number(capStat[0].peak) >= Number(capStat[2].peak) - 1.5,
-  `9 格 ${capStat[0].rate}%（峰值 ${capStat[0].peak}）→ 8 格 ${capStat[1].rate}%（峰值 ${capStat[1].peak}）→ 7 格 ${capStat[2].rate}%（峰值 ${capStat[2].peak}，上限 7）`);
+const gap = capStat[0].rate - capStat[2].rate;
+check('收窄槽位确实抬高难度（9 格与 7 格可解率拉开 ≥25 个百分点）',
+  gap >= 25 && capStat[0].rate > capStat[1].rate,
+  `9 格 ${capStat[0].rate}%（峰值 ${capStat[0].peak}）→ 8 格 ${capStat[1].rate}%（峰值 ${capStat[1].peak}）→ 7 格 ${capStat[2].rate}%（峰值 ${capStat[2].peak}，上限 7）；9 格比 7 格高 ${gap} 个百分点`);
 
 /* ---------- A3. 塔的难度曲线 ---------- */
 const curve = await page.ev(`(function(){
